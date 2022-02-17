@@ -10,10 +10,12 @@ class LogoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(data,
-        style: GoogleFonts.rubikMonoOne(fontSize: 25, color: color)
-        // style: TextStyle(color: color, fontSize: 30, fontFamily: GoogleFonts.),
-        );
+    return Container(
+        constraints: const BoxConstraints(minHeight: 25),
+        height: 25,
+        child: Text(data,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.rubikMonoOne(fontSize: 25, color: color)));
   }
 }
 
@@ -32,6 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       LogoText(
                         "D",
