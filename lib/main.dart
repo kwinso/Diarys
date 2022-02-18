@@ -1,4 +1,4 @@
-import 'package:diarys/appBar.dart';
+import 'package:diarys/components/app_bar.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
