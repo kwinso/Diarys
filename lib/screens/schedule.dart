@@ -10,7 +10,6 @@ class ScheduleScreen extends StatefulWidget {
   State<ScheduleScreen> createState() => _ScheduleScreenState();
 }
 
-// TODO: Programatically scroll when index is changed from SwiperControls
 class _ScheduleScreenState extends State<ScheduleScreen> {
   final SwiperController _swiperController = SwiperController();
   int _index = 0;

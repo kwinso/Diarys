@@ -1,8 +1,6 @@
 import 'package:diarys/texts.dart';
 import 'package:flutter/material.dart';
 
-// TODO: Dynamic index
-
 class ScheduleSwiperControls extends StatefulWidget {
   final Function? onNext;
   final Function? onPrev;
