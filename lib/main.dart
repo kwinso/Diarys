@@ -1,4 +1,5 @@
 import 'package:diarys/components/app_bar.dart';
+import 'package:diarys/schedule.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
@@ -57,7 +58,19 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int activeScreen = 0;
-  final screens = <Widget>[TasksScreen(), ScheduleScreen()];
+  final screens = <Widget>[
+    TasksScreen(),
+    ScheduleScreen(
+        schedule: Schedule(List.generate(
+            7,
+            (index) => const ScheduleDay([
+                  "Алгебра",
+                  "Русский",
+                  "Информатика",
+                  "Физкультура",
+                  "Математика",
+                ]))))
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -73,22 +86,17 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(
-                      color: Theme.of(context).colorScheme.primary))),
+              border: Border(top: BorderSide(color: Theme.of(context).colorScheme.primary))),
           child: BottomNavigationBar(
               currentIndex: activeScreen,
               elevation: 0,
               onTap: (idx) => setState(() => activeScreen = idx),
               backgroundColor: Theme.of(context).backgroundColor,
               selectedItemColor: Theme.of(context).colorScheme.secondary,
-              unselectedItemColor:
-                  Theme.of(context).colorScheme.tertiaryContainer,
+              unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
               items: const [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.list_alt), label: "Расписание")
+                BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
+                BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Расписание")
               ])),
     );
   }

@@ -6,8 +6,7 @@ class ScheduleSwiperControls extends StatefulWidget {
   final Function? onPrev;
   final int index;
 
-  const ScheduleSwiperControls(
-      {this.index = 0, this.onNext, this.onPrev, Key? key})
+  const ScheduleSwiperControls({this.index = 0, this.onNext, this.onPrev, Key? key})
       : super(key: key);
 
   @override
@@ -19,6 +18,8 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       IconButton(
+          splashColor: Colors.transparent,
+          // focusColor: ,
           onPressed: () => widget.onPrev!(),
           icon: Icon(
             Icons.chevron_left,
@@ -26,8 +27,7 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
             color: Theme.of(context).colorScheme.tertiaryContainer,
           )),
       Text(AppTexts.week.days[widget.index],
-          style: TextStyle(
-              fontSize: 20, color: Theme.of(context).colorScheme.tertiary)),
+          style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary)),
       IconButton(
           onPressed: () => widget.onNext!(),
           icon: Icon(

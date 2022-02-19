@@ -12,34 +12,36 @@ class AppThemeData with ChangeNotifier {
   }
 
   static ThemeData get light {
-    const Color primary = Color(0xFFC4C2C2);
+    const Color primary = Color.fromARGB(255, 223, 222, 222);
     const Color bg = Color(0xFFFFFFFF);
-    const Color tertiary = Color.fromARGB(255, 156, 156, 156);
+    const Color tertiary = Color(0xFF6D6A6A);
 
     return ThemeData(
         splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        focusColor: Colors.transparent,
         backgroundColor: bg,
         primaryColor: primary,
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color(0xFF616161),
+          primaryContainer: Color.fromARGB(255, 155, 155, 155),
           secondary: Color(0xFF9556D3),
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF797979),
           background: bg,
           onSecondary: Colors.white,
-          onPrimary: Colors.white,
+          onPrimaryContainer: Colors.white,
+          onTertiary: Colors.white,
+          onPrimary: tertiary,
           error: Color(0xFFFB4343),
           onError: Colors.white,
           onBackground: tertiary,
           surface: primary,
           onSurface: tertiary,
         ),
-        scaffoldBackgroundColor: const Color(0xFF282B30),
         textTheme: const TextTheme(
-                bodyText2: TextStyle(color: tertiary),
-                bodyText1: TextStyle(color: tertiary))
+                bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
   }
 
@@ -49,17 +51,20 @@ class AppThemeData with ChangeNotifier {
 
     return ThemeData(
         splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        focusColor: Colors.transparent,
         backgroundColor: bg,
         primaryColor: primary,
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color(0xFF616161),
+          primaryContainer: Color(0xFF5C5F64),
           secondary: Color(0xFF9556D3),
           tertiary: Colors.white,
           tertiaryContainer: Color(0xFFA1A19F),
           background: bg,
           onSecondary: Colors.white,
+          onPrimaryContainer: Colors.white,
           onPrimary: Colors.white,
           error: Color(0xFFFB4343),
           onError: Colors.white,
