@@ -1,12 +1,12 @@
 import 'package:diarys/components/app_bar.dart';
-import 'package:diarys/schedule.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const App());
+  runApp(ProviderScope(child: App()));
 }
 
 @immutable
@@ -51,16 +51,7 @@ class _MainPageState extends State<MainPage> {
   int activeScreen = 0;
   final screens = <Widget>[
     TasksScreen(),
-    ScheduleScreen(
-        schedule: Schedule(List.generate(
-            7,
-            (index) => const ScheduleDay([
-                  "Алгебра",
-                  "Русский",
-                  "Информатика",
-                  "Физкультура",
-                  "Математика",
-                ]))))
+    ScheduleScreen(),
   ];
 
   @override
