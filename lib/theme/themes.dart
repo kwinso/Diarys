@@ -14,7 +14,7 @@ class AppThemeData with ChangeNotifier {
   static ThemeData get light {
     const primary = Color(0xFFDFDEDE);
     const bg = Color(0xFFFFFFFF);
-    const tertiary = Color.fromARGB(255, 22, 21, 21);
+    const tertiary = Color(0xFF161515);
     const secondary = Color(0xFF9556D3);
 
     return ThemeData(
@@ -26,10 +26,10 @@ class AppThemeData with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color.fromARGB(255, 122, 122, 122),
+          primaryContainer: Color(0xFF7A7A7A),
           secondary: Color(0xFF9556D3),
           tertiary: tertiary,
-          tertiaryContainer: Color.fromARGB(255, 156, 156, 156),
+          tertiaryContainer: Color(0xFF9C9C9C),
           background: bg,
           onSecondary: Colors.white,
           onPrimaryContainer: Colors.white,
@@ -41,7 +41,7 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
-        textSelectionTheme: TextSelectionThemeData(cursorColor: secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
@@ -75,7 +75,7 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: Colors.white,
         ),
-        textSelectionTheme: TextSelectionThemeData(cursorColor: secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
         scaffoldBackgroundColor: const Color(0xFF282B30),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: Colors.white),
