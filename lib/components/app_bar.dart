@@ -1,6 +1,5 @@
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LogoText extends StatelessWidget {
   final String data;
@@ -15,7 +14,7 @@ class LogoText extends StatelessWidget {
         height: 25,
         child: Text(data,
             textAlign: TextAlign.center,
-            style: GoogleFonts.rubikMonoOne(fontSize: 25, color: color)));
+            style: TextStyle(fontSize: 25, color: color, fontFamily: "RubikMonoOne")));
   }
 }
 
