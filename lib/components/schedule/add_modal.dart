@@ -1,3 +1,4 @@
+import 'package:diarys/components/schedule/add_modal_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -17,20 +18,6 @@ class AddModal extends StatefulWidget {
 // TODO: Do something with setText (set both state and value for field)
 class _AddModalState extends State<AddModal> {
   String _text = "";
-  final _controller = TextEditingController();
-
-  void _updateText(String t) {
-    _controller.value = TextEditingValue(
-        text: t,
-        selection: TextSelection(
-            baseOffset: t.length,
-            extentOffset: t.length,
-            affinity: TextAffinity.downstream,
-            isDirectional: false));
-    setState(() {
-      _text = t;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,64 +33,89 @@ class _AddModalState extends State<AddModal> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Container(
-                        constraints: const BoxConstraints(maxHeight: 100),
-                        child: TypeAheadField(
-                          getImmediateSuggestions: false,
-                          animationDuration: Duration(milliseconds: 100),
-                          debounceDuration: Duration(milliseconds: 500),
-                          hideOnEmpty: true,
-                          keepSuggestionsOnSuggestionSelected: true,
-                          direction: AxisDirection.up,
-                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                              color: Theme.of(context).backgroundColor,
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
-                          textFieldConfiguration: TextFieldConfiguration(
-                              controller: _controller,
-                              onChanged: (t) {
-                                // Max name length is 20 chars
-                                if (t.trim().split("\n").last.length <= 20) {
-                                  // Set the prev text and set cursor on the end of the text
-                                  // This way we forbid user  to type after 20 chars
-                                  _updateText(t);
-                                } else {
-                                  _updateText(_text);
-                                }
-                              },
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              autofocus: true,
-                              textCapitalization: TextCapitalization.sentences,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
-                              decoration: InputDecoration(
-                                  hintText: "Название предмета",
-                                  hintStyle: TextStyle(
-                                      color: Theme.of(context).colorScheme.tertiaryContainer))),
-                          suggestionsCallback: (pattern) {
-                            if (pattern.isNotEmpty) {
-                              return ["Математика", "Алгебра", "Геометрия"];
-                            }
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: AddModalAutocomplete(
+                    onTextUpdate: (t) {
+                      setState(() {
+                        _text = t;
+                      });
+                    },
+                  ),
+                  // child: Container(
+                  //     constraints: const BoxConstraints(maxHeight: 100),
+                  //     child: TypeAheadField(
+                  //       // getImmediateSuggestions: true,
+                  //       animationDuration: const Duration(milliseconds: 0),
+                  //       debounceDuration: const Duration(milliseconds: 0),
+                  //       // hideOnEmpty: true,
+                  //       keepSuggestionsOnSuggestionSelected: true,
+                  //       direction: AxisDirection.up,
+                  //       suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  //           constraints: BoxConstraints(maxHeight: 200),
+                  //           borderRadius: const BorderRadius.all(Radius.circular(12))),
+                  //       textFieldConfiguration: TextFieldConfiguration(
+                  //           controller: _controller,
+                  //           onChanged: (t) {
+                  //             // Max name length is 20 chars
+                  //             if (t.trim().split("\n").last.length > 20) {
+                  //               // Set the prev text and set cursor on the end of the text
+                  //               // This way we forbid user  to type after 20 chars
+                  //               _setControllerText(t);
+                  //             }
 
-                            return [];
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion.toString()),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            var lines = _text.split("\n");
-                            lines.last = suggestion.toString() + "\n";
+                  //             _updateText(t);
+                  //           },
+                  //           keyboardType: TextInputType.multiline,
+                  //           maxLines: null,
+                  //           autofocus: true,
+                  //           textCapitalization: TextCapitalization.sentences,
+                  //           style: TextStyle(
+                  //             color: Theme.of(context).colorScheme.tertiary,
+                  //           ),
+                  //           decoration: InputDecoration(
+                  //               hintText: "Название предмета",
+                  //               hintStyle: TextStyle(
+                  //                   color: Theme.of(context).colorScheme.tertiaryContainer))),
+                  //       suggestionsCallback: (pattern) {
+                  //         if (pattern.isNotEmpty) {
+                  //           return [
+                  //             "Математика",
+                  //             "Алгебра",
+                  //             "Геометрия",
+                  //             "Алгебра",
+                  //             "Алгебра",
+                  //             "Алгебра",
+                  //             "Алгебра",
+                  //           ];
+                  //         }
 
-                            _updateText(lines.join("\n"));
-                          },
-                        )
+                  //         return [];
+                  //       },
+                  //       itemBuilder: (context, suggestion) {
+                  //         return Padding(
+                  //             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  //             child: Container(
+                  //               // contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                  //               child: Text(
+                  //                 suggestion.toString(),
+                  //                 style: TextStyle(
+                  //                     fontSize: 20,
+                  //                     color: Theme.of(context).colorScheme.tertiary),
+                  //               ),
+                  //             ));
+                  //       },
+                  //       onSuggestionSelected: (suggestion) {
+                  //         var lines = _text.split("\n");
+                  //         print(lines);
+                  //         lines.last = suggestion.toString();
+                  //         var newText = lines.join("\n");
 
-                        // child: TextField(
-                        )),
+                  //         _setControllerText(newText);
+                  //         _updateText(newText);
+                  //       },
+                  //     )
+                  // child: TextField(
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

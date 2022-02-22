@@ -1,3 +1,4 @@
+import 'package:diarys/state/subjects.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 final scheduleController = StateNotifierProvider<ScheduleNotifier, Schedule>((ref) {
@@ -8,7 +9,7 @@ final scheduleController = StateNotifierProvider<ScheduleNotifier, Schedule>((re
 class ScheduleNotifier extends StateNotifier<Schedule> {
   ScheduleNotifier(Schedule s) : super(s);
 
-  void add(int day, List<String> lessons) {
+  void addLessonsToDay(int day, List<String> lessons) {
     final newState = Schedule(state.days);
     for (var l in lessons) {
       if (l.isNotEmpty) newState.days[day].lessons.add(l);

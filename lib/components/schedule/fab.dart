@@ -1,4 +1,5 @@
 import 'package:diarys/state/schedule.dart';
+import 'package:diarys/state/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -22,6 +23,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
     BuildContext context,
   ) {
     var schedule = ref.read(scheduleController.notifier);
+    var subjects = ref.read(subjectsController.notifier);
 
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
@@ -46,7 +48,8 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
                     Navigator.pop(context);
                   },
                   onAdd: (lessons) {
-                    schedule.add(widget.day, lessons);
+                    schedule.addLessonsToDay(widget.day, lessons);
+                    subjects.addUniqueSubjects(lessons);
                     Navigator.pop(context);
                   },
                 ),

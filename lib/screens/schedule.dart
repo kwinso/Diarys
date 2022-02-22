@@ -3,7 +3,6 @@ import 'package:diarys/components/schedule/lesson.dart';
 import 'package:diarys/components/schedule/fab.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
