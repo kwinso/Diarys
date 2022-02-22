@@ -1,4 +1,3 @@
-import 'package:diarys/state/subjects.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 final scheduleController = StateNotifierProvider<ScheduleNotifier, Schedule>((ref) {

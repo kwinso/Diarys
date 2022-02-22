@@ -1,7 +1,5 @@
 import 'package:diarys/components/schedule/add_modal_autocomplete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../theme/colors.dart';
 
