@@ -1,4 +1,5 @@
 import 'package:diarys/components/app_bar.dart';
+import 'package:diarys/overscroll_behavior.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
@@ -29,6 +30,12 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: NoOverscrollBehavior(),
+          child: child!,
+        );
+      },
       home: const MainPage(),
       title: "Diarys",
       theme: AppThemeData.light,

@@ -41,27 +41,22 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                   }),
                   itemBuilder: (BuildContext ctx, int idx) {
                     var day = schedule.days[idx];
-                    return NotificationListener<OverscrollIndicatorNotification>(
-                        onNotification: (overscroll) {
-                          overscroll.disallowIndicator();
-                          return false;
-                        },
-                        child: ListView(
-                            children: day.lessons.isNotEmpty
-                                ? day.lessons
-                                    .asMap()
-                                    .entries
-                                    .map((e) => ScheduleLesson(index: e.key, name: e.value))
-                                    .toList()
-                                : [
-                                    Text(
-                                      "Пусто",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          color: Theme.of(context).colorScheme.tertiaryContainer),
-                                    )
-                                  ]));
+                    return ListView(
+                        children: day.lessons.isNotEmpty
+                            ? day.lessons
+                                .asMap()
+                                .entries
+                                .map((e) => ScheduleLesson(index: e.key, name: e.value))
+                                .toList()
+                            : [
+                                Text(
+                                  "Пусто",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Theme.of(context).colorScheme.tertiaryContainer),
+                                )
+                              ]);
                   },
                   itemCount: 7,
                   loop: true,

@@ -17,6 +17,13 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
   String _text = "";
   List<String> _suggestions = [];
   final _controller = TextEditingController();
+  final _inputScrollController = ScrollController();
+
+  @override
+  void initState() {
+    _suggestions = getSuggestions("");
+    super.initState();
+  }
 
   List<String> getSuggestions(String p) {
     final subjects = ref.read(subjectsController);
@@ -25,26 +32,28 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
         .toList();
   }
 
-  @override
-  void initState() {
-    _suggestions = getSuggestions("");
-    super.initState();
+  void _scrollInputToBottom() {
+    // Scroll a little more than max to be sure it's at the bottom
+    _inputScrollController.animateTo(_inputScrollController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 1), curve: Curves.easeOut);
   }
 
   void _onSuggestionSelect(int idx) {
     final suggestion = _suggestions[idx];
     var lines = _text.split("\n");
-    lines.last = suggestion.toString();
+    lines.last = suggestion.toString() + "\n";
     var newText = lines.join("\n");
 
     _setControllerText(newText);
     _updateText(newText);
+    _scrollInputToBottom();
   }
 
   void _setControllerText(String t) {
     _controller.text = t;
-    _controller.selection =
-        TextSelection.collapsed(offset: t.length, affinity: TextAffinity.downstream);
+    _controller.selection = TextSelection.collapsed(
+      offset: t.length,
+    );
   }
 
   void _updateText(String t) {
@@ -59,16 +68,16 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-            height: _suggestions.isEmpty ? 0 : null,
-            constraints: const BoxConstraints(maxHeight: 100),
-            child: _suggestions.isNotEmpty
-                ? NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overscroll) {
-                      overscroll.disallowIndicator();
-                      return false;
-                    },
-                    child: ListView.builder(
+        AnimatedSize(
+            duration: const Duration(milliseconds: 200),
+            child: Container(
+                height: _suggestions.isEmpty ? 0 : null,
+                // decoration: BoxDecoration(
+                //     border:
+                //         Border(bottom: BorderSide(width: 2, color: Theme.of(context).primaryColor))),
+                constraints: const BoxConstraints(maxHeight: 100),
+                child: _suggestions.isNotEmpty
+                    ? ListView.builder(
                         padding: const EdgeInsets.symmetric(vertical: 0),
                         shrinkWrap: true,
                         itemCount: _suggestions.length,
@@ -84,35 +93,48 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Theme.of(context).colorScheme.tertiary))));
-                        }))
-                : null),
-        TextField(
-          controller: _controller,
-          onChanged: (t) {
-            setState(() {
-              _suggestions = getSuggestions(t);
-            });
-            // Max name length is 20 chars
-            if (t.trim().split("\n").last.length > 20) {
-              // Set the prev text and set cursor on the end of the text
-              // This way we forbid user  to type after 20 chars
-              _setControllerText(_text);
-              return;
-            }
+                        })
+                    : null)),
+        Container(
+            constraints: const BoxConstraints(maxHeight: 80),
+            child: ListView(
+                controller: _inputScrollController,
+                padding: const EdgeInsets.symmetric(vertical: 0),
+                shrinkWrap: true,
+                children: [
+                  TextField(
+                    controller: _controller,
+                    onChanged: (t) {
+                      if (t.endsWith("\n")) {
+                        _scrollInputToBottom();
+                      }
+                      setState(() {
+                        _suggestions = getSuggestions(t);
+                      });
+                      // Max name length is 20 chars
+                      if (t.trim().split("\n").last.length > 20) {
+                        // Set the prev text and set cursor on the end of the text
+                        // This way we forbid user  to type after 20 chars
+                        _setControllerText(_text);
+                        return;
+                      }
 
-            _updateText(t);
-          },
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          autofocus: true,
-          textCapitalization: TextCapitalization.sentences,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.tertiary,
-          ),
-          decoration: InputDecoration(
-              hintText: "Название предмета",
-              hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer)),
-        )
+                      _updateText(t);
+                    },
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    autofocus: true,
+                    textCapitalization: TextCapitalization.sentences,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    decoration: InputDecoration(
+                        hintText: "Название предмета",
+                        // border: BorderSide(),
+                        hintStyle:
+                            TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer)),
+                  )
+                ])),
       ],
     );
   }
