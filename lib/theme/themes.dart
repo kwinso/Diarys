@@ -42,6 +42,8 @@ class AppThemeData with ChangeNotifier {
           onSurface: tertiary,
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
+        canvasColor: Colors.transparent,
+        shadowColor: Color(0x55000000),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
@@ -76,7 +78,9 @@ class AppThemeData with ChangeNotifier {
           onSurface: Colors.white,
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
-        scaffoldBackgroundColor: const Color(0xFF282B30),
+        scaffoldBackgroundColor: bg,
+        canvasColor: Colors.transparent,
+        shadowColor: Color(0x55000000),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: Colors.white),
                 bodyText1: TextStyle(color: Colors.white))
