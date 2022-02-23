@@ -1,6 +1,6 @@
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-final subjectsController = StateNotifierProvider<SubjectsNotifier, List<String>>((ref) {
+final subjectsState = StateNotifierProvider<SubjectsNotifier, List<String>>((ref) {
   return SubjectsNotifier([]);
 });
 

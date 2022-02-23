@@ -2,9 +2,9 @@ import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleEditModeFAB extends StatefulWidget {
-  final VoidCallback onDone;
+  final VoidCallback onPressed;
   final int selectedItemsCount;
-  ScheduleEditModeFAB({Key? key, required this.onDone, required this.selectedItemsCount})
+  ScheduleEditModeFAB({Key? key, required this.onPressed, required this.selectedItemsCount})
       : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class _ScheduleEditModeFABState extends State<ScheduleEditModeFAB> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: widget.onDone,
+      onPressed: widget.onPressed,
       backgroundColor: _getColor(),
       child: Icon(_getCurrentIcon()),
     );

@@ -46,7 +46,8 @@ class _ScheduleLessonState extends State<ScheduleLesson> {
       },
       child: Container(
           height: 50,
-          margin: const EdgeInsets.symmetric(vertical: 5),
+          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          // padding: const EdgeInsets.symmetric(horizontal: 20),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -62,7 +63,12 @@ class _ScheduleLessonState extends State<ScheduleLesson> {
               ),
               Expanded(
                   child: Center(child: Text(widget.name, style: const TextStyle(fontSize: 20)))),
-              widget.inEditMode ? const Icon(Icons.drag_handle) : Container()
+              widget.inEditMode
+                  ? Icon(
+                      Icons.drag_handle,
+                      color: Theme.of(context).colorScheme.tertiaryContainer,
+                    )
+                  : Container()
             ],
           )),
     );
