@@ -44,12 +44,12 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   }
 
   // Converts lessons names to a list of ScheduleLesson
-  List<Widget> _lessonsListToWidgets(List<String> lessons) {
+  List<Widget> _lessonsListToWidgets(int dayIndex, List<String> lessons) {
     if (lessons.isEmpty) {
       return [
         Text(
           "Пусто",
-          key: Key("empty"),
+          key: const Key("empty"),
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
         )
@@ -59,6 +59,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
         .asMap()
         .entries
         .map((e) => ScheduleLesson(
+            day: dayIndex,
             isSelected: _selectedItems.contains(e.key),
             key: Key(e.key.toString()),
             onToggleSelection: _onEditModeSelection,
@@ -69,9 +70,9 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   }
 
   Widget Function(BuildContext, int) _getSwiperDaysBuilder(Schedule schedule) {
-    return (BuildContext ctx, int idx) {
-      var day = schedule.days[idx];
-      return ListView(children: _lessonsListToWidgets(day.lessons));
+    return (BuildContext ctx, int dayIndex) {
+      var day = schedule.days[dayIndex];
+      return ListView(children: _lessonsListToWidgets(dayIndex, day.lessons));
     };
   }
 
@@ -80,6 +81,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     final schedule = ref.watch(scheduleState);
     return Scaffold(
         resizeToAvoidBottomInset: true,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
@@ -106,7 +108,8 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                                   .read(scheduleState.notifier)
                                   .moveLessonInDay(_currentDay, oldIdx, moveTo);
                             },
-                            children: _lessonsListToWidgets(schedule.days[_currentDay].lessons),
+                            children: _lessonsListToWidgets(
+                                _currentDay, schedule.days[_currentDay].lessons),
                           )
                         : Swiper(
                             controller: _swiperController,

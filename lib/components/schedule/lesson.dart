@@ -1,15 +1,21 @@
+import 'package:diarys/components/schedule/modal_form.dart';
+import 'package:diarys/components/schedule/modal_input.dart';
+import 'package:diarys/state/schedule.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ScheduleLesson extends StatefulWidget {
+class ScheduleLesson extends ConsumerStatefulWidget {
   final String name;
   final bool isSelected;
   final bool inEditMode;
+  final int day;
   final int index;
   final Function(int index) onToggleSelection;
   ScheduleLesson(
       {required this.name,
+      required this.day,
       required this.isSelected,
       required this.inEditMode,
       required this.index,
@@ -18,10 +24,18 @@ class ScheduleLesson extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ScheduleLesson> createState() => _ScheduleLessonState();
+  _ScheduleLessonState createState() => _ScheduleLessonState();
 }
 
-class _ScheduleLessonState extends State<ScheduleLesson> {
+class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
+  String updatedName = "";
+
+  @override
+  void initState() {
+    updatedName = widget.name;
+    super.initState();
+  }
+
   Color _getBGColor() {
     return widget.inEditMode && widget.isSelected
         ? Theme.of(context).colorScheme.primaryContainer
@@ -37,12 +51,24 @@ class _ScheduleLessonState extends State<ScheduleLesson> {
           return;
         }
         showMaterialModalBottomSheet(
-          context: context,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          backgroundColor: Theme.of(context).primaryColor,
-          builder: (context) => Container(
-              padding: const EdgeInsets.all(15), child: const Text("Placeholder, I think...")),
-        );
+            context: context,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            backgroundColor: Theme.of(context).backgroundColor,
+            builder: (context) => ModalForm(
+                defaultValue: widget.name,
+                multilineInput: false,
+                onCancel: () {
+                  Navigator.pop(context);
+                },
+                submitButtonText: "Сохранить",
+                onSubmit: (t) {
+                  if (t.isNotEmpty) {
+                    ref
+                        .read(scheduleState.notifier)
+                        .updateLessosNameInDay(widget.day, widget.index, t);
+                  }
+                  Navigator.pop(context);
+                }));
       },
       child: Container(
           height: 50,

@@ -11,8 +11,14 @@ class ScheduleNotifier extends StateNotifier<Schedule> {
 
   ScheduleNotifier(Schedule s, this.ref) : super(s);
 
+  void updateLessosNameInDay(int day, int index, String newName) {
+    final newState = state.copy();
+    newState.days[day].lessons[index] = newName;
+    state = newState;
+  }
+
   void removeLessonsInDay(int day, List<int> indexes) {
-    final newState = Schedule(state.days);
+    final newState = state.copy();
     indexes.sort();
     for (var i in indexes.reversed) {
       newState.days[day].lessons.removeAt(i);
@@ -28,14 +34,14 @@ class ScheduleNotifier extends StateNotifier<Schedule> {
     lessons.insert(newIdx, swap);
 
     // Reassign the state
-    final newState = Schedule(state.days);
+    final newState = state.copy();
     state.days[day].lessons = lessons;
 
     state = newState;
   }
 
   void addLessonsToDay(int day, List<String> lessons) {
-    final newState = Schedule(state.days);
+    final newState = state.copy();
     for (var l in lessons) {
       if (l.isNotEmpty) newState.days[day].lessons.add(l);
     }
@@ -55,4 +61,8 @@ class Schedule {
   List<DaySchedule> days;
 
   Schedule(this.days);
+
+  Schedule copy() {
+    return Schedule(this.days);
+  }
 }

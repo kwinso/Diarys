@@ -2,18 +2,24 @@ import 'package:diarys/state/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddModalAutocomplete extends ConsumerStatefulWidget {
-  final Function(String text) onTextUpdate;
-  AddModalAutocomplete({
+class ModalAutoCompleteInput extends ConsumerStatefulWidget {
+  final Function(String text)? onTextUpdate;
+  final Function(String text)? onSubmit;
+  final bool multiline;
+  final String value;
+  ModalAutoCompleteInput({
     Key? key,
-    required this.onTextUpdate,
+    this.value = "",
+    this.multiline = false,
+    this.onTextUpdate,
+    this.onSubmit,
   }) : super(key: key);
 
   @override
   _AddModalAutocompleteState createState() => _AddModalAutocompleteState();
 }
 
-class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
+class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   String _text = "";
   List<String> _suggestions = [];
   final _controller = TextEditingController();
@@ -21,11 +27,12 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
 
   @override
   void initState() {
-    _suggestions = getSuggestions("");
+    _text = widget.value;
+    _suggestions = _getSuggestions("");
     super.initState();
   }
 
-  List<String> getSuggestions(String p) {
+  List<String> _getSuggestions(String p) {
     final subjects = ref.read(subjectsState);
     return List.of(subjects)
         .where((option) => option.startsWith(p.split("\n").last.trim()))
@@ -40,9 +47,12 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
 
   void _onSuggestionSelect(int idx) {
     final suggestion = _suggestions[idx];
-    var lines = _text.split("\n");
-    lines.last = suggestion.toString() + "\n";
-    var newText = lines.join("\n");
+    var newText = suggestion;
+    if (widget.multiline) {
+      var lines = _text.split("\n");
+      lines.last = suggestion.toString() + "\n";
+      newText = lines.join("\n");
+    }
 
     _setControllerText(newText);
     _updateText(newText);
@@ -61,7 +71,7 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
       _text = t;
     });
 
-    widget.onTextUpdate(t);
+    widget.onTextUpdate!(t);
   }
 
   @override
@@ -72,9 +82,6 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
             duration: const Duration(milliseconds: 200),
             child: Container(
                 height: _suggestions.isEmpty ? 0 : null,
-                // decoration: BoxDecoration(
-                //     border:
-                //         Border(bottom: BorderSide(width: 2, color: Theme.of(context).primaryColor))),
                 constraints: const BoxConstraints(maxHeight: 100),
                 child: _suggestions.isNotEmpty
                     ? ListView.builder(
@@ -109,7 +116,7 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
                         _scrollInputToBottom();
                       }
                       setState(() {
-                        _suggestions = getSuggestions(t);
+                        _suggestions = _getSuggestions(t);
                       });
                       // Max name length is 20 chars
                       if (t.trim().split("\n").last.length > 20) {
@@ -121,7 +128,8 @@ class _AddModalAutocompleteState extends ConsumerState<AddModalAutocomplete> {
 
                       _updateText(t);
                     },
-                    keyboardType: TextInputType.multiline,
+                    onSubmitted: widget.onSubmit,
+                    keyboardType: widget.multiline ? TextInputType.multiline : TextInputType.text,
                     maxLines: null,
                     autofocus: true,
                     textCapitalization: TextCapitalization.sentences,

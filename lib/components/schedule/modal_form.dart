@@ -2,19 +2,34 @@ import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 
-class AddModal extends StatefulWidget {
+class ModalForm extends StatefulWidget {
   final VoidCallback onCancel;
-  final Function(List<String>) onAdd;
+  final String submitButtonText;
+  final bool multilineInput;
+  final String defaultValue;
+  final Function(String) onSubmit;
 
-  const AddModal({Key? key, required this.onCancel, required this.onAdd}) : super(key: key);
+  const ModalForm(
+      {Key? key,
+      this.defaultValue = "",
+      required this.multilineInput,
+      required this.onCancel,
+      required this.submitButtonText,
+      required this.onSubmit})
+      : super(key: key);
 
   @override
-  State<AddModal> createState() => _AddModalState();
+  State<ModalForm> createState() => _ModalFormState();
 }
 
-// TODO: Do something with setText (set both state and value for field)
-class _AddModalState extends State<AddModal> {
+class _ModalFormState extends State<ModalForm> {
   String _text = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _text = widget.defaultValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +47,13 @@ class _AddModalState extends State<AddModal> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15),
                   child: ModalAutoCompleteInput(
-                    multiline: true,
                     onTextUpdate: (t) {
                       setState(() {
                         _text = t;
                       });
                     },
+                    multiline: widget.multilineInput,
+                    onSubmit: widget.onSubmit,
                   ),
                 ),
                 Row(
@@ -58,7 +74,7 @@ class _AddModalState extends State<AddModal> {
                         )),
                     TextButton(
                         onPressed: () {
-                          if (_text.isNotEmpty) widget.onAdd(_text.trim().split("\n"));
+                          widget.onSubmit(_text);
                         },
                         child: Container(
                           decoration: const BoxDecoration(

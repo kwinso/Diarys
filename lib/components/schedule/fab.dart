@@ -1,3 +1,4 @@
+import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:diarys/state/subjects.dart';
 import 'package:diarys/theme/colors.dart';
@@ -72,20 +73,27 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
           label: 'Добавить предмет',
           onTap: () {
             showMaterialModalBottomSheet(
-              context: context,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              backgroundColor: Theme.of(context).backgroundColor,
-              builder: (context) => AddModal(
-                onCancel: () {
-                  Navigator.pop(context);
-                },
-                onAdd: (lessons) {
-                  ref.read(scheduleState.notifier).addLessonsToDay(widget.day, lessons);
-                  // subjects.addUniqueSubjects(lessons);
-                  Navigator.pop(context);
-                },
-              ),
-            );
+                context: context,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                backgroundColor: Theme.of(context).backgroundColor,
+                builder: (context) => ModalForm(
+                      multilineInput: true,
+                      onCancel: () {
+                        Navigator.pop(context);
+                      },
+                      submitButtonText: "Добавить",
+                      onSubmit: (lessons) {
+                        if (lessons.isNotEmpty) {
+                          ref
+                              .read(scheduleState.notifier)
+                              .addLessonsToDay(widget.day, lessons.trim().split("\n"));
+                        }
+                        Navigator.pop(context);
+                      },
+                    )
+                // builder: (context) => AddModal(
+                // ),
+                );
           }),
       ..._getEditButtonIfNeeded(),
       SpeedDialChild(
