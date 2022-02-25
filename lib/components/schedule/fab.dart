@@ -1,13 +1,11 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/schedule.dart';
-import 'package:diarys/state/subjects.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'add_modal.dart';
 
 class ScheduleFAB extends ConsumerStatefulWidget {
   final int day;

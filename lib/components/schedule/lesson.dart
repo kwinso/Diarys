@@ -1,7 +1,6 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/schedule.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -13,7 +12,8 @@ class ScheduleLesson extends ConsumerStatefulWidget {
   final int day;
   final int index;
   final Function(int index) onToggleSelection;
-  ScheduleLesson(
+
+  const ScheduleLesson(
       {required this.name,
       required this.day,
       required this.isSelected,
@@ -79,7 +79,7 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
       },
       child: Container(
           height: 50,
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          margin: const EdgeInsets.all(5),
           // padding: const EdgeInsets.symmetric(horizontal: 20),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
