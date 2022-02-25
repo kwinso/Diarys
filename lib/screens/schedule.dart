@@ -1,11 +1,12 @@
 import 'package:diarys/components/schedule/controls.dart';
-import 'package:diarys/components/schedule/edit_fab.dart';
 import 'package:diarys/components/schedule/lesson.dart';
 import 'package:diarys/components/schedule/fab.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+
+const _listtViewPadding = EdgeInsets.symmetric(horizontal: 15);
 
 class ScheduleScreen extends ConsumerStatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -72,7 +73,8 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   Widget Function(BuildContext, int) _getSwiperDaysBuilder(Schedule schedule) {
     return (BuildContext ctx, int dayIndex) {
       var day = schedule.days[dayIndex];
-      return ListView(children: _lessonsListToWidgets(dayIndex, day.lessons));
+      return ListView(
+          padding: _listtViewPadding, children: _lessonsListToWidgets(dayIndex, day.lessons));
     };
   }
 
@@ -94,6 +96,17 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                 Expanded(
                     child: _inEditMode
                         ? ReorderableListView(
+                            padding: _listtViewPadding,
+                            proxyDecorator: (w, i, z) => Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Theme.of(context).shadowColor,
+                                        blurRadius: 10,
+                                      )
+                                    ]),
+                                child: w),
                             onReorder: (oldIdx, newIdx) {
                               // Since onReorder gives a index that also counts the current item in list
                               // we should check wether the index accurate

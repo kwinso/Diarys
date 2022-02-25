@@ -1,3 +1,4 @@
+import 'package:diarys/theme/colors.dart';
 import "package:flutter/material.dart";
 
 AppThemeData currentTheme = AppThemeData();
@@ -15,7 +16,6 @@ class AppThemeData with ChangeNotifier {
     const primary = Color(0xFFDFDEDE);
     const bg = Color(0xFFFFFFFF);
     const tertiary = Color(0xFF161515);
-    const secondary = Color(0xFF9556D3);
 
     return ThemeData(
         splashColor: Colors.transparent,
@@ -27,7 +27,7 @@ class AppThemeData with ChangeNotifier {
           brightness: Brightness.dark,
           primary: primary,
           primaryContainer: Color(0xFF7A7A7A),
-          secondary: Color(0xFF9556D3),
+          secondary: AppColors.secondary,
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF9C9C9C),
           background: bg,
@@ -41,9 +41,9 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
-        textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+        shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
@@ -52,7 +52,6 @@ class AppThemeData with ChangeNotifier {
   static ThemeData get dark {
     const primary = Color(0xFF35383F);
     const bg = Color(0xFF1E1F25);
-    const secondary = Color(0xFF9556D3);
 
     return ThemeData(
         splashColor: Colors.transparent,
@@ -64,7 +63,7 @@ class AppThemeData with ChangeNotifier {
           brightness: Brightness.dark,
           primary: primary,
           primaryContainer: Color(0xFF5C5F64),
-          secondary: Color(0xFF9556D3),
+          secondary: AppColors.secondary,
           tertiary: Colors.white,
           tertiaryContainer: Color(0xFFA1A19F),
           background: bg,
@@ -77,9 +76,9 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: Colors.white,
         ),
-        textSelectionTheme: const TextSelectionThemeData(cursorColor: secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+        shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: Colors.white),
                 bodyText1: TextStyle(color: Colors.white))

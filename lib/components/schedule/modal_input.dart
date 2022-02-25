@@ -7,7 +7,7 @@ class ModalAutoCompleteInput extends ConsumerStatefulWidget {
   final Function(String text)? onSubmit;
   final bool multiline;
   final String value;
-  ModalAutoCompleteInput({
+  const ModalAutoCompleteInput({
     Key? key,
     this.value = "",
     this.multiline = false,

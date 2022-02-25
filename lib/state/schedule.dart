@@ -63,6 +63,6 @@ class Schedule {
   Schedule(this.days);
 
   Schedule copy() {
-    return Schedule(this.days);
+    return Schedule(days);
   }
 }

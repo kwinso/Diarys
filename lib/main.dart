@@ -57,8 +57,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int activeScreen = 0;
   final screens = <Widget>[
-    TasksScreen(),
-    ScheduleScreen(),
+    const TasksScreen(),
+    const ScheduleScreen(),
   ];
 
   @override
