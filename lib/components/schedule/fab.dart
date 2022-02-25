@@ -1,4 +1,5 @@
 import 'package:diarys/components/schedule/modal_form.dart';
+import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:diarys/state/subjects.dart';
 import 'package:diarys/theme/colors.dart';
@@ -29,8 +30,15 @@ class ScheduleFAB extends ConsumerStatefulWidget {
 }
 
 class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
-  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-  final List<SpeedDialChild> defaultModeChildren = [];
+  final ValueNotifier<bool> _isDialOpen = ValueNotifier(false);
+  String _formText = "";
+
+  void _onFormSubmit(BuildContext context) {
+    if (_formText.isNotEmpty) {
+      ref.read(scheduleState.notifier).addLessonsToDay(widget.day, _formText.trim().split("\n"));
+    }
+    Navigator.pop(context);
+  }
 
   IconData? _getEditModeIcon() {
     if (widget.inEditMode) {
@@ -76,19 +84,25 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
                 context: context,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 backgroundColor: Theme.of(context).backgroundColor,
-                builder: (context) => ModalForm(
-                      multilineInput: true,
+                builder: (ctx) => ModalForm(
+                      input: ModalAutoCompleteInput(
+                        value: "",
+                        onTextUpdate: (s) {
+                          setState(() {
+                            _formText = s;
+                          });
+                        },
+                        onSubmit: (_) {
+                          _onFormSubmit(ctx);
+                        },
+                        multiline: true,
+                      ),
                       onCancel: () {
-                        Navigator.pop(context);
+                        Navigator.pop(ctx);
                       },
                       submitButtonText: "Добавить",
-                      onSubmit: (lessons) {
-                        if (lessons.isNotEmpty) {
-                          ref
-                              .read(scheduleState.notifier)
-                              .addLessonsToDay(widget.day, lessons.trim().split("\n"));
-                        }
-                        Navigator.pop(context);
+                      onSubmit: () {
+                        _onFormSubmit(ctx);
                       },
                     )
                 // builder: (context) => AddModal(
@@ -118,7 +132,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
       icon: _getEditModeIcon(),
       backgroundColor: widget.inEditMode && widget.selectedItemsCount > 0 ? AppColors.red : null,
       onPress: widget.inEditMode ? widget.onInEditModePressed : null,
-      openCloseDial: isDialOpen,
+      openCloseDial: _isDialOpen,
       overlayOpacity: 0,
       spacing: 15,
       spaceBetweenChildren: 15,

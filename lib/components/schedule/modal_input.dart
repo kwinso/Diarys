@@ -28,6 +28,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   @override
   void initState() {
     _text = widget.value;
+    _setControllerText(_text);
     _suggestions = _getSuggestions("");
     super.initState();
   }

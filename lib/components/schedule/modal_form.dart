@@ -5,15 +5,13 @@ import '../../theme/colors.dart';
 class ModalForm extends StatefulWidget {
   final VoidCallback onCancel;
   final String submitButtonText;
-  final bool multilineInput;
-  final String defaultValue;
-  final Function(String) onSubmit;
+  final ModalAutoCompleteInput input;
+  final VoidCallback onSubmit;
 
   const ModalForm(
       {Key? key,
-      this.defaultValue = "",
-      required this.multilineInput,
       required this.onCancel,
+      required this.input,
       required this.submitButtonText,
       required this.onSubmit})
       : super(key: key);
@@ -23,12 +21,9 @@ class ModalForm extends StatefulWidget {
 }
 
 class _ModalFormState extends State<ModalForm> {
-  String _text = "";
-
   @override
   void initState() {
     super.initState();
-    _text = widget.defaultValue;
   }
 
   @override
@@ -46,15 +41,7 @@ class _ModalFormState extends State<ModalForm> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 15),
-                  child: ModalAutoCompleteInput(
-                    onTextUpdate: (t) {
-                      setState(() {
-                        _text = t;
-                      });
-                    },
-                    multiline: widget.multilineInput,
-                    onSubmit: widget.onSubmit,
-                  ),
+                  child: widget.input,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -73,9 +60,7 @@ class _ModalFormState extends State<ModalForm> {
                           ),
                         )),
                     TextButton(
-                        onPressed: () {
-                          widget.onSubmit(_text);
-                        },
+                        onPressed: () => widget.onSubmit(),
                         child: Container(
                           decoration: const BoxDecoration(
                               color: AppColors.green,

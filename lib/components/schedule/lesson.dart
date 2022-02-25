@@ -28,12 +28,12 @@ class ScheduleLesson extends ConsumerStatefulWidget {
 }
 
 class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
-  String updatedName = "";
+  String _newName = "";
 
   @override
   void initState() {
-    updatedName = widget.name;
     super.initState();
+    _newName = widget.name;
   }
 
   Color _getBGColor() {
@@ -55,17 +55,24 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             backgroundColor: Theme.of(context).backgroundColor,
             builder: (context) => ModalForm(
-                defaultValue: widget.name,
-                multilineInput: false,
+                input: ModalAutoCompleteInput(
+                  multiline: false,
+                  value: _newName,
+                  onTextUpdate: (t) {
+                    setState(() {
+                      _newName = t;
+                    });
+                  },
+                ),
                 onCancel: () {
                   Navigator.pop(context);
                 },
                 submitButtonText: "Сохранить",
-                onSubmit: (t) {
-                  if (t.isNotEmpty) {
+                onSubmit: () {
+                  if (_newName.isNotEmpty) {
                     ref
                         .read(scheduleState.notifier)
-                        .updateLessosNameInDay(widget.day, widget.index, t);
+                        .updateLessosNameInDay(widget.day, widget.index, _newName);
                   }
                   Navigator.pop(context);
                 }));
