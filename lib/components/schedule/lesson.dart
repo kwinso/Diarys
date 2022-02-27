@@ -71,7 +71,7 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
                 onSubmit: () {
                   if (_newName.isNotEmpty) {
                     ref
-                        .read(scheduleState.notifier)
+                        .read(scheduleController.notifier)
                         .updateLessosNameInDay(widget.day, widget.index, _newName);
                   }
                   Navigator.pop(context);

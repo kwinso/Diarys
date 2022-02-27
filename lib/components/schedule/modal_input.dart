@@ -34,7 +34,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   }
 
   List<String> _getSuggestions(String p) {
-    final subjects = ref.read(subjectsState);
+    final subjects = ref.read(subjectsController).state;
     return List.of(subjects)
         .where((option) => option.startsWith(p.split("\n").last.trim()))
         .toList();

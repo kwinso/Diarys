@@ -1,30 +1,43 @@
-import 'package:diarys/state/subjects.dart';
+import 'package:diarys/state/db_service.dart';
+import 'package:diarys/state/types/schedule.dart';
+import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-final scheduleState = StateNotifierProvider<ScheduleNotifier, Schedule>((ref) {
-  var schedule = List.generate(7, (int idx) => DaySchedule([]));
-  return ScheduleNotifier(Schedule(schedule), ref);
+import 'subjects.dart';
+
+final scheduleController = ChangeNotifierProvider<ScheduleController>((ref) {
+  final _db = ref.watch(databaseService);
+
+  return ScheduleController(_db, ref);
 });
 
-class ScheduleNotifier extends StateNotifier<Schedule> {
-  final Ref ref;
+class ScheduleController with ChangeNotifier {
+  late final DatabaseService _db;
+  final Ref _ref;
 
-  ScheduleNotifier(Schedule s, this.ref) : super(s);
+  ScheduleController(this._db, this._ref);
+
+  Schedule get state => _db.daysSchedule;
+
+  void _updateState(Schedule updated) {
+    _db.updateSchedule(updated);
+    notifyListeners();
+  }
 
   void updateLessosNameInDay(int day, int index, String newName) {
-    final newState = state.copy();
-    newState.days[day].lessons[index] = newName;
-    state = newState;
+    final updated = state;
+    updated.days[day].lessons[index] = newName;
+    _updateState(updated);
   }
 
   void removeLessonsInDay(int day, List<int> indexes) {
-    final newState = state.copy();
+    final updated = state;
     indexes.sort();
     for (var i in indexes.reversed) {
-      newState.days[day].lessons.removeAt(i);
+      updated.days[day].lessons.removeAt(i);
     }
 
-    state = newState;
+    _updateState(updated);
   }
 
   void moveLessonInDay(int day, int oldIdx, int newIdx) {
@@ -34,35 +47,19 @@ class ScheduleNotifier extends StateNotifier<Schedule> {
     lessons.insert(newIdx, swap);
 
     // Reassign the state
-    final newState = state.copy();
+    final updated = state;
     state.days[day].lessons = lessons;
 
-    state = newState;
+    _updateState(updated);
   }
 
   void addLessonsToDay(int day, List<String> lessons) {
-    final newState = state.copy();
+    final updated = state;
     for (var l in lessons) {
-      if (l.isNotEmpty) newState.days[day].lessons.add(l);
+      if (l.isNotEmpty) updated.days[day].lessons.add(l);
     }
 
-    ref.watch(subjectsState.notifier).addUniqueSubjects(lessons);
-    state = newState;
-  }
-}
-
-class DaySchedule {
-  List<String> lessons;
-
-  DaySchedule(this.lessons);
-}
-
-class Schedule {
-  List<DaySchedule> days;
-
-  Schedule(this.days);
-
-  Schedule copy() {
-    return Schedule(days);
+    _ref.read(subjectsController).addUniqueSubjects(lessons);
+    _updateState(updated);
   }
 }

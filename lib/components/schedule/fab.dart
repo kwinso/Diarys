@@ -33,7 +33,9 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
 
   void _onFormSubmit(BuildContext context) {
     if (_formText.isNotEmpty) {
-      ref.read(scheduleState.notifier).addLessonsToDay(widget.day, _formText.trim().split("\n"));
+      ref
+          .read(scheduleController.notifier)
+          .addLessonsToDay(widget.day, _formText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
@@ -51,7 +53,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
   }
 
   List<SpeedDialChild> _getEditButtonIfNeeded() {
-    if (ref.watch(scheduleState).days[widget.day].lessons.isEmpty) {
+    if (ref.watch(scheduleController).state.days[widget.day].lessons.isEmpty) {
       return [];
     }
     return [

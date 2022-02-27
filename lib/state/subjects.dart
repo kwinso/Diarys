@@ -1,11 +1,19 @@
+import 'package:diarys/state/db_service.dart';
+import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-final subjectsState = StateNotifierProvider<SubjectsNotifier, List<String>>((ref) {
-  return SubjectsNotifier([]);
+final subjectsController = ChangeNotifierProvider<SubjectsController>((ref) {
+  final _db = ref.watch(databaseService);
+
+  return SubjectsController(_db);
 });
 
-class SubjectsNotifier extends StateNotifier<List<String>> {
-  SubjectsNotifier(List<String> s) : super(s);
+class SubjectsController with ChangeNotifier {
+  late final DatabaseService _db;
+
+  SubjectsController(this._db);
+
+  List<String> get state => _db.lessonsList;
 
   void addUniqueSubjects(List<String> subjects) {
     for (var subject in subjects) {
@@ -13,5 +21,6 @@ class SubjectsNotifier extends StateNotifier<List<String>> {
         state.add(subject);
       }
     }
+    notifyListeners();
   }
 }

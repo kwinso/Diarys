@@ -35,13 +35,20 @@ dependencies:
     flutter_swiper_null_safety: ^1.0.2
     flutter_speed_dial: ^5.0.0+1
     flutter_riverpod: ^1.0.3
-    flutter_typeahead: ^3.2.4
+    dependencies:
+    hive: ^2.0.6
+    hive_flutter: ^1.1.0
+
+    # flutter_typeahead: ^3.2.4
+    path_provider: ^2.0.9
     modal_bottom_sheet: ^2.0.0
 
 dev_dependencies:
     flutter_test:
         sdk: flutter
-
+    # rename: ^2.0.1
+    hive_generator: ^1.1.2
+    build_runner: ^2.1.7
     # The "flutter_lints" package below contains a set of recommended lints to
     # encourage good coding practices. The lint set provided by the package is
     # activated in the `analysis_options.yaml` file located at the root of your

@@ -6,7 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
-const _listtViewPadding = EdgeInsets.symmetric(horizontal: 15);
+import '../state/db_service.dart';
+import '../state/types/schedule.dart';
+
+const _listViewPadding = EdgeInsets.symmetric(horizontal: 15);
 
 class ScheduleScreen extends ConsumerStatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -21,10 +24,15 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   final List<int> _selectedItems = [];
   int _currentDay = 0;
 
+  @override
+  void initState() {
+    ref.read(databaseService).initSchedule(super.initState);
+  }
+
   // Fires when user taps a FAB in edit mode
   void _onEditButtonPress() {
     if (_selectedItems.isNotEmpty) {
-      ref.read(scheduleState.notifier).removeLessonsInDay(_currentDay, _selectedItems);
+      ref.read(scheduleController).removeLessonsInDay(_currentDay, _selectedItems);
     }
     setState(() {
       _selectedItems.clear();
@@ -74,13 +82,13 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     return (BuildContext ctx, int dayIndex) {
       var day = schedule.days[dayIndex];
       return ListView(
-          padding: _listtViewPadding, children: _lessonsListToWidgets(dayIndex, day.lessons));
+          padding: _listViewPadding, children: _lessonsListToWidgets(dayIndex, day.lessons));
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    final schedule = ref.watch(scheduleState);
+    final schedule = ref.watch(scheduleController).state;
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -96,7 +104,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                 Expanded(
                     child: _inEditMode
                         ? ReorderableListView(
-                            padding: _listtViewPadding,
+                            padding: _listViewPadding,
                             proxyDecorator: (w, i, z) => Container(
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -118,7 +126,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
                                 });
                               }
                               ref
-                                  .read(scheduleState.notifier)
+                                  .read(scheduleController.notifier)
                                   .moveLessonInDay(_currentDay, oldIdx, moveTo);
                             },
                             children: _lessonsListToWidgets(
@@ -147,5 +155,13 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
           },
           day: _currentDay,
         ));
+  }
+
+  @override
+  void dispose() {
+    // This page is the only one who uses schedule box, so we need to close it after it's not needed
+    ref.read(databaseService).closeScheduleBox();
+    // TODO: implement dispose
+    super.dispose();
   }
 }
