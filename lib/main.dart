@@ -19,7 +19,10 @@ void main() async {
   Hive.registerAdapter(ScheduleAdapter());
   Hive.registerAdapter(DayScheduleAdapter());
 
-  runApp(const ProviderScope(child: App()));
+  final db = DatabaseService();
+  await db.openLessonsBox();
+
+  runApp(ProviderScope(overrides: [databaseService.overrideWithValue(db)], child: const App()));
 }
 
 @immutable
@@ -74,12 +77,6 @@ class _MainPageState extends ConsumerState<MainPage> {
   ];
 
   @override
-  void initState() {
-    // TODO: implement initState
-    ref.read(databaseService).initLessonsList(super.initState);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -87,9 +84,8 @@ class _MainPageState extends ConsumerState<MainPage> {
       // body: FutureBuilder(
       //   future: () async {
       //     final db = ref.read(databaseService);
-      //     await db.initLessonsList();
       //     if (activeScreen == 1) {
-      //       await db.initSchedule();
+      //       await db._initSchedule();
       //     } else {
       //       // TODO: Init tasks
       //     }
@@ -123,5 +119,11 @@ class _MainPageState extends ConsumerState<MainPage> {
                 BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Расписание")
               ])),
     );
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }

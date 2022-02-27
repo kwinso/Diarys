@@ -13,7 +13,7 @@ class SubjectsController with ChangeNotifier {
 
   SubjectsController(this._db);
 
-  List<String> get state => _db.lessonsList;
+  List<String> get state => _db.lessons;
 
   void addUniqueSubjects(List<String> subjects) {
     for (var subject in subjects) {
@@ -21,6 +21,7 @@ class SubjectsController with ChangeNotifier {
         state.add(subject);
       }
     }
+    _db.updateLessons(state);
     notifyListeners();
   }
 }

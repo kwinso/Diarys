@@ -1,33 +1,57 @@
 import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/schedule/lesson.dart';
 import 'package:diarys/components/schedule/fab.dart';
+import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-
-import '../state/db_service.dart';
 import '../state/types/schedule.dart';
 
 const _listViewPadding = EdgeInsets.symmetric(horizontal: 15);
 
+// This wrapper is need to firstly init schedule box in db, so then it can be used in _ScheduleScreenContent
 class ScheduleScreen extends ConsumerStatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
 
   @override
-  _ScheduleScreenState createState() => _ScheduleScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ScheduleScreenState();
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: ref.read(databaseService).openScheduleBox(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return const _ScheduleScreenContent();
+        }
+        return Container();
+      },
+    );
+  }
+
+  @override
+  void deactivate() {
+    ref.read(databaseService).closeScheduleBox();
+    super.deactivate();
+  }
+}
+
+class _ScheduleScreenContent extends ConsumerStatefulWidget {
+  const _ScheduleScreenContent({Key? key}) : super(key: key);
+
+  @override
+  _ScheduleScreenContentState createState() => _ScheduleScreenContentState();
+}
+
+class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> {
   final SwiperController _swiperController = SwiperController();
   bool _inEditMode = false;
   final List<int> _selectedItems = [];
+  bool boxReady = false;
   int _currentDay = 0;
-
-  @override
-  void initState() {
-    ref.read(databaseService).initSchedule(super.initState);
-  }
 
   // Fires when user taps a FAB in edit mode
   void _onEditButtonPress() {
@@ -155,13 +179,5 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
           },
           day: _currentDay,
         ));
-  }
-
-  @override
-  void dispose() {
-    // This page is the only one who uses schedule box, so we need to close it after it's not needed
-    ref.read(databaseService).closeScheduleBox();
-    // TODO: implement dispose
-    super.dispose();
   }
 }
