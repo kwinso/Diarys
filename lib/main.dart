@@ -5,6 +5,7 @@ import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/types/day_schedule.dart';
 import 'package:diarys/state/types/schedule.dart';
+import 'package:diarys/state/types/subject.dart';
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,7 @@ void main() async {
   Hive.init(appDir.path);
   Hive.registerAdapter(ScheduleAdapter());
   Hive.registerAdapter(DayScheduleAdapter());
+  Hive.registerAdapter(SubjectAdapter());
 
   final db = DatabaseService();
   await db.openLessonsBox();
@@ -70,17 +72,24 @@ class MainPage extends ConsumerStatefulWidget {
 }
 
 class _MainPageState extends ConsumerState<MainPage> {
-  int activeScreen = 0;
-  final screens = <Widget>[
-    const TasksScreen(),
-    const ScheduleScreen(),
-  ];
+  int _activeScreen = 0;
+  final _pageController = PageController();
+
+  final screens = <Widget>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: screens[activeScreen],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (idx) => setState(() => _activeScreen = idx),
+        children: const [
+          TasksScreen(),
+          ScheduleScreen(),
+        ],
+      ),
+      // body: screens[_activeScreen],
       // body: FutureBuilder(
       //   future: () async {
       //     final db = ref.read(databaseService);
@@ -102,12 +111,14 @@ class _MainPageState extends ConsumerState<MainPage> {
           decoration: BoxDecoration(
               border: Border(top: BorderSide(color: Theme.of(context).colorScheme.primary))),
           child: BottomNavigationBar(
-              currentIndex: activeScreen,
+              currentIndex: _activeScreen,
               elevation: 0,
               onTap: (idx) {
-                if (idx != activeScreen) {
+                if (idx != _activeScreen) {
+                  _pageController.animateToPage(idx,
+                      duration: Duration(milliseconds: 500), curve: Curves.easeOut);
                   setState(() {
-                    activeScreen = idx;
+                    _activeScreen = idx;
                   });
                 }
               },

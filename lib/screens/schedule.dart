@@ -6,7 +6,7 @@ import 'package:diarys/state/schedule.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import '../state/types/schedule.dart';
+import 'package:diarys/state/types/schedule.dart';
 
 const _listViewPadding = EdgeInsets.symmetric(horizontal: 15);
 
@@ -49,7 +49,7 @@ class _ScheduleScreenContent extends ConsumerStatefulWidget {
 class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> {
   final SwiperController _swiperController = SwiperController();
   bool _inEditMode = false;
-  final List<int> _selectedItems = [];
+  List<int> _selectedItems = [];
   bool boxReady = false;
   int _currentDay = 0;
 
@@ -143,12 +143,19 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
                               // Since onReorder gives a index that also counts the current item in list
                               // we should check wether the index accurate
                               final moveTo = newIdx > oldIdx ? newIdx - 1 : newIdx;
-                              if (_selectedItems.contains(oldIdx)) {
-                                setState(() {
-                                  _selectedItems.remove(oldIdx);
-                                  _selectedItems.add(moveTo);
-                                });
-                              }
+                              setState(() {
+                                _selectedItems = _selectedItems.map((e) {
+                                  if (e == oldIdx) return moveTo;
+                                  // If the non-selected item that is below selected item moved to position
+                                  // Upper than selected item or on the 1st position, then we should update index
+                                  // For selelected items by +1 since they're "pushed" to the bottom
+                                  if (oldIdx > e && moveTo <= e) return e + 1;
+                                  // Same logig with user moved non-selected item from top to bottom and
+                                  // Selected item was "pushed" to the top
+                                  if (oldIdx < e && moveTo >= e) return e - 1;
+                                  return e;
+                                }).toList();
+                              });
                               ref
                                   .read(scheduleController.notifier)
                                   .moveLessonInDay(_currentDay, oldIdx, moveTo);

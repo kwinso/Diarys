@@ -66,10 +66,9 @@ class _ModalFormState extends State<ModalForm> {
                               color: AppColors.green,
                               borderRadius: BorderRadius.all(Radius.circular(12))),
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
+                          child: const Text(
                             "Добавить",
-                            style: TextStyle(
-                                fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
+                            style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
                         ))
                   ],

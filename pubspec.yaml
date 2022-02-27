@@ -46,7 +46,6 @@ dependencies:
 dev_dependencies:
     flutter_test:
         sdk: flutter
-    # rename: ^2.0.1
     hive_generator: ^1.1.2
     build_runner: ^2.1.7
     # The "flutter_lints" package below contains a set of recommended lints to

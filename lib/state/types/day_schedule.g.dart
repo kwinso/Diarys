@@ -35,5 +35,7 @@ class DayScheduleAdapter extends TypeAdapter<DaySchedule> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DayScheduleAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is DayScheduleAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -26,7 +26,7 @@ class AppThemeData with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color(0xFF7A7A7A),
+          primaryContainer: Color.fromARGB(255, 192, 192, 192),
           secondary: AppColors.secondary,
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF9C9C9C),
