@@ -26,7 +26,7 @@ class SubjectsController with ChangeNotifier {
         updated.add(Subject(name, 1));
       }
     }
-    _db.updateLessons(updated);
+    _db.updateSubjects(updated);
     notifyListeners();
   }
 
@@ -39,6 +39,6 @@ class SubjectsController with ChangeNotifier {
         .where((e) => e.refs > 0)
         .toList();
 
-    _db.updateLessons(updated);
+    _db.updateSubjects(updated);
   }
 }

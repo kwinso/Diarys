@@ -21,8 +21,9 @@ void main() async {
   Hive.registerAdapter(DayScheduleAdapter());
   Hive.registerAdapter(SubjectAdapter());
 
+  Hive.deleteBoxFromDisk("subjects");
   final db = DatabaseService();
-  await db.openLessonsBox();
+  await db.openSubjectsBox();
 
   runApp(ProviderScope(overrides: [databaseService.overrideWithValue(db)], child: const App()));
 }
