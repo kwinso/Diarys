@@ -35,5 +35,8 @@ class DatabaseService {
   Future<void> closeScheduleBox() async => await _scheduleBox.close();
 
   Future<void> updateSchedule(Schedule s) async => await _scheduleBox.put(0, s);
-  Future<void> updateSubjects(List<Subject> s) async => await _lessonsListBox.put(0, s);
+  Future<void> updateSubjects(List<Subject> s) async {
+    print(s);
+    await _lessonsListBox.put(0, s);
+  }
 }

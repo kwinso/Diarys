@@ -68,7 +68,7 @@ class _ModalFormState extends State<ModalForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                           child: Text(
                             widget.submitButtonText,
-                            style: TextStyle(fontSize: 15, color: Colors.white),
+                            style: const TextStyle(fontSize: 15, color: Colors.white),
                           ),
                         ))
                   ],

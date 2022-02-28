@@ -27,6 +27,8 @@ class ScheduleController with ChangeNotifier {
   void updateLessosNameInDay(int day, int index, String newName) {
     final updated = state;
     updated.days[day].lessons[index] = newName;
+
+    _ref.read(subjectsController).addSubjects([newName]);
     _updateState(updated);
   }
 
@@ -38,7 +40,7 @@ class ScheduleController with ChangeNotifier {
       final l = updated.days[day].lessons.removeAt(i);
       removed.add(l);
     }
-    _ref.read(subjectsController).removeSubjects(removed);
+    _ref.read(subjectsController).removeSubjectRefs(removed);
     _updateState(updated);
   }
 
@@ -47,10 +49,8 @@ class ScheduleController with ChangeNotifier {
     // Since old position is popped, we need to insert 1 pos lower
     final swap = lessons.removeAt(oldIdx);
     lessons.insert(newIdx, swap);
-
-    // Reassign the state
     final updated = state;
-    state.days[day].lessons = lessons;
+    updated.days[day].lessons = lessons;
 
     _updateState(updated);
   }
@@ -61,7 +61,7 @@ class ScheduleController with ChangeNotifier {
       if (l.isNotEmpty) updated.days[day].lessons.add(l);
     }
 
-    _ref.read(subjectsController).updateSubjects(lessons);
+    _ref.read(subjectsController).addSubjects(lessons);
     _updateState(updated);
   }
 }

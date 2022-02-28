@@ -16,29 +16,33 @@ class SubjectsController with ChangeNotifier {
 
   List<Subject> get state => _db.lessons;
 
-  void updateSubjects(List<String> names) {
+  void _updateState(List<Subject> s) {
+    _db.updateSubjects(s);
+    notifyListeners();
+  }
+
+  void addSubjects(List<String> names) {
     final updated = state;
     for (var name in names) {
-      final foundIndex = state.indexWhere((s) => s.name == name);
+      final foundIndex = updated.indexWhere((s) => s.name == name);
       if (foundIndex != -1) {
         updated[foundIndex].refs += 1;
       } else {
         updated.add(Subject(name, 1));
       }
     }
-    _db.updateSubjects(updated);
-    notifyListeners();
+    _updateState(updated);
   }
 
-  void removeSubjects(List<String> names) {
+  void removeSubjectRefs(List<String> names) {
     final updated = state
-        .map(((e) {
+        .map((e) {
           if (names.contains(e.name)) e.refs -= 1;
           return e;
-        }))
+        })
         .where((e) => e.refs > 0)
         .toList();
 
-    _db.updateSubjects(updated);
+    _updateState(updated);
   }
 }
