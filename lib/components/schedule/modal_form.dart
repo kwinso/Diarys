@@ -66,8 +66,8 @@ class _ModalFormState extends State<ModalForm> {
                               color: AppColors.green,
                               borderRadius: BorderRadius.all(Radius.circular(12))),
                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: const Text(
-                            "Добавить",
+                          child: Text(
+                            widget.submitButtonText,
                             style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
                         ))

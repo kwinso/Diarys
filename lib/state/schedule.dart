@@ -32,11 +32,13 @@ class ScheduleController with ChangeNotifier {
 
   void removeLessonsInDay(int day, List<int> indexes) {
     final updated = state;
+    List<String> removed = [];
     indexes.sort();
     for (var i in indexes.reversed) {
-      updated.days[day].lessons.removeAt(i);
+      final l = updated.days[day].lessons.removeAt(i);
+      removed.add(l);
     }
-
+    _ref.read(subjectsController).removeSubjects(removed);
     _updateState(updated);
   }
 
@@ -59,7 +61,7 @@ class ScheduleController with ChangeNotifier {
       if (l.isNotEmpty) updated.days[day].lessons.add(l);
     }
 
-    _ref.read(subjectsController).addUniqueSubjects(lessons);
+    _ref.read(subjectsController).updateSubjects(lessons);
     _updateState(updated);
   }
 }

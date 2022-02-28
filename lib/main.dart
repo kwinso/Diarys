@@ -73,39 +73,21 @@ class MainPage extends ConsumerStatefulWidget {
 
 class _MainPageState extends ConsumerState<MainPage> {
   int _activeScreen = 0;
-  final _pageController = PageController();
-
-  final screens = <Widget>[];
+  final _screens = const <Widget>[TasksScreen(), ScheduleScreen()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (idx) => setState(() => _activeScreen = idx),
-        children: const [
-          TasksScreen(),
-          ScheduleScreen(),
-        ],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 100),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(child: child, opacity: animation);
+        },
+        child: _screens[_activeScreen],
       ),
+      //* Maybe change to variant without animaton later
       // body: screens[_activeScreen],
-      // body: FutureBuilder(
-      //   future: () async {
-      //     final db = ref.read(databaseService);
-      //     if (activeScreen == 1) {
-      //       await db._initSchedule();
-      //     } else {
-      //       // TODO: Init tasks
-      //     }
-      //   }(),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       return screens[activeScreen];
-      //     }
-      //     return Container();
-      //   },
-      // ),
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -115,8 +97,6 @@ class _MainPageState extends ConsumerState<MainPage> {
               elevation: 0,
               onTap: (idx) {
                 if (idx != _activeScreen) {
-                  _pageController.animateToPage(idx,
-                      duration: Duration(milliseconds: 500), curve: Curves.easeOut);
                   setState(() {
                     _activeScreen = idx;
                   });
