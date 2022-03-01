@@ -23,6 +23,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   String _text = "";
   List<String> _suggestions = [];
   final _controller = TextEditingController();
+  final _hintsScrollController = ScrollController();
   final _inputScrollController = ScrollController();
 
   @override
@@ -42,7 +43,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
         .state
         .list
         .reversed
-        .where((option) => option.name.startsWith(line))
+        .where((option) => option.name.toLowerCase().startsWith(line.toLowerCase()))
         .map((e) => e.name)
         .toList();
   }
@@ -96,10 +97,12 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                 constraints: const BoxConstraints(maxHeight: 100),
                 child: _suggestions.isNotEmpty
                     ? RawScrollbar(
+                        controller: _hintsScrollController,
                         thumbColor: Theme.of(context).primaryColor,
                         thickness: 2,
                         isAlwaysShown: true,
                         child: ListView.builder(
+                            controller: _hintsScrollController,
                             padding: const EdgeInsets.symmetric(vertical: 0),
                             shrinkWrap: true,
                             itemCount: _suggestions.length,
@@ -111,7 +114,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                                   },
                                   child: Padding(
                                       padding:
-                                          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                          const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                                       child: Text(_suggestions[index],
                                           style: TextStyle(
                                               fontSize: 20,
