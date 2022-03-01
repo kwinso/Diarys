@@ -1,6 +1,6 @@
-import 'package:diarys/state/types/day_schedule.dart';
-import 'package:diarys/state/types/schedule.dart';
-import 'package:diarys/state/types/subjects_list.dart';
+import 'package:diarys/state/hive_types/day_schedule.dart';
+import 'package:diarys/state/hive_types/schedule.dart';
+import 'package:diarys/state/hive_types/subjects_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 

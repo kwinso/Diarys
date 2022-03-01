@@ -1,4 +1,4 @@
-import 'package:diarys/state/types/subject.dart';
+import 'package:diarys/state/hive_types/subject.dart';
 import 'package:hive/hive.dart';
 
 part 'subjects_list.g.dart';

@@ -11,7 +11,7 @@ class ScheduleLesson extends ConsumerStatefulWidget {
   final bool inEditMode;
   final int day;
   final int index;
-  final Function(int index) onToggleSelection;
+  final Function(int day, int index) onToggleSelection;
 
   const ScheduleLesson(
       {required this.name,
@@ -47,7 +47,7 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
     return GestureDetector(
       onTap: () {
         if (widget.inEditMode) {
-          widget.onToggleSelection(widget.index);
+          widget.onToggleSelection(widget.day, widget.index);
           return;
         }
         showMaterialModalBottomSheet(

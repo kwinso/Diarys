@@ -65,6 +65,9 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
     _setControllerText(newText);
     _updateText(newText);
     _scrollInputToBottom();
+    setState(() {
+      _suggestions.clear();
+    });
   }
 
   void _setControllerText(String t) {

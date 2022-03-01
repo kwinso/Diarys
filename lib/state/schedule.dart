@@ -1,9 +1,10 @@
+import 'package:diarys/main.dart';
 import 'package:diarys/state/db_service.dart';
-import 'package:diarys/state/types/schedule.dart';
+import 'package:diarys/state/hive_types/schedule.dart';
+import 'package:diarys/state/subjects.dart';
+import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
-
-import 'subjects.dart';
 
 final scheduleController = ChangeNotifierProvider<ScheduleController>((ref) {
   final _db = ref.watch(databaseService);
@@ -35,15 +36,23 @@ class ScheduleController with ChangeNotifier {
     _updateState(updated);
   }
 
-  void removeLessonsInDay(int day, List<int> indexes) {
+  void removeLessons(List<DeleteEntry> removed) {
     final updated = state;
-    List<String> removed = [];
-    indexes.sort();
-    for (var i in indexes.reversed) {
-      final l = updated.days[day].lessons.removeAt(i);
-      removed.add(l);
+    List<String> removedNames = [];
+
+    // This impls logic of reverse sotring for DeleteEntry
+    removed.sort(((a, b) {
+      if (a.day > b.day && a.index > b.index) return -1;
+      if (a.day < b.day && a.index < b.index) return 1;
+      return 0;
+    }));
+
+    for (var i in removed.reversed) {
+      final l = updated.days[i.day].lessons.removeAt(i.index);
+      // if (removedNames.contains(l))
+      removedNames.add(l);
     }
-    _ref.read(subjectsController).removeSubjectRefs(removed);
+    _ref.read(subjectsController).removeSubjectRefs(removedNames);
     _updateState(updated);
   }
 

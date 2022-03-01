@@ -1,6 +1,6 @@
 import 'package:diarys/state/db_service.dart';
-import 'package:diarys/state/types/subject.dart';
-import 'package:diarys/state/types/subjects_list.dart';
+import 'package:diarys/state/hive_types/subject.dart';
+import 'package:diarys/state/hive_types/subjects_list.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
@@ -38,7 +38,7 @@ class SubjectsController with ChangeNotifier {
   void removeSubjectRefs(List<String> names) {
     final updated = state.list
         .map((e) {
-          if (names.contains(e.name)) e.refs -= 1;
+          if (names.contains(e.name)) e.refs -= names.where((name) => name == e.name).length;
           return e;
         })
         .where((e) => e.refs > 0)

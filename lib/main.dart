@@ -1,9 +1,9 @@
 import 'package:diarys/app.dart';
 import 'package:diarys/state/db_service.dart';
-import 'package:diarys/state/types/day_schedule.dart';
-import 'package:diarys/state/types/schedule.dart';
-import 'package:diarys/state/types/subject.dart';
-import 'package:diarys/state/types/subjects_list.dart';
+import 'package:diarys/state/hive_types/day_schedule.dart';
+import 'package:diarys/state/hive_types/schedule.dart';
+import 'package:diarys/state/hive_types/subject.dart';
+import 'package:diarys/state/hive_types/subjects_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
