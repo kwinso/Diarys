@@ -42,9 +42,7 @@ class ScheduleController with ChangeNotifier {
 
     // This impls logic of reverse sotring for DeleteEntry
     removed.sort(((a, b) {
-      if (a.day > b.day && a.index > b.index) return -1;
-      if (a.day < b.day && a.index < b.index) return 1;
-      return 0;
+      return a.index.compareTo(b.index);
     }));
 
     for (var i in removed.reversed) {

@@ -130,14 +130,20 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
             setState(() {
               _selectedItems = _selectedItems.map((e) {
                 if (_currentDay == e.day) {
-                  if (e.index == oldIdx) e.index = moveTo;
+                  if (e.index == oldIdx) {
+                    e.index = moveTo;
+                  }
                   // If the non-selected item that is below selected item moved to position
                   // Upper than selected item or on the 1st position, then we should update index
                   // For selelected items by +1 since they're "pushed" to the bottom
-                  if (oldIdx > e.index && moveTo <= e.index) e.index += 1;
+                  else if (oldIdx > e.index && moveTo <= e.index) {
+                    e.index += 1;
+                  }
                   // Same logig with user moved non-selected item from top to bottom and
                   // Selected item was "pushed" to the top
-                  if (oldIdx < e.index && moveTo >= e.index) e.index -= 1;
+                  else if (oldIdx < e.index && moveTo >= e.index) {
+                    e.index -= 1;
+                  }
                 }
                 return e;
               }).toList();
