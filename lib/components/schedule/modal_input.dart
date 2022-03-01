@@ -37,6 +37,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
     return ref
         .read(subjectsController)
         .state
+        .list
         .reversed
         .where((option) => option.name.startsWith(p.split("\n").last.trim()))
         .map((e) => e.name)

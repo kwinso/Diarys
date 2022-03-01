@@ -1,120 +1,30 @@
-import 'package:diarys/components/app_bar.dart';
-import 'package:diarys/overscroll_behavior.dart';
-import 'package:diarys/screens/schedule.dart';
-import 'package:diarys/screens/tasks.dart';
+import 'package:diarys/app.dart';
 import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/types/day_schedule.dart';
 import 'package:diarys/state/types/schedule.dart';
 import 'package:diarys/state/types/subject.dart';
-import 'package:diarys/theme/themes.dart';
+import 'package:diarys/state/types/subjects_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:path_provider/path_provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+Future<void> initHive() async {
   final appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
   Hive.registerAdapter(ScheduleAdapter());
   Hive.registerAdapter(DayScheduleAdapter());
+  Hive.registerAdapter(SubjectsListAdapter());
   Hive.registerAdapter(SubjectAdapter());
+}
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
+  // // TODO: Delete
+  // Hive.deleteBoxFromDisk("subjects");
   final db = DatabaseService();
   await db.openSubjectsBox();
 
   runApp(ProviderScope(overrides: [databaseService.overrideWithValue(db)], child: const App()));
-}
-
-@immutable
-class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  @override
-  void initState() {
-    super.initState();
-    currentTheme.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: (context, child) {
-        return ScrollConfiguration(
-          behavior: NoOverscrollBehavior(),
-          child: child!,
-        );
-      },
-      home: const MainPage(),
-      title: "Diarys",
-      theme: AppThemeData.light,
-      darkTheme: AppThemeData.dark,
-      themeMode: currentTheme.mode,
-    );
-  }
-}
-
-class MainPage extends ConsumerStatefulWidget {
-  const MainPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends ConsumerState<MainPage> {
-  int _activeScreen = 0;
-  final _screens = const <Widget>[TasksScreen(), ScheduleScreen()];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 100),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(child: child, opacity: animation);
-        },
-        child: _screens[_activeScreen],
-      ),
-      //* Maybe change to variant without animaton later
-      // body: screens[_activeScreen],
-      backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Theme.of(context).colorScheme.primary))),
-          child: BottomNavigationBar(
-              currentIndex: _activeScreen,
-              elevation: 0,
-              onTap: (idx) {
-                if (idx != _activeScreen) {
-                  setState(() {
-                    _activeScreen = idx;
-                  });
-                }
-              },
-              backgroundColor: Theme.of(context).backgroundColor,
-              selectedItemColor: Theme.of(context).colorScheme.secondary,
-              unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-                BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Расписание")
-              ])),
-    );
-  }
-
-  @override
-  void dispose() {
-    Hive.close();
-    super.dispose();
-  }
 }

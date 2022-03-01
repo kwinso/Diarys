@@ -1,6 +1,6 @@
 import 'package:diarys/state/types/day_schedule.dart';
 import 'package:diarys/state/types/schedule.dart';
-import 'package:diarys/state/types/subject.dart';
+import 'package:diarys/state/types/subjects_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 
@@ -8,11 +8,11 @@ final databaseService = Provider<DatabaseService>((_) => DatabaseService());
 
 class DatabaseService {
   late Box<Schedule> _scheduleBox;
-  late Box<List<Subject>> _lessonsListBox;
+  late Box<SubjectsList> _subjectsBox;
 
   // Create new instances to avoid updating references to values in boxes
   Schedule get daysSchedule => Schedule(_scheduleBox.values.first.days);
-  List<Subject> get lessons => List<Subject>.from(_lessonsListBox.values.first);
+  SubjectsList get subjects => SubjectsList(_subjectsBox.values.first.list);
 
   Future<void> openScheduleBox() async {
     await Hive.openBox<Schedule>('schedule').then((value) => _scheduleBox = value);
@@ -25,18 +25,17 @@ class DatabaseService {
   }
 
   Future<void> openSubjectsBox() async {
-    await Hive.openBox<List<Subject>>("subjects").then((value) => _lessonsListBox = value);
+    await Hive.openBox<SubjectsList>("subjects").then((value) => _subjectsBox = value);
 
-    if (_lessonsListBox.isEmpty) {
-      _lessonsListBox.add(<Subject>[]);
+    if (_subjectsBox.values.isEmpty) {
+      _subjectsBox.add(SubjectsList([]));
     }
   }
 
   Future<void> closeScheduleBox() async => await _scheduleBox.close();
 
   Future<void> updateSchedule(Schedule s) async => await _scheduleBox.put(0, s);
-  Future<void> updateSubjects(List<Subject> s) async {
-    print(s);
-    await _lessonsListBox.put(0, s);
+  Future<void> updateSubjects(SubjectsList s) async {
+    await _subjectsBox.put(0, s);
   }
 }

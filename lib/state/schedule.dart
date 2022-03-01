@@ -26,9 +26,12 @@ class ScheduleController with ChangeNotifier {
 
   void updateLessosNameInDay(int day, int index, String newName) {
     final updated = state;
+    final oldName = updated.days[day].lessons[index];
     updated.days[day].lessons[index] = newName;
 
-    _ref.read(subjectsController).addSubjects([newName]);
+    final subjects = _ref.read(subjectsController);
+    subjects.removeSubjectRefs([oldName]);
+    subjects.addSubjectsOrRefs([newName]);
     _updateState(updated);
   }
 
@@ -61,7 +64,7 @@ class ScheduleController with ChangeNotifier {
       if (l.isNotEmpty) updated.days[day].lessons.add(l);
     }
 
-    _ref.read(subjectsController).addSubjects(lessons);
+    _ref.read(subjectsController).addSubjectsOrRefs(lessons);
     _updateState(updated);
   }
 }

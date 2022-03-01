@@ -1,5 +1,6 @@
 import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/types/subject.dart';
+import 'package:diarys/state/types/subjects_list.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
@@ -14,15 +15,15 @@ class SubjectsController with ChangeNotifier {
 
   SubjectsController(this._db);
 
-  List<Subject> get state => _db.lessons;
+  SubjectsList get state => _db.subjects;
 
   void _updateState(List<Subject> s) {
-    _db.updateSubjects(s);
+    _db.updateSubjects(SubjectsList(s));
     notifyListeners();
   }
 
-  void addSubjects(List<String> names) {
-    final updated = state;
+  void addSubjectsOrRefs(List<String> names) {
+    final updated = state.list;
     for (var name in names) {
       final foundIndex = updated.indexWhere((s) => s.name == name);
       if (foundIndex != -1) {
@@ -35,7 +36,7 @@ class SubjectsController with ChangeNotifier {
   }
 
   void removeSubjectRefs(List<String> names) {
-    final updated = state
+    final updated = state.list
         .map((e) {
           if (names.contains(e.name)) e.refs -= 1;
           return e;
