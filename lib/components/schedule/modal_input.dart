@@ -34,12 +34,15 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   }
 
   List<String> _getSuggestions(String p) {
+    final line = p.split("\n").last.trim();
+    if (line.isEmpty) return [];
+
     return ref
         .read(subjectsController)
         .state
         .list
         .reversed
-        .where((option) => option.name.startsWith(p.split("\n").last.trim()))
+        .where((option) => option.name.startsWith(line))
         .map((e) => e.name)
         .toList();
   }
@@ -89,23 +92,28 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                 height: _suggestions.isEmpty ? 0 : null,
                 constraints: const BoxConstraints(maxHeight: 100),
                 child: _suggestions.isNotEmpty
-                    ? ListView.builder(
-                        padding: const EdgeInsets.symmetric(vertical: 0),
-                        shrinkWrap: true,
-                        itemCount: _suggestions.length,
-                        reverse: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                _onSuggestionSelect(index);
-                              },
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                  child: Text(_suggestions[index],
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Theme.of(context).colorScheme.tertiary))));
-                        })
+                    ? RawScrollbar(
+                        thumbColor: Theme.of(context).primaryColor,
+                        thickness: 2,
+                        isAlwaysShown: true,
+                        child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 0),
+                            shrinkWrap: true,
+                            itemCount: _suggestions.length,
+                            reverse: true,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    _onSuggestionSelect(index);
+                                  },
+                                  child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                      child: Text(_suggestions[index],
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Theme.of(context).colorScheme.tertiary))));
+                            }))
                     : null)),
         Container(
             constraints: const BoxConstraints(maxHeight: 80),

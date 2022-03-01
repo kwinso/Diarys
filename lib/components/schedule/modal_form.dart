@@ -1,4 +1,5 @@
 import 'package:diarys/components/schedule/modal_input.dart';
+import 'package:diarys/components/schedule/mutliline_hint.dart';
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 
@@ -43,6 +44,7 @@ class _ModalFormState extends State<ModalForm> {
                   padding: const EdgeInsets.only(bottom: 15),
                   child: widget.input,
                 ),
+                widget.input.multiline ? const MultilineHint() : Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
