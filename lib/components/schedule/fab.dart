@@ -52,38 +52,25 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
     return null;
   }
 
-  List<SpeedDialChild> _getEditButtonIfNeeded() {
-    if (ref.watch(scheduleController).state.days[widget.day].lessons.isEmpty) {
-      return [];
-    }
-    return [
-      SpeedDialChild(
-          child: const Icon(Icons.edit),
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
-          labelBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          backgroundColor: AppColors.green,
-          label: 'Редактировать',
-          onTap: widget.onEnterEditMode)
-    ];
-  }
-
   List<SpeedDialChild> _getAdditionalButtons() {
     if (widget.inEditMode) {
       return [];
     }
 
-    return [
+    final theme = Theme.of(context);
+
+    final buttons = [
       SpeedDialChild(
           child: const Icon(Icons.add),
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
-          labelBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+          labelBackgroundColor: theme.colorScheme.primaryContainer,
+          backgroundColor: theme.colorScheme.secondary,
           label: 'Добавить предмет',
           onTap: () {
             showMaterialModalBottomSheet(
                 context: context,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                backgroundColor: Theme.of(context).backgroundColor,
+                backgroundColor: theme.backgroundColor,
                 builder: (ctx) => ModalForm(
                       input: ModalAutoCompleteInput(
                         value: "",
@@ -104,23 +91,33 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
                       onSubmit: () {
                         _onFormSubmit(ctx);
                       },
-                    )
-                // builder: (context) => AddModal(
-                // ),
-                );
+                    ));
           }),
-      ..._getEditButtonIfNeeded(),
       SpeedDialChild(
           child: const Icon(Icons.share_rounded),
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
-          labelBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+          labelBackgroundColor: theme.colorScheme.primaryContainer,
+          backgroundColor: theme.colorScheme.primaryContainer,
           label: 'Поделиться',
           // TODO:
           onTap: () {
             print('Share Tapped');
           }),
     ];
+
+    if (ref.watch(scheduleController).state.days[widget.day].lessons.isNotEmpty) {
+      buttons.insert(
+          1,
+          SpeedDialChild(
+              child: const Icon(Icons.edit),
+              labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              labelBackgroundColor: theme.colorScheme.primaryContainer,
+              backgroundColor: AppColors.green,
+              label: 'Редактировать',
+              onTap: widget.onEnterEditMode));
+    }
+
+    return buttons;
   }
 
   @override
@@ -136,7 +133,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
       overlayOpacity: 0,
       spacing: 15,
       spaceBetweenChildren: 15,
-      children: widget.inEditMode ? [] : _getAdditionalButtons(),
+      children: _getAdditionalButtons(),
     );
   }
 }

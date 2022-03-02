@@ -35,6 +35,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   }
 
   List<String> _getSuggestions(String p) {
+    print("get");
     final line = p.split("\n").last.trim();
     if (line.isEmpty) return [];
 

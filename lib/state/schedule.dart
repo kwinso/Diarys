@@ -47,7 +47,6 @@ class ScheduleController with ChangeNotifier {
 
     for (var i in removed.reversed) {
       final l = updated.days[i.day].lessons.removeAt(i.index);
-      // if (removedNames.contains(l))
       removedNames.add(l);
     }
     _ref.read(subjectsController).removeSubjectRefs(removedNames);
