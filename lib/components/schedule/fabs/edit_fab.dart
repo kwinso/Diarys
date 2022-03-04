@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -9,7 +7,7 @@ class EditFAB extends StatefulWidget {
   final VoidCallback onPress;
   final VoidCallback onClearSelectedItems;
 
-  EditFAB(
+  const EditFAB(
       {Key? key,
       required this.selectedItemsCount,
       required this.onPress,
@@ -25,7 +23,6 @@ class _EditFABState extends State<EditFAB> {
 
   @override
   void didUpdateWidget(covariant EditFAB oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     Future.delayed(Duration.zero, () => _isOpen.value = widget.selectedItemsCount > 0);
   }

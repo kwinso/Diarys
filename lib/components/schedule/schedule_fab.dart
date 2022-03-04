@@ -15,7 +15,7 @@ class ScheduleFAB extends StatefulWidget {
   final VoidCallback onClearSelectedItems;
   final VoidCallback onEditCallback;
 
-  ScheduleFAB(
+  const ScheduleFAB(
       {Key? key,
       required this.inEditMode,
       required this.day,
@@ -34,7 +34,6 @@ class _ScheduleFABState extends State<ScheduleFAB> {
 
   @override
   void didUpdateWidget(covariant ScheduleFAB oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     Future.delayed(Duration.zero, () => _isOpen.value = widget.selectedItemsCount > 0);
   }
@@ -147,16 +146,14 @@ class _DefaultFABState extends ConsumerState<_DefaultFAB> {
   Widget build(
     BuildContext context,
   ) {
-    return Container(
-      child: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        openCloseDial: widget.isOpen,
-        closeManually: true,
-        overlayOpacity: 0.4,
-        spacing: 15,
-        spaceBetweenChildren: 15,
-        children: _getAdditionalButtons(),
-      ),
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      openCloseDial: widget.isOpen,
+      closeManually: true,
+      overlayOpacity: 0.4,
+      spacing: 15,
+      spaceBetweenChildren: 15,
+      children: _getAdditionalButtons(),
     );
   }
 }
@@ -167,7 +164,7 @@ class _EditFAB extends StatefulWidget {
   final VoidCallback onPress;
   final VoidCallback onClearSelectedItems;
 
-  _EditFAB(
+  const _EditFAB(
       {Key? key,
       required this.selectedItemsCount,
       required this.isOpen,

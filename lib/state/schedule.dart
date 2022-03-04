@@ -1,4 +1,3 @@
-import 'package:diarys/main.dart';
 import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/hive_types/schedule.dart';
 import 'package:diarys/state/subjects.dart';
