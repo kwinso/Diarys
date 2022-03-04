@@ -32,6 +32,9 @@ class _EditFABState extends State<EditFAB> {
     return SpeedDial(
         icon: widget.selectedItemsCount > 0 ? Icons.delete : Icons.done,
         backgroundColor: widget.selectedItemsCount > 0 ? AppColors.red : null,
+        onClose: () {
+          if (widget.selectedItemsCount > 0) widget.onPress();
+        },
         onPress: widget.onPress,
         openCloseDial: _isOpen,
         closeManually: true,
