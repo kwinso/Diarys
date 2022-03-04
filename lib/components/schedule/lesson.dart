@@ -98,7 +98,7 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
                   child: Center(child: Text(widget.name, style: const TextStyle(fontSize: 20)))),
               widget.inEditMode
                   ? Icon(
-                      Icons.drag_handle,
+                      Icons.drag_indicator,
                       color: Theme.of(context).colorScheme.tertiaryContainer,
                     )
                   : Container()

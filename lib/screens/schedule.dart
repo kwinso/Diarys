@@ -174,17 +174,20 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
                   onPrev: () => _swiperController.previous(),
                   index: _currentDay,
                 ),
-                _inEditMode
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(
-                          "Зажмите предмет для перетаскивания",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiaryContainer,
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 250),
+                  child: _inEditMode
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(
+                            "Зажмите предмет для перетаскивания",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.tertiaryContainer,
+                            ),
                           ),
-                        ),
-                      )
-                    : Container(),
+                        )
+                      : Container(),
+                ),
                 Expanded(
                     child: Swiper(
                   curve: Curves.linear,
