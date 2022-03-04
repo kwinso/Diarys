@@ -96,15 +96,23 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
     return lessons
         .asMap()
         .entries
-        .map((e) => ScheduleLesson(
-            day: dayIndex,
-            isSelected:
-                _selectedItems.any((entry) => entry.day == dayIndex && entry.index == e.key),
-            key: Key(e.key.toString()),
-            onToggleSelection: _onEditModeSelection,
-            inEditMode: _inEditMode,
-            index: e.key,
-            name: e.value))
+        .map((e) => GestureDetector(
+              key: ValueKey(e.key),
+              onLongPress: !_inEditMode
+                  ? () => setState(() {
+                        _inEditMode = true;
+                        _onEditModeSelection(dayIndex, e.key);
+                      })
+                  : null,
+              child: ScheduleLesson(
+                  day: dayIndex,
+                  isSelected:
+                      _selectedItems.any((entry) => entry.day == dayIndex && entry.index == e.key),
+                  onToggleSelection: _onEditModeSelection,
+                  inEditMode: _inEditMode,
+                  index: e.key,
+                  name: e.value),
+            ))
         .toList();
   }
 
@@ -204,7 +212,7 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
             )),
         floatingActionButton: _inEditMode
             ? EditFAB(
-                selectedItemsCount: _selectedItems.length,
+                itemsSelected: _selectedItems.isNotEmpty,
                 onPress: _onEditButtonPress,
                 onClearSelectedItems: () {
                   setState(() {

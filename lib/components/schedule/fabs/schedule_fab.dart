@@ -84,17 +84,17 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
           }),
     ];
 
-    if (ref.watch(scheduleController).state.days[widget.day].lessons.isNotEmpty) {
-      buttons.insert(
-          1,
-          SpeedDialChild(
-              child: const Icon(Icons.edit),
-              labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-              labelBackgroundColor: theme.colorScheme.primaryContainer,
-              backgroundColor: AppColors.green,
-              label: 'Редактировать',
-              onTap: widget.onEnterEditMode));
-    }
+    // if (ref.watch(scheduleController).state.days[widget.day].lessons.isNotEmpty) {
+    //   buttons.insert(
+    //       1,
+    //       SpeedDialChild(
+    //           child: const Icon(Icons.edit),
+    //           labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+    //           labelBackgroundColor: theme.colorScheme.primaryContainer,
+    //           backgroundColor: AppColors.green,
+    //           label: 'Редактировать',
+    //           onTap: widget.onEnterEditMode));
+    // }
 
     return buttons;
   }
@@ -106,7 +106,8 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       openCloseDial: _isOpen,
-      renderOverlay: false,
+      renderOverlay: true,
+      overlayOpacity: 0,
       spacing: 15,
       spaceBetweenChildren: 15,
       children: _getAdditionalButtons(),
