@@ -38,7 +38,6 @@ dependencies:
     # flutter_typeahead: ^3.2.4
     path_provider: ^2.0.9
     modal_bottom_sheet: ^2.0.0
-    flutter_reorderable_list: ^1.2.0
 
 dev_dependencies:
     flutter_test:

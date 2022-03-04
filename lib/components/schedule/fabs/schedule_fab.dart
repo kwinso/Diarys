@@ -46,6 +46,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
           backgroundColor: theme.colorScheme.secondary,
           label: 'Добавить предмет',
           onTap: () {
+            // _isOpen.value = false;
             showMaterialModalBottomSheet(
                 context: context,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
