@@ -21,8 +21,6 @@ Future<void> initHive() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
-  // // TODO: Delete
-  // Hive.deleteBoxFromDisk("subjects");
   final db = DatabaseService();
   await db.openSubjectsBox();
 

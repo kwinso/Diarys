@@ -1,6 +1,7 @@
 import 'package:diarys/components/schedule/controls.dart';
+import 'package:diarys/components/schedule/fabs/edit_fab.dart';
+import 'package:diarys/components/schedule/fabs/schedule_fab.dart';
 import 'package:diarys/components/schedule/lesson.dart';
-import 'package:diarys/components/schedule/fab.dart';
 import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/hive_types/schedule.dart';
 import 'package:diarys/state/schedule.dart';
@@ -173,8 +174,20 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
                   onPrev: () => _swiperController.previous(),
                   index: _currentDay,
                 ),
+                _inEditMode
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Text(
+                          "Зажмите предмет для перетаскивания",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiaryContainer,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Expanded(
                     child: Swiper(
+                  curve: Curves.linear,
                   controller: _swiperController,
                   index: _currentDay,
                   onIndexChanged: (idx) => setState(() {
@@ -186,16 +199,23 @@ class _ScheduleScreenContentState extends ConsumerState<_ScheduleScreenContent> 
                 ))
               ],
             )),
-        floatingActionButton: ScheduleFAB(
-          inEditMode: _inEditMode,
-          selectedItemsCount: _selectedItems.length,
-          onInEditModePressed: _onEditButtonPress,
-          onEnterEditMode: () {
-            setState(() {
-              _inEditMode = true;
-            });
-          },
-          day: _currentDay,
-        ));
+        floatingActionButton: _inEditMode
+            ? EditFAB(
+                selectedItemsCount: _selectedItems.length,
+                onPress: _onEditButtonPress,
+                onClearSelectedItems: () {
+                  setState(() {
+                    _selectedItems.clear();
+                  });
+                },
+              )
+            : ScheduleFAB(
+                onEnterEditMode: () {
+                  setState(() {
+                    _inEditMode = true;
+                  });
+                },
+                day: _currentDay,
+              ));
   }
 }

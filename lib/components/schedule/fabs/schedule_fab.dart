@@ -7,56 +7,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+//TODO: Some day implement own overlay instead of speed dial one.
 class ScheduleFAB extends ConsumerStatefulWidget {
   final int day;
-  final bool inEditMode;
-  final int selectedItemsCount;
-  final VoidCallback onInEditModePressed;
   final VoidCallback onEnterEditMode;
 
-  const ScheduleFAB(
-      {Key? key,
-      required this.day,
-      required this.inEditMode,
-      required this.selectedItemsCount,
-      required this.onEnterEditMode,
-      required this.onInEditModePressed})
-      : super(key: key);
+  const ScheduleFAB({
+    Key? key,
+    required this.day,
+    required this.onEnterEditMode,
+  }) : super(key: key);
 
   @override
   _ScheduleFABState createState() => _ScheduleFABState();
 }
 
 class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
-  final ValueNotifier<bool> _isDialOpen = ValueNotifier(false);
-  String _formText = "";
+  final ValueNotifier<bool> _isOpen = ValueNotifier(false);
+  String _newSubjectText = "";
 
   void _onFormSubmit(BuildContext context) {
-    if (_formText.isNotEmpty) {
+    if (_newSubjectText.isNotEmpty) {
       ref
           .read(scheduleController.notifier)
-          .addLessonsToDay(widget.day, _formText.trim().split("\n"));
+          .addLessonsToDay(widget.day, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
 
-  IconData? _getEditModeIcon() {
-    if (widget.inEditMode) {
-      if (widget.selectedItemsCount > 0) {
-        return Icons.delete;
-      }
-
-      return Icons.done;
-    }
-
-    return null;
-  }
-
   List<SpeedDialChild> _getAdditionalButtons() {
-    if (widget.inEditMode) {
-      return [];
-    }
-
     final theme = Theme.of(context);
 
     final buttons = [
@@ -76,7 +55,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
                         value: "",
                         onTextUpdate: (s) {
                           setState(() {
-                            _formText = s;
+                            _newSubjectText = s;
                           });
                         },
                         onSubmit: (_) {
@@ -125,15 +104,18 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
     BuildContext context,
   ) {
     return SpeedDial(
-      animatedIcon: !widget.inEditMode ? AnimatedIcons.menu_close : null,
-      icon: _getEditModeIcon(),
-      backgroundColor: widget.inEditMode && widget.selectedItemsCount > 0 ? AppColors.red : null,
-      onPress: widget.inEditMode ? widget.onInEditModePressed : null,
-      openCloseDial: _isDialOpen,
-      overlayOpacity: 0,
+      animatedIcon: AnimatedIcons.menu_close,
+      openCloseDial: _isOpen,
+      // renderOverlay: true,
+      renderOverlay: false,
       spacing: 15,
       spaceBetweenChildren: 15,
       children: _getAdditionalButtons(),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
