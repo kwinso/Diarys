@@ -46,7 +46,6 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
           backgroundColor: theme.colorScheme.secondary,
           label: 'Добавить предмет',
           onTap: () {
-            // _isOpen.value = false;
             showMaterialModalBottomSheet(
                 context: context,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -107,7 +106,6 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       openCloseDial: _isOpen,
-      // renderOverlay: true,
       renderOverlay: false,
       spacing: 15,
       spaceBetweenChildren: 15,
