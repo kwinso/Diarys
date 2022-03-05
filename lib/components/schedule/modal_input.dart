@@ -123,6 +123,9 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                     : null)),
         Container(
             constraints: const BoxConstraints(maxHeight: 80),
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: Theme.of(context).primaryColor, width: 2))),
             child: ListView(
                 controller: _inputScrollController,
                 padding: const EdgeInsets.symmetric(vertical: 0),
@@ -156,6 +159,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                     decoration: InputDecoration(
+                        border: InputBorder.none,
                         hintText: "Название предмета",
                         // border: BorderSide(),
                         hintStyle:

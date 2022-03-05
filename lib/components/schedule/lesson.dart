@@ -1,5 +1,6 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
+import 'package:diarys/state/edit_mode.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +45,14 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
 
   @override
   Widget build(BuildContext context) {
+    final editMode = ref.read(editModeController);
     return GestureDetector(
+      onLongPress: () {
+        if (!editMode.active) {
+          editMode.active = !editMode.active;
+          widget.onToggleSelection(widget.day, widget.index);
+        }
+      },
       onTap: () {
         if (widget.inEditMode) {
           widget.onToggleSelection(widget.day, widget.index);
@@ -96,12 +104,16 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
               ),
               Expanded(
                   child: Center(child: Text(widget.name, style: const TextStyle(fontSize: 20)))),
-              widget.inEditMode
-                  ? Icon(
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 150),
+                opacity: widget.inEditMode ? 1 : 0,
+                child: ReorderableDragStartListener(
+                    child: Icon(
                       Icons.drag_indicator,
                       color: Theme.of(context).colorScheme.tertiaryContainer,
-                    )
-                  : Container()
+                    ),
+                    index: widget.index),
+              ),
             ],
           )),
     );

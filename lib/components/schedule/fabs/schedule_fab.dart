@@ -9,13 +9,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 //TODO: Some day implement own overlay instead of speed dial one.
 class ScheduleFAB extends ConsumerStatefulWidget {
-  final int day;
-  final VoidCallback onEnterEditMode;
+  final ValueNotifier<int> day;
 
   const ScheduleFAB({
     Key? key,
     required this.day,
-    required this.onEnterEditMode,
   }) : super(key: key);
 
   @override
@@ -26,11 +24,18 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
   final ValueNotifier<bool> _isOpen = ValueNotifier(false);
   String _newSubjectText = "";
 
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+
+  // }
+
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {
       ref
           .read(scheduleController.notifier)
-          .addLessonsToDay(widget.day, _newSubjectText.trim().split("\n"));
+          .addLessonsToDay(widget.day.value, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
