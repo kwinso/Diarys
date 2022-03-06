@@ -1,3 +1,4 @@
+import 'package:diarys/components/tasks/controls.dart';
 import 'package:flutter/material.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -10,8 +11,13 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Tasks"),
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TasksControls(),
+        ],
+      ),
     );
   }
 }
