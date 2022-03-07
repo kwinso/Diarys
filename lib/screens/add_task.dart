@@ -1,9 +1,18 @@
 import 'package:diarys/components/route_bar.dart';
+import 'package:diarys/components/tasks/subject_input.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class AddTask extends StatelessWidget {
+class AddTask extends ConsumerStatefulWidget {
   const AddTask({Key? key}) : super(key: key);
 
+  @override
+  _AddTaskState createState() => _AddTaskState();
+}
+
+class _AddTaskState extends ConsumerState<AddTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,8 +20,9 @@ class AddTask extends StatelessWidget {
       appBar: const RouteBar(
         name: "Новое ДЗ",
       ),
-      body: const Center(
-        child: Text("Ну и что ты ожидал здесь увидеть? 💩\nИди на расписание смотри."),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: Column(children: [TaskSubjectInput()]),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:diarys/state/subjects.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,17 +36,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   }
 
   List<String> _getSuggestions(String p) {
-    final line = p.split("\n").last.trim();
-    if (line.isEmpty) return [];
-
-    return ref
-        .read(subjectsController)
-        .state
-        .list
-        .reversed
-        .where((option) => option.name.toLowerCase().startsWith(line.toLowerCase()))
-        .map((e) => e.name)
-        .toList();
+    return AppUtils.getSubjectSuggestions(ref, p, true);
   }
 
   void _scrollInputToBottom() {

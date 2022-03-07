@@ -71,7 +71,12 @@ class _MainPageState extends ConsumerState<MainPage> {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
           decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Theme.of(context).colorScheme.primary))),
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+          ),
           child: BottomNavigationBar(
               currentIndex: _activeScreen,
               elevation: 0,
