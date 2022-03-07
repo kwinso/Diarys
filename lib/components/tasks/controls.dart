@@ -47,31 +47,29 @@ class _ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onClick,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(12),
-              ),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.45,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(12),
             ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Icon(
-                    icon,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Icon(
+                  icon,
+                  size: 40,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
-                Text(name)
-              ],
-            ),
+              ),
+              Text(name)
+            ],
           ),
         ),
       ),

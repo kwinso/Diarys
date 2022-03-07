@@ -141,4 +141,10 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
               loop: true))
     ]);
   }
+
+  @override
+  void dispose() {
+    _swiperController.dispose();
+    super.dispose();
+  }
 }

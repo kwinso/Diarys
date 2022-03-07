@@ -1,6 +1,3 @@
-import 'package:diarys/state/db_service.dart';
-import 'package:diarys/state/hive_types/subject.dart';
-import 'package:diarys/state/hive_types/subjects_list.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';

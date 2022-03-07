@@ -24,7 +24,6 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
               currentDay: _currentDay,
             )),
         floatingActionButton: DynamicFAB(currentDay: _currentDay));
-    ;
   }
 
   @override

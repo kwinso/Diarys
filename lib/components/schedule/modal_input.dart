@@ -22,7 +22,7 @@ class ModalAutoCompleteInput extends ConsumerStatefulWidget {
 class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   String _text = "";
   List<String> _suggestions = [];
-  final _controller = TextEditingController();
+  final _textEditingController = TextEditingController();
   final _hintsScrollController = ScrollController();
   final _inputScrollController = ScrollController();
 
@@ -72,8 +72,8 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   }
 
   void _setControllerText(String t) {
-    _controller.text = t;
-    _controller.selection = TextSelection.collapsed(
+    _textEditingController.text = t;
+    _textEditingController.selection = TextSelection.collapsed(
       offset: t.length,
     );
   }
@@ -132,7 +132,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                 shrinkWrap: true,
                 children: [
                   TextField(
-                    controller: _controller,
+                    controller: _textEditingController,
                     onChanged: (t) {
                       if (t.endsWith("\n")) {
                         _scrollInputToBottom();
@@ -168,5 +168,13 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                 ])),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _hintsScrollController.dispose();
+    _inputScrollController.dispose();
+    super.dispose();
   }
 }

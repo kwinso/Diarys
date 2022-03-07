@@ -144,3 +144,4 @@ app.*.map.json
 skia-caches
 #
 **/*.apk
+*.g.dart
