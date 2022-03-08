@@ -25,11 +25,13 @@ class SubjectsController with ChangeNotifier {
   void addSubjectsOrRefs(List<String> names) {
     final updated = state.list;
     for (var name in names) {
-      final foundIndex = updated.indexWhere((s) => s.name == name);
-      if (foundIndex != -1) {
-        updated[foundIndex].refs += 1;
-      } else {
-        updated.add(Subject(name, 1));
+      if (name.isNotEmpty) {
+        final foundIndex = updated.indexWhere((s) => s.name == name);
+        if (foundIndex != -1) {
+          updated[foundIndex].refs += 1;
+        } else {
+          updated.add(Subject(name, 1));
+        }
       }
     }
     _updateState(updated);

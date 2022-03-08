@@ -3,6 +3,7 @@ import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'overscroll_behavior.dart';
@@ -27,6 +28,8 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      supportedLocales: const [Locale("ru")],
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: NoOverscrollBehavior(),

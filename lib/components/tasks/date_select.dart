@@ -1,16 +1,51 @@
+import 'package:diarys/components/tasks/calendar.dart';
+import 'package:diarys/state/subjects.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-enum DropdownSelection { nextLesson, date }
+enum DropdownSelection { nextLesson, calendar, date }
 
-class TaskDateSelect extends StatefulWidget {
-  const TaskDateSelect({Key? key}) : super(key: key);
+class TaskDateSelect extends ConsumerStatefulWidget {
+  final String subject;
+  const TaskDateSelect({
+    Key? key,
+    required this.subject,
+  }) : super(key: key);
 
   @override
-  State<TaskDateSelect> createState() => _TaskDateSelectState();
+  _TaskDateSelectState createState() => _TaskDateSelectState();
 }
 
-class _TaskDateSelectState extends State<TaskDateSelect> {
+const nextLessonItem = DropdownMenuItem(
+    value: DropdownSelection.nextLesson,
+    child: DropdownTile(
+      icon: Icons.skip_next,
+      label: "Следующий урок",
+    ));
+
+class _TaskDateSelectState extends ConsumerState<TaskDateSelect> {
   DropdownSelection? _value;
+
+  List<DropdownMenuItem<DropdownSelection>> _getDropdownItems() {
+    final List<DropdownMenuItem<DropdownSelection>> items = [];
+    // If subject exists, we can find a next lesson date for it
+    if (ref.read(subjectsController).state.list.any((e) {
+      return e.name == widget.subject;
+    })) {
+      items.add(nextLessonItem);
+    }
+
+    items.add(const DropdownMenuItem(
+      value: DropdownSelection.calendar,
+      child: DropdownTile(
+        icon: Icons.date_range,
+        label: "Выбрать на календаре",
+      ),
+    ));
+
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,29 +71,22 @@ class _TaskDateSelectState extends State<TaskDateSelect> {
             value: _value,
             dropdownColor: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(12),
-            items: const [
-              DropdownMenuItem(
-                  value: DropdownSelection.nextLesson,
-                  child: DropdownTile(
-                    icon: Icons.skip_next,
-                    label: "Следующий урок",
-                  )),
-              // TODO: Make dynamic
-              DropdownMenuItem(
-                value: DropdownSelection.date,
-                child: DropdownTile(
-                  icon: Icons.date_range,
-                  label: "12.01.2022",
-                ),
-              ),
-              // for (var i = 0; i < 30; i++)
-              //   DropdownMenuItem(
-              //     // alignment: Alignment.center,
-              //     value: i.toString(),
-              //     child: Text("Tile N$i"),
-              //   )
-            ],
-            onChanged: (c) => setState(() => _value = c),
+            items: _getDropdownItems(),
+            onChanged: (c) {
+              if (c == DropdownSelection.calendar) {
+                // showDatePicker(
+                //     context: context,
+                //     locale: Locale("ru"),
+                //     initialDate: DateTime.now(),
+                //     firstDate: DateTime.now(),
+                //     lastDate: DateTime(2030, 1, 1));
+                showMaterialModalBottomSheet(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    backgroundColor: Theme.of(context).backgroundColor,
+                    context: context,
+                    builder: (c) => TaskDateSelectCalendar());
+              }
+            },
           ),
         ),
       ),

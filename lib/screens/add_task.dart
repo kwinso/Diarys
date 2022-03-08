@@ -34,7 +34,9 @@ class _AddTaskState extends ConsumerState<AddTask> {
               TaskSubjectInput(
                 onStopTyping: (s) => setState(() => _subject = s),
               ),
-              TaskDateSelect(),
+              TaskDateSelect(
+                subject: _subject,
+              ),
               const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Text(

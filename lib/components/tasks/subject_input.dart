@@ -73,6 +73,9 @@ class _TaskSubjectInputState extends ConsumerState<TaskSubjectInput> {
         );
       },
       onSuggestionSelected: (String suggestion) {
+        setState(() {
+          _text = suggestion;
+        });
         _textController.text = suggestion;
         _textController.selection = TextSelection.collapsed(offset: suggestion.length);
       },
