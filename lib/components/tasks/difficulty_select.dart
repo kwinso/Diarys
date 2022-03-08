@@ -14,21 +14,21 @@ class TaskDifficultySelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          for (var i = 1; i <= 3; i++)
-            DifficultyTile(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        for (var i = 1; i <= 3; i++)
+          Expanded(
+            flex: 1,
+            child: DifficultyTile(
               label: AppUtils.getDifficultyLabel(i),
               color: AppUtils.getDifficultyColor(i),
               difficulty: i,
               isSelected: i == selected,
               onSelect: () => onSelect(i),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

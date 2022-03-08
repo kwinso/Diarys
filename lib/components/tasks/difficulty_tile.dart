@@ -23,10 +23,9 @@ class DifficultyTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            // width: MediaQuery.of(context).size.width * 0.2,
-            width: 25,
+            // width: 25,
             height: 25,
-            margin: EdgeInsets.only(bottom: 10),
+            margin: EdgeInsets.only(bottom: 5, right: 5, left: 5),
             decoration: BoxDecoration(
               border: Border.all(color: color),
               borderRadius: BorderRadius.circular(100),

@@ -47,14 +47,13 @@ class _TaskSubjectInputState extends ConsumerState<TaskSubjectInput> {
         maxLines: 1,
         textCapitalization: TextCapitalization.sentences,
         style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
-        // style: DefaultTextStyle.of(context).style.copyWith(fontStyle: FontStyle.italic),
         decoration: InputDecoration(
           hintText: "Предмет",
           hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
           contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
           border: OutlineInputBorder(
-              // borderRadius: BorderRadius.circular(12),
-              ),
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
       hideSuggestionsOnKeyboardHide: true,

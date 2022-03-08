@@ -44,9 +44,12 @@ class _AddTaskState extends ConsumerState<AddTask> {
                   ),
                 ),
               ),
-              TaskDifficultySelect(
-                selected: _difficulty,
-                onSelect: (d) => setState(() => _difficulty = d),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                child: TaskDifficultySelect(
+                  selected: _difficulty,
+                  onSelect: (d) => setState(() => _difficulty = d),
+                ),
               ),
               Container(
                 constraints: const BoxConstraints(maxHeight: 100),
