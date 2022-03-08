@@ -1,5 +1,6 @@
 import 'package:diarys/state/hive_types/task.dart';
 import 'package:diarys/theme/colors.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatefulWidget {
@@ -21,22 +22,17 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
-    _animation =
-        ColorTween(begin: Colors.transparent, end: _getDifficultyColor(widget.task.difficulty))
-            .animate(_controller);
+    _controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
+    _animation = ColorTween(
+            begin: Colors.transparent, end: AppUtils.getDifficultyColor(widget.task.difficulty))
+        .animate(_controller)
+      ..addListener(() => setState(() {}));
   }
 
-  Color _getDifficultyColor(int d) {
-    switch (d) {
-      case 1:
-        return AppColors.green;
-      case 2:
-        return AppColors.yellow;
-      // 3 and (somehow) more (bc 3 is the max)
-      default:
-        return AppColors.red;
-    }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   String _safeTextContent(String t) {
@@ -78,16 +74,15 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               } else {
                 _controller.forward();
               }
-              setState(() {
-                _done = !_done;
-              });
+              _done = !_done;
             },
             child: Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: _animation.value,
                   borderRadius: BorderRadius.circular(100),
-                  border: Border.all(width: 1, color: _getDifficultyColor(widget.task.difficulty))),
+                  border: Border.all(
+                      width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
               alignment: Alignment.center,
               child: Icon(Icons.done, size: 20, color: Theme.of(context).colorScheme.tertiary),
             ),

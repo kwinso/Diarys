@@ -1,4 +1,6 @@
 import 'package:diarys/state/subjects.dart';
+import 'package:diarys/theme/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppUtils {
@@ -14,5 +16,29 @@ class AppUtils {
         .where((option) => option.name.toLowerCase().startsWith(line.toLowerCase()))
         .map((e) => e.name)
         .toList();
+  }
+
+  static Color getDifficultyColor(int d) {
+    switch (d) {
+      case 1:
+        return AppColors.green;
+      case 2:
+        return AppColors.yellow;
+      // 3 and (somehow) more (bc 3 is the max)
+      default:
+        return AppColors.red;
+    }
+  }
+
+  static String getDifficultyLabel(int d) {
+    switch (d) {
+      case 1:
+        return "Легко";
+      case 2:
+        return "Средне";
+      // 3 and (somehow) more (bc 3 is the max)
+      default:
+        return "Сложно";
+    }
   }
 }
