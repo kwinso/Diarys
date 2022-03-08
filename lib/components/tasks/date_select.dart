@@ -74,12 +74,6 @@ class _TaskDateSelectState extends ConsumerState<TaskDateSelect> {
             items: _getDropdownItems(),
             onChanged: (c) {
               if (c == DropdownSelection.calendar) {
-                // showDatePicker(
-                //     context: context,
-                //     locale: Locale("ru"),
-                //     initialDate: DateTime.now(),
-                //     firstDate: DateTime.now(),
-                //     lastDate: DateTime(2030, 1, 1));
                 showMaterialModalBottomSheet(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     backgroundColor: Theme.of(context).backgroundColor,

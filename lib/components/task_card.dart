@@ -1,5 +1,4 @@
 import 'package:diarys/state/hive_types/task.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 

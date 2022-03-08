@@ -25,7 +25,7 @@ class DifficultyTile extends StatelessWidget {
           Container(
             // width: 25,
             height: 25,
-            margin: EdgeInsets.only(bottom: 5, right: 5, left: 5),
+            margin: const EdgeInsets.only(bottom: 5, right: 5, left: 5),
             decoration: BoxDecoration(
               border: Border.all(color: color),
               borderRadius: BorderRadius.circular(100),
