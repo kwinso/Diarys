@@ -1,13 +1,11 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/schedule.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-//TODO: Some day implement own overlay instead of speed dial one.
 class ScheduleFAB extends ConsumerStatefulWidget {
   final ValueNotifier<int> day;
 
@@ -23,13 +21,6 @@ class ScheduleFAB extends ConsumerStatefulWidget {
 class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
   final ValueNotifier<bool> _isOpen = ValueNotifier(false);
   String _newSubjectText = "";
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-
-  // }
 
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {

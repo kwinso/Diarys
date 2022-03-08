@@ -12,7 +12,6 @@ class AddModal extends StatefulWidget {
   State<AddModal> createState() => _AddModalState();
 }
 
-// TODO: Do something with setText (set both state and value for field)
 class _AddModalState extends State<AddModal> {
   String _text = "";
 

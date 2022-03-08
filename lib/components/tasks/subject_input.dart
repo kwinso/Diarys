@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class TaskSubjectInput extends ConsumerStatefulWidget {
-  TaskSubjectInput({Key? key}) : super(key: key);
+  const TaskSubjectInput({Key? key}) : super(key: key);
 
   @override
   _TaskSubjectInputState createState() => _TaskSubjectInputState();

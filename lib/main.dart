@@ -20,6 +20,10 @@ Future<void> initHive() async {
   Hive.registerAdapter(SubjectAdapter());
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(TasksListAdapter());
+
+  //TODO: remove
+  // ! For testing purpuses
+  Hive.deleteBoxFromDisk("tasks");
 }
 
 void main() async {

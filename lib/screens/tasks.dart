@@ -23,7 +23,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TasksControls(),
+            const TasksControls(),
             TasksList(
               header: "На завтра",
               tasks: forTomorrow,

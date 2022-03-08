@@ -1,7 +1,6 @@
 import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/schedule/lesson.dart';
 import 'package:diarys/state/edit_mode.dart';
-import 'package:diarys/state/hive_types/schedule.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ const _listViewPadding = EdgeInsets.symmetric(horizontal: 15);
 class ScheduleSwiper extends ConsumerStatefulWidget {
   final ValueNotifier<int> currentDay;
   // final Function(int) onChangeDay;
-  ScheduleSwiper({Key? key, required this.currentDay}) : super(key: key);
+  const ScheduleSwiper({Key? key, required this.currentDay}) : super(key: key);
 
   @override
   _ScheduleSwiperState createState() => _ScheduleSwiperState();

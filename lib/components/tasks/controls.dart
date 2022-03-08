@@ -2,7 +2,7 @@ import 'package:diarys/screens/add_task.dart';
 import 'package:flutter/material.dart';
 
 class TasksControls extends StatefulWidget {
-  TasksControls({Key? key}) : super(key: key);
+  const TasksControls({Key? key}) : super(key: key);
 
   @override
   State<TasksControls> createState() => _TasksControlsState();

@@ -1,9 +1,7 @@
 import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/tasks/subject_input.dart';
-import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AddTask extends ConsumerStatefulWidget {
   const AddTask({Key? key}) : super(key: key);
@@ -21,8 +19,10 @@ class _AddTaskState extends ConsumerState<AddTask> {
         name: "Новое ДЗ",
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        child: Column(children: [TaskSubjectInput()]),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: Column(children: [
+          TaskSubjectInput(),
+        ]),
       ),
     );
   }

@@ -46,10 +46,10 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: Theme.of(context).primaryColor,
       ),
       child: Row(
@@ -62,7 +62,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   widget.task.subject,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
               Text(
@@ -83,7 +83,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               });
             },
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: _animation.value,
                   borderRadius: BorderRadius.circular(100),
