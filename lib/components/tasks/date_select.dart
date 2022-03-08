@@ -84,7 +84,11 @@ class _TaskDateSelectState extends ConsumerState<TaskDateSelect> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     backgroundColor: Theme.of(context).backgroundColor,
                     context: context,
-                    builder: (c) => TaskDateSelectCalendar());
+                    builder: (c) => TaskDateSelectCalendar(
+                          onSubmit: () {
+                            Navigator.pop(c);
+                          },
+                        ));
               }
             },
           ),

@@ -24,6 +24,8 @@ Future<void> initHive() async {
   //TODO: remove
   // ! For testing purpuses
   Hive.deleteBoxFromDisk("tasks");
+  Hive.deleteBoxFromDisk("subjects");
+  Hive.deleteBoxFromDisk("schedule");
 }
 
 void main() async {

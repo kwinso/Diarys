@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TaskDateSelectCalendar extends StatefulWidget {
-  const TaskDateSelectCalendar({Key? key}) : super(key: key);
+  // TODO: Add param with selected date to callback
+  final VoidCallback onSubmit;
+  const TaskDateSelectCalendar({
+    Key? key,
+    required this.onSubmit,
+  }) : super(key: key);
 
   @override
   State<TaskDateSelectCalendar> createState() => _TaskDateSelectCalendarState();
@@ -29,7 +34,7 @@ class _TaskDateSelectCalendarState extends State<TaskDateSelectCalendar> {
           // ),
           TextButton(
               // TODO:
-              onPressed: () {},
+              onPressed: widget.onSubmit,
               child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
