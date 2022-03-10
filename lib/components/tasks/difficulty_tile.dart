@@ -23,7 +23,7 @@ class DifficultyTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            // width: 25,
+            width: 25,
             height: 25,
             margin: const EdgeInsets.only(bottom: 5, right: 5, left: 5),
             decoration: BoxDecoration(

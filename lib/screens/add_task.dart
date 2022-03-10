@@ -1,7 +1,7 @@
 import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/tasks/date_select.dart';
 import 'package:diarys/components/tasks/difficulty_select.dart';
-import 'package:diarys/components/tasks/subject_input.dart';
+import 'package:diarys/components/tasks/name_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +13,7 @@ class AddTask extends ConsumerStatefulWidget {
 }
 
 class _AddTaskState extends ConsumerState<AddTask> {
-  String _subject = "";
+  String _lesson = "";
   String _taskContents = "";
   // 0 is default so nothing is selected
   int _difficulty = 2;
@@ -29,22 +29,12 @@ class _AddTaskState extends ConsumerState<AddTask> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TaskSubjectInput(
-                onStopTyping: (s) => setState(() => _subject = s),
+              TaskNameInput(
+                onStopTyping: (s) => setState(() => _lesson = s),
               ),
               TaskDateSelect(
-                subject: _subject,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  "Сложность",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
+                lesson: _lesson,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
@@ -60,9 +50,11 @@ class _AddTaskState extends ConsumerState<AddTask> {
                   maxLines: null,
                   textCapitalization: TextCapitalization.sentences,
                   minLines: 4,
+                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     hintText: "Домашнее задание",
+                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),

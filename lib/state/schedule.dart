@@ -72,4 +72,13 @@ class ScheduleController with ChangeNotifier {
     _ref.read(subjectsController).addSubjectsOrRefs(lessons);
     _updateState(updated);
   }
+
+  List<int> getDaysContainingLesson(String lesson) {
+    var days = <int>[];
+    state.days.asMap().forEach((key, value) {
+      if (value.lessons.contains(lesson)) days.add(key);
+    });
+
+    return days;
+  }
 }

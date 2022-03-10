@@ -60,8 +60,13 @@ class DatabaseService {
     }
   }
 
-  Future<void> closeScheduleBox() async => await _scheduleBox.close();
-  Future<void> closeTasksBox() async => await _tasksBox.close();
+  Future<void> closeScheduleBox() async {
+    if (_scheduleBox.isOpen) await _scheduleBox.close();
+  }
+
+  Future<void> closeTasksBox() async {
+    if (_tasksBox.isOpen) await _tasksBox.close();
+  }
 
   Future<void> updateSchedule(Schedule s) async => await _scheduleBox.put(0, s);
   Future<void> updateSubjects(SubjectsList s) async {
