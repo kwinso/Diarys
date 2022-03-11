@@ -8,32 +8,52 @@ import 'package:hive/hive.dart';
 
 final databaseService = Provider<DatabaseService>((_) => DatabaseService());
 
+typedef TypeCreator<T> = T Function(T value);
+
+class BoxController<T> {
+  final TypeCreator<T> _instanceCreator;
+  final String _name;
+  late Box<T> _box;
+
+  BoxController(this._name, this._instanceCreator);
+
+  /// A copy of value in box
+  get value => _instanceCreator(_box.values.first);
+
+  /// [fill] runs if opened box is empty
+  Future<void> open(Function(Box<T> box) fill) async {
+    await Hive.openBox<T>(_name).then((v) => _box = v);
+    if (_box.values.isEmpty) fill(_box);
+  }
+
+  /// Updates first box value to [v]
+  Future<void> updateValue(T v) async => await _box.put(0, v);
+
+  /// Closes the box
+  Future<void> close() async => await _box.close();
+}
+
 class DatabaseService {
-  late Box<Schedule> _scheduleBox;
-  late Box<SubjectsList> _subjectsBox;
-  late Box<TasksList> _tasksBox;
+  late BoxController<Schedule> _scheduleBox;
+  late BoxController<SubjectsList> _subjectsBox;
+  late BoxController<TasksList> _tasksBox;
 
-  // Create new instances to avoid updating references to values in boxes
-  Schedule get daysSchedule => Schedule(_scheduleBox.values.first.days);
-  SubjectsList get subjects => SubjectsList(_subjectsBox.values.first.list);
-  TasksList get tasks {
-    final t = _tasksBox.values.first;
-    return TasksList(all: t.all, recomendations: t.recomendations);
-  }
+  BoxController<Schedule> get scheduleBox => _scheduleBox;
+  BoxController<SubjectsList> get subjectsBox => _subjectsBox;
+  BoxController<TasksList> get tasksBox => _tasksBox;
 
-  Future<void> openScheduleBox() async {
-    await Hive.openBox<Schedule>('schedule').then((value) => _scheduleBox = value);
-
-    if (_scheduleBox.values.isEmpty) {
+  Future<void> openSchedule() async {
+    _scheduleBox = BoxController<Schedule>("schedule", (value) => Schedule(value.days));
+    await scheduleBox.open((box) {
       final days = List.generate(7, (int idx) => DaySchedule([]));
-      _scheduleBox.add(Schedule(days));
-    }
+      box.add(Schedule(days));
+    });
   }
 
-  Future<void> openTasksBox() async {
-    await Hive.openBox<TasksList>('tasks').then((value) => _tasksBox = value);
-
-    if (_tasksBox.values.isEmpty) {
+  Future<void> openTasks() async {
+    _tasksBox = BoxController<TasksList>(
+        "tasks", (value) => TasksList(all: value.all, recomendations: value.recomendations));
+    await tasksBox.open((box) {
       // TODO: remove
       final now = DateTime.now();
       final dummy = List.generate(
@@ -45,31 +65,17 @@ class DatabaseService {
           untilDate: DateTime(now.year, now.month, now.day + 1),
         ),
       );
-      _tasksBox.add(TasksList(
+      box.add(TasksList(
         all: dummy,
         recomendations: dummy,
       ));
-    }
+    });
   }
 
-  Future<void> openSubjectsBox() async {
-    await Hive.openBox<SubjectsList>("subjects").then((value) => _subjectsBox = value);
-
-    if (_subjectsBox.values.isEmpty) {
-      _subjectsBox.add(SubjectsList([]));
-    }
-  }
-
-  Future<void> closeScheduleBox() async {
-    if (_scheduleBox.isOpen) await _scheduleBox.close();
-  }
-
-  Future<void> closeTasksBox() async {
-    if (_tasksBox.isOpen) await _tasksBox.close();
-  }
-
-  Future<void> updateSchedule(Schedule s) async => await _scheduleBox.put(0, s);
-  Future<void> updateSubjects(SubjectsList s) async {
-    await _subjectsBox.put(0, s);
+  Future<void> openSubjects() async {
+    _subjectsBox = BoxController<SubjectsList>("subjects", (value) => SubjectsList(value.list));
+    await subjectsBox.open((box) {
+      box.add(SubjectsList([]));
+    });
   }
 }

@@ -30,7 +30,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   final db = DatabaseService();
-  await db.openSubjectsBox();
+  await db.openSubjects();
 
   runApp(ProviderScope(overrides: [databaseService.overrideWithValue(db)], child: const App()));
 }

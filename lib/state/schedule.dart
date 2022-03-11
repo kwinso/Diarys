@@ -17,10 +17,10 @@ class ScheduleController with ChangeNotifier {
 
   ScheduleController(this._db, this._ref);
 
-  Schedule get state => _db.daysSchedule;
+  Schedule get state => _db.scheduleBox.value;
 
-  void _updateState(Schedule updated) {
-    _db.updateSchedule(updated);
+  void _updateState(Schedule update) {
+    _db.scheduleBox.updateValue(update);
     notifyListeners();
   }
 

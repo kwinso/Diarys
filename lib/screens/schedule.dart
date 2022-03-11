@@ -1,6 +1,9 @@
 import 'package:diarys/components/schedule/fabs/dynamic_fab.dart';
 import 'package:diarys/components/schedule/schedule_swiper.dart';
+import 'package:diarys/components/tasks_list.dart';
 import 'package:diarys/state/db_service.dart';
+import 'package:diarys/state/hive_types/schedule.dart';
+import 'package:diarys/state/hive_types/tasks_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +32,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ref.read(databaseService).openScheduleBox(),
+      future: ref.read(databaseService).openSchedule(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent(context);
@@ -41,7 +44,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   @override
   void deactivate() {
-    ref.read(databaseService).closeScheduleBox();
+    ref.read(databaseService).scheduleBox.close();
     super.deactivate();
   }
 }

@@ -11,5 +11,5 @@ class TasksController with ChangeNotifier {
   final DatabaseService _db;
   TasksController(this._db);
 
-  TasksList get list => _db.tasks;
+  TasksList get list => _db.tasksBox.value;
 }

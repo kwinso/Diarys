@@ -46,7 +46,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ref.read(databaseService).openScheduleBox(),
+      future: ref.read(databaseService).openSchedule(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent();
@@ -58,7 +58,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
 
   @override
   void deactivate() {
-    ref.read(databaseService).closeScheduleBox();
+    ref.read(databaseService).scheduleBox.close();
     super.deactivate();
   }
 }

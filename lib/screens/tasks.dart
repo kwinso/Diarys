@@ -41,7 +41,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ref.read(databaseService).openTasksBox(),
+      future: ref.read(databaseService).openTasks(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent(context);
@@ -53,7 +53,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
 
   @override
   void deactivate() {
-    ref.read(databaseService).closeTasksBox();
+    ref.read(databaseService).tasksBox.close();
     super.deactivate();
   }
 }

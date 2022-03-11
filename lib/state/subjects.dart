@@ -15,10 +15,10 @@ class SubjectsController with ChangeNotifier {
 
   SubjectsController(this._db);
 
-  SubjectsList get state => _db.subjects;
+  SubjectsList get state => _db.subjectsBox.value;
 
   void _updateState(List<Subject> s) {
-    _db.updateSubjects(SubjectsList(s));
+    _db.subjectsBox.updateValue(SubjectsList(s));
     notifyListeners();
   }
 
