@@ -53,6 +53,10 @@ class _AddTaskState extends ConsumerState<AddTask> {
                   style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.home,
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                     hintText: "Домашнее задание",
                     hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

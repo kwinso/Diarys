@@ -1,5 +1,5 @@
 import 'package:diarys/components/tasks/date_select_dropdown.dart';
-import 'package:diarys/components/tasks/input_icon.dart';
+import 'package:diarys/components/tasks/field_icon.dart';
 import 'package:flutter/material.dart';
 
 class TaskDateSelect extends StatefulWidget {
@@ -18,16 +18,16 @@ class _TaskDateSelectState extends State<TaskDateSelect> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InputIcon(Icons.date_range),
+        const FieldIcon(Icons.date_range),
         Expanded(
           child: Container(
+            child: DateSelectDropdown(
+              lesson: widget.lesson,
+            ),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(width: 1, color: Theme.of(context).colorScheme.primaryContainer),
               ),
-            ),
-            child: DateSelectDropdown(
-              lesson: widget.lesson,
             ),
           ),
         ),
