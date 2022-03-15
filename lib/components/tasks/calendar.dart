@@ -1,4 +1,3 @@
-import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +45,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ref.read(databaseService).openSchedule(),
+      future: ref.read(scheduleController).initBox(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent();
@@ -58,7 +57,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
 
   @override
   void deactivate() {
-    ref.read(databaseService).scheduleBox.close();
+    ref.read(scheduleController).closeBox();
     super.deactivate();
   }
 }

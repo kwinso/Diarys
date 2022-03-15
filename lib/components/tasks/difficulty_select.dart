@@ -18,7 +18,7 @@ class TaskDifficultySelect extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        InputIcon(Icons.timeline),
+        const InputIcon(Icons.timeline),
         for (var i = 1; i <= 3; i++)
           Expanded(
             // flex: 1,

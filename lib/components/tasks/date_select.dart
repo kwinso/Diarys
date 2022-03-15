@@ -1,7 +1,6 @@
 import 'package:diarys/components/tasks/date_select_dropdown.dart';
 import 'package:diarys/components/tasks/input_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TaskDateSelect extends StatefulWidget {
   final String lesson;

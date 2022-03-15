@@ -1,25 +1,21 @@
-import 'package:diarys/state/db_service.dart';
+import 'package:diarys/state/hive_notifier.dart';
 import 'package:diarys/state/hive_types/subject.dart';
 import 'package:diarys/state/hive_types/subjects_list.dart';
-import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import 'package:hive/hive.dart';
 
 final subjectsController = ChangeNotifierProvider<SubjectsController>((ref) {
-  final _db = ref.watch(databaseService);
-
-  return SubjectsController(_db);
+  return SubjectsController();
 });
 
-class SubjectsController with ChangeNotifier {
-  late final DatabaseService _db;
+class SubjectsController extends HiveChangeNotifier<SubjectsList> {
+  SubjectsController() : super("subjects");
 
-  SubjectsController(this._db);
+  SubjectsList get state => SubjectsList(box.values.first.list);
 
-  SubjectsList get state => _db.subjectsBox.value;
-
-  void _updateState(List<Subject> s) {
-    _db.subjectsBox.updateValue(SubjectsList(s));
-    notifyListeners();
+  @override
+  dynamic emptyBoxFill(Box<SubjectsList> box) {
+    box.add(SubjectsList([]));
   }
 
   void addSubjectsOrRefs(List<String> names) {
@@ -34,7 +30,8 @@ class SubjectsController with ChangeNotifier {
         }
       }
     }
-    _updateState(updated);
+
+    updateBox(SubjectsList(updated));
   }
 
   void removeSubjectRefs(List<String> names) {
@@ -46,6 +43,6 @@ class SubjectsController with ChangeNotifier {
         .where((e) => e.refs > 0)
         .toList();
 
-    _updateState(updated);
+    updateBox(SubjectsList(updated));
   }
 }
