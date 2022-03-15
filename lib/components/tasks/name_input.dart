@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:diarys/components/tasks/input_icon.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +38,6 @@ class _TaskNameInputState extends ConsumerState<TaskNameInput> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const InputIcon(Icons.subject),
         Expanded(
           child: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
@@ -53,6 +50,10 @@ class _TaskNameInputState extends ConsumerState<TaskNameInput> {
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
               decoration: InputDecoration(
+                icon: Icon(
+                  Icons.subject,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
                 hintText: "Предмет",
                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
