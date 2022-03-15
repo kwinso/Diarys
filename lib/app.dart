@@ -1,12 +1,12 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:diarys/overscroll_behavior.dart';
 import 'package:diarys/components/app_bar.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import 'overscroll_behavior.dart';
 
 @immutable
 class App extends StatefulWidget {
