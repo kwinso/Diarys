@@ -1,6 +1,5 @@
 import 'package:diarys/components/tasks/controls.dart';
 import 'package:diarys/components/tasks_list.dart';
-import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +40,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ref.read(databaseService).openTasks(),
+      future: ref.read(tasksController).initBox(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent(context);
@@ -53,7 +52,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
 
   @override
   void deactivate() {
-    ref.read(databaseService).tasksBox.close();
+    ref.read(tasksController).closeBox();
     super.deactivate();
   }
 }

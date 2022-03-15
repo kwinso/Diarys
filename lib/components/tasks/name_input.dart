@@ -40,7 +40,7 @@ class _TaskNameInputState extends ConsumerState<TaskNameInput> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InputIcon(Icons.subject),
+        const InputIcon(Icons.subject),
         Expanded(
           child: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(

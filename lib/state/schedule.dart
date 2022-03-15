@@ -1,27 +1,29 @@
-import 'package:diarys/state/db_service.dart';
+import 'package:diarys/state/hive_notifier.dart';
+import 'package:diarys/state/hive_types/day_schedule.dart';
 import 'package:diarys/state/hive_types/schedule.dart';
 import 'package:diarys/state/subjects.dart';
 import 'package:diarys/state/types/delete_entry.dart';
-import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import 'package:hive/hive.dart';
 
 final scheduleController = ChangeNotifierProvider<ScheduleController>((ref) {
-  final _db = ref.watch(databaseService);
+  // final _db = ref.watch(databaseService);
 
-  return ScheduleController(_db, ref);
+  return ScheduleController(ref);
 });
 
-class ScheduleController with ChangeNotifier {
-  late final DatabaseService _db;
+class ScheduleController extends HiveChangeNotifier<Schedule> {
+  // late final DatabaseService _db;
   final Ref _ref;
 
-  ScheduleController(this._db, this._ref);
+  ScheduleController(this._ref) : super('schedule');
 
-  Schedule get state => _db.scheduleBox.value;
+  Schedule get state => Schedule(box.values.first.days);
 
-  void _updateState(Schedule update) {
-    _db.scheduleBox.updateValue(update);
-    notifyListeners();
+  @override
+  dynamic emptyBoxFill(Box<Schedule> box) {
+    final days = List<DaySchedule>.generate(7, (int idx) => DaySchedule([]));
+    box.add(Schedule(days));
   }
 
   void updateLessosNameInDay(int day, int index, String newName) {
@@ -32,7 +34,7 @@ class ScheduleController with ChangeNotifier {
     final subjects = _ref.read(subjectsController);
     subjects.removeSubjectRefs([oldName]);
     subjects.addSubjectsOrRefs([newName]);
-    _updateState(updated);
+    updateBox(updated);
   }
 
   void removeLessons(List<DeleteEntry> removed) {
@@ -49,7 +51,7 @@ class ScheduleController with ChangeNotifier {
       removedNames.add(l);
     }
     _ref.read(subjectsController).removeSubjectRefs(removedNames);
-    _updateState(updated);
+    updateBox(updated);
   }
 
   void moveLessonInDay(int day, int oldIdx, int newIdx) {
@@ -60,7 +62,7 @@ class ScheduleController with ChangeNotifier {
     final updated = state;
     updated.days[day].lessons = lessons;
 
-    _updateState(updated);
+    updateBox(updated);
   }
 
   void addLessonsToDay(int day, List<String> lessons) {
@@ -70,7 +72,7 @@ class ScheduleController with ChangeNotifier {
     }
 
     _ref.read(subjectsController).addSubjectsOrRefs(lessons);
-    _updateState(updated);
+    updateBox(updated);
   }
 
   List<int> getDaysContainingLesson(String lesson) {

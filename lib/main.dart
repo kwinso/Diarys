@@ -1,11 +1,11 @@
 import 'package:diarys/app.dart';
-import 'package:diarys/state/db_service.dart';
 import 'package:diarys/state/hive_types/day_schedule.dart';
 import 'package:diarys/state/hive_types/schedule.dart';
 import 'package:diarys/state/hive_types/subject.dart';
 import 'package:diarys/state/hive_types/subjects_list.dart';
 import 'package:diarys/state/hive_types/task.dart';
 import 'package:diarys/state/hive_types/tasks_list.dart';
+import 'package:diarys/state/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
@@ -29,8 +29,9 @@ Future<void> initHive() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
-  final db = DatabaseService();
-  await db.openSubjects();
+  final subjects = SubjectsController();
+  await subjects.initBox();
 
-  runApp(ProviderScope(overrides: [databaseService.overrideWithValue(db)], child: const App()));
+  runApp(ProviderScope(
+      overrides: [subjectsController.overrideWithValue(subjects)], child: const App()));
 }

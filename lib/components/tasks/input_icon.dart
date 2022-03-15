@@ -7,7 +7,7 @@ class InputIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.only(right: 10),
       child: Icon(icon, color: Theme.of(context).colorScheme.tertiary),
     );
   }
