@@ -18,21 +18,31 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
     // Get days that are 1 day ahead of today (basically tomorrow)
     final forTomorrow = tasks.list.all.where((e) => e.untilDate.day - today.day == 1).toList();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const TasksControls(),
-            TasksList(
-              header: "На завтра",
-              tasks: forTomorrow,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 70,
+            collapsedHeight: 70,
+            flexibleSpace: Container(
+                decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+                child: TasksControls()),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                TasksList(
+                  header: "На завтра",
+                  tasks: forTomorrow,
+                ),
+                TasksList(
+                  header: "Рекомендации",
+                  tasks: tasks.list.recomendations,
+                ),
+              ],
             ),
-            TasksList(
-              header: "Рекомендации",
-              tasks: tasks.list.recomendations,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

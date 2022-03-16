@@ -19,11 +19,11 @@ class TasksList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               header,
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 color: Theme.of(context).colorScheme.tertiaryContainer,
               ),
             ),

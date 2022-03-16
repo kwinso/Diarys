@@ -11,23 +11,26 @@ class TasksControls extends StatefulWidget {
 class _TasksControlsState extends State<TasksControls> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _ControlButton(
-          name: "Все задания",
-          icon: Icons.list,
-          onClick: () {},
-        ),
-        _ControlButton(
-          name: "Добавить",
-          icon: Icons.add,
-          onClick: () {
-            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()));
-          },
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _ControlButton(
+            name: "Все задания",
+            icon: Icons.list,
+            onClick: () {},
+          ),
+          _ControlButton(
+            name: "Добавить",
+            icon: Icons.add,
+            onClick: () {
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()));
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -51,7 +54,7 @@ class _ControlButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.45,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.all(
@@ -59,16 +62,13 @@ class _ControlButton extends StatelessWidget {
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Icon(
-                  icon,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
+              Icon(
+                icon,
+                size: 40,
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              Text(name)
             ],
           ),
         ),
