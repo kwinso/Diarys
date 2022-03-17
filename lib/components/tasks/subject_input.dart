@@ -1,21 +1,21 @@
 import 'dart:async';
+import 'package:diarys/components/tasks/field_icon.dart';
+import 'package:diarys/state/add_task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class TaskNameInput extends ConsumerStatefulWidget {
-  final Function(String text) onStopTyping;
-  const TaskNameInput({
+class SubjectInput extends ConsumerStatefulWidget {
+  const SubjectInput({
     Key? key,
-    required this.onStopTyping,
   }) : super(key: key);
 
   @override
   _TaskNameInputState createState() => _TaskNameInputState();
 }
 
-class _TaskNameInputState extends ConsumerState<TaskNameInput> {
+class _TaskNameInputState extends ConsumerState<SubjectInput> {
   String _text = "";
   Timer? _debounce;
   final _textController = TextEditingController();
@@ -30,14 +30,17 @@ class _TaskNameInputState extends ConsumerState<TaskNameInput> {
   void _onTextChange() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(Duration(milliseconds: _debounceTime), () {
-      widget.onStopTyping(_text);
+      ref.read(addTaskController).setSubject(_text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // final text = ref.watch(addTaskController).data.subject;
+
     return Row(
       children: [
+        FieldIcon(Icons.subject),
         Expanded(
           child: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
@@ -50,10 +53,6 @@ class _TaskNameInputState extends ConsumerState<TaskNameInput> {
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
               decoration: InputDecoration(
-                icon: Icon(
-                  Icons.subject,
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
                 hintText: "Предмет",
                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),

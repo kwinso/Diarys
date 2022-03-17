@@ -1,6 +1,6 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
-import 'package:diarys/state/schedule.dart';
+import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';

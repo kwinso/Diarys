@@ -1,6 +1,6 @@
 import 'package:diarys/state/hive_notifier.dart';
-import 'package:diarys/state/hive_types/task.dart';
-import 'package:diarys/state/hive_types/tasks_list.dart';
+import 'package:diarys/state/hive/types/task.dart';
+import 'package:diarys/state/hive/types/tasks_list.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:hive/hive.dart';
 
@@ -13,25 +13,20 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   @override
   dynamic emptyBoxFill(Box<TasksList> box) {
-    // TODO: remove
-    final now = DateTime.now();
-    final dummy = List.generate(
-      3,
-      (index) => Task(
-        subject: "Алгебра",
-        difficulty: index + 1,
-        textContent: "Какая-то длинная домашка глупая математичка блин",
-        untilDate: DateTime(now.year, now.month, now.day + 1),
-      ),
-    );
     box.add(TasksList(
-      all: dummy,
-      recomendations: dummy,
+      all: [],
+      recomendations: [],
     ));
   }
 
   TasksList get list {
     final l = box.values.first;
     return TasksList(all: l.all, recomendations: l.recomendations);
+  }
+
+  void add(Task t) {
+    final newList = list;
+    newList.all.add(t);
+    updateBox(newList);
   }
 }

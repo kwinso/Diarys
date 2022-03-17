@@ -1,11 +1,11 @@
-import 'package:diarys/state/schedule.dart';
+import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TaskDateSelectCalendar extends ConsumerStatefulWidget {
   // TODO: Add param with selected date to callback
-  final VoidCallback onSubmit;
+  final Function(DateTime d) onSubmit;
   final String lesson;
   const TaskDateSelectCalendar({
     Key? key,
@@ -18,23 +18,33 @@ class TaskDateSelectCalendar extends ConsumerStatefulWidget {
 }
 
 class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar> {
+  DateTime? _date = null;
+
   Widget _buildContent() {
     return SingleChildScrollView(
       child: Column(
         children: [
           _CustomCalendar(
-              allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.lesson)),
+            selected: _date ?? DateTime.now(),
+            allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.lesson),
+            onSelect: (d) => setState(() => _date = d),
+          ),
           TextButton(
               // TODO:
-              onPressed: widget.onSubmit,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: const Text(
-                  "Сохранить",
-                  style: TextStyle(fontSize: 15, color: Colors.white),
+              onPressed: () {
+                if (_date != null) widget.onSubmit(_date!);
+              },
+              child: Opacity(
+                opacity: _date != null ? 1 : 0.5,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: const BorderRadius.all(Radius.circular(12))),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: const Text(
+                    "Сохранить",
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
                 ),
               )),
         ],
@@ -44,8 +54,12 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
 
   @override
   Widget build(BuildContext context) {
+    final schedule = ref.read(scheduleController);
+
+    if (schedule.isReady) return _buildContent();
+
     return FutureBuilder(
-      future: ref.read(scheduleController).initBox(),
+      future: schedule.initBox(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return _buildContent();
@@ -62,19 +76,16 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
   }
 }
 
-class _CustomCalendar extends StatefulWidget {
+class _CustomCalendar extends StatelessWidget {
   final List<int> allowedDays;
+  final DateTime selected;
+  final Function(DateTime d) onSelect;
   const _CustomCalendar({
     Key? key,
     required this.allowedDays,
+    required this.selected,
+    required this.onSelect,
   }) : super(key: key);
-
-  @override
-  State<_CustomCalendar> createState() => _CustomCalendarState();
-}
-
-class _CustomCalendarState extends State<_CustomCalendar> {
-  DateTime _selected = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -104,18 +115,18 @@ class _CustomCalendarState extends State<_CustomCalendar> {
         weekdayStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
       ),
       pageAnimationDuration: const Duration(milliseconds: 300),
-      focusedDay: _selected,
-      enabledDayPredicate: (d) =>
-          widget.allowedDays.isNotEmpty ? widget.allowedDays.contains(d.weekday - 1) : true,
-      selectedDayPredicate: (d) => isSameDay(d, _selected),
+      focusedDay: selected,
+      enabledDayPredicate: (d) {
+        if (isSameDay(d, now)) return false;
+        return allowedDays.isNotEmpty ? allowedDays.contains(d.weekday - 1) : true;
+      },
+      selectedDayPredicate: (d) => isSameDay(d, selected),
       holidayPredicate: (d) => false,
       firstDay: now,
       locale: Localizations.localeOf(context).languageCode,
       lastDay: DateTime(now.year + 1),
       onDaySelected: (selected, _) {
-        setState(() {
-          _selected = selected;
-        });
+        onSelect(selected);
       },
     );
   }

@@ -1,11 +1,12 @@
 import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/schedule/lesson.dart';
 import 'package:diarys/state/edit_mode.dart';
-import 'package:diarys/state/schedule.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+
+import '../../state/hive/controllers/schedule.dart';
 
 const _listViewPadding = EdgeInsets.symmetric(horizontal: 15);
 

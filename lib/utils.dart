@@ -1,4 +1,4 @@
-import 'package:diarys/state/subjects.dart';
+import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

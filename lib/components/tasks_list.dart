@@ -1,5 +1,5 @@
 import 'package:diarys/components/task_card.dart';
-import 'package:diarys/state/hive_types/task.dart';
+import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
 
 class TasksList extends StatelessWidget {
@@ -22,13 +22,16 @@ class TasksList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               header,
-              style: TextStyle(
-                fontSize: 25,
-                color: Theme.of(context).colorScheme.tertiaryContainer,
-              ),
+              style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiary),
             ),
           ),
-          for (var t in tasks) TaskCard(t)
+          tasks.isNotEmpty
+              ? Column(children: [for (var t in tasks) TaskCard(t)])
+              : Text(
+                  "Пока пусто",
+                  style: TextStyle(
+                      fontSize: 18, color: Theme.of(context).colorScheme.tertiaryContainer),
+                ),
 
           // Task Cards
         ],

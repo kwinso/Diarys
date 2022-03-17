@@ -1,4 +1,4 @@
-import 'package:diarys/state/schedule.dart';
+import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";

@@ -1,4 +1,4 @@
-import 'package:diarys/state/hive_types/task.dart';
+import 'package:diarys/state/hive/types/task.dart';
 import 'package:hive/hive.dart';
 
 part "tasks_list.g.dart";

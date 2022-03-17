@@ -8,6 +8,14 @@ class HiveChangeNotifier<T> with ChangeNotifier {
 
   HiveChangeNotifier(this._name);
 
+  bool get isReady {
+    try {
+      return box.isOpen;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @protected
   // A placeholder for writing a value to opened box if it's empty
   dynamic emptyBoxFill(Box<T> box) => null;

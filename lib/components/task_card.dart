@@ -1,4 +1,4 @@
-import 'package:diarys/state/hive_types/task.dart';
+import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +61,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
                 ),
               ),
               Text(
-                _safeTextContent(widget.task.textContent),
+                _safeTextContent(widget.task.content),
                 style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
               ),
             ],

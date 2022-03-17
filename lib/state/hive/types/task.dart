@@ -14,11 +14,11 @@ class Task {
   int difficulty;
 
   @HiveField(3)
-  String textContent;
+  String content;
 
   Task(
       {required this.subject,
       required this.difficulty,
-      required this.textContent,
+      required this.content,
       required this.untilDate});
 }

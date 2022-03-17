@@ -1,7 +1,7 @@
 import 'package:diarys/state/hive_notifier.dart';
-import 'package:diarys/state/hive_types/day_schedule.dart';
-import 'package:diarys/state/hive_types/schedule.dart';
-import 'package:diarys/state/subjects.dart';
+import 'package:diarys/state/hive/types/day_schedule.dart';
+import 'package:diarys/state/hive/types/schedule.dart';
+import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:hive/hive.dart';

@@ -1,6 +1,6 @@
 import 'package:diarys/components/tasks/controls.dart';
 import 'package:diarys/components/tasks_list.dart';
-import 'package:diarys/state/tasks.dart';
+import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +21,8 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            floating: true,
+            // pinned: true,
             expandedHeight: 70,
             collapsedHeight: 70,
             flexibleSpace: Container(
@@ -37,7 +38,8 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                 ),
                 TasksList(
                   header: "Рекомендации",
-                  tasks: tasks.list.recomendations,
+                  // TODO: Change with recomendations later
+                  tasks: tasks.list.all,
                 ),
               ],
             ),
