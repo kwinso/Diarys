@@ -3,7 +3,6 @@ import 'package:diarys/components/tasks/date_select.dart';
 import 'package:diarys/components/tasks/difficulty_select.dart';
 import 'package:diarys/components/tasks/subject_input.dart';
 import 'package:diarys/state/add_task.dart';
-import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,11 +26,11 @@ class _AddTaskState extends ConsumerState<AddTask> {
                 Navigator.pop(context);
               }
             : null,
-        child: Opacity(opacity: addTask.readyToCommit ? 1 : 0.5, child: Icon(Icons.done)),
+        child: Opacity(opacity: addTask.readyToCommit ? 1 : 0.5, child: const Icon(Icons.done)),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: const RouteBar(
-        name: "Новое ДЗ",
+        name: "Новое задание",
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -45,7 +44,7 @@ class _AddTaskState extends ConsumerState<AddTask> {
                 child: TaskDifficultySelect(),
               ),
               Container(
-                constraints: const BoxConstraints(maxHeight: 100),
+                constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
                 child: TextField(
                   onChanged: (t) => ref.read(addTaskController).setTask(t),
                   maxLines: null,
@@ -54,12 +53,9 @@ class _AddTaskState extends ConsumerState<AddTask> {
                   style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.home,
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    hintText: "Домашнее задание",
-                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+                    labelText: "Домашнее задание",
+                    alignLabelWithHint: true,
+                    labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),

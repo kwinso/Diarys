@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:diarys/components/tasks/field_icon.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,6 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
 
     return Row(
       children: [
-        FieldIcon(Icons.subject),
         Expanded(
           child: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
@@ -53,9 +51,9 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
               decoration: InputDecoration(
-                hintText: "Предмет",
-                hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                labelText: "Предмет",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 5),
               ),
             ),
             hideSuggestionsOnKeyboardHide: true,

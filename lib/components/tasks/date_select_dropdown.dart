@@ -4,6 +4,7 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 enum DropdownSelection { nextLesson, calendar, date }
 const nextLessonItem =
@@ -60,15 +61,16 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     return DropdownButtonHideUnderline(
       child: ButtonTheme(
         alignedDropdown: true,
-        child: DropdownButton<DropdownSelection>(
+        child: DropdownButton2<DropdownSelection>(
           style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
           // disabledHint: _getHint("Предмет обязателен"),
           hint: _getHint("Дата"),
           value: _value,
           isExpanded: true,
-          dropdownColor: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(12),
+          dropdownDecoration: BoxDecoration(
+              color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
           items: _getDropdownItems(selectedDate),
+          buttonPadding: EdgeInsets.symmetric(horizontal: 5),
           onChanged: (c) {
             if (c == DropdownSelection.calendar) {
               showMaterialModalBottomSheet(
