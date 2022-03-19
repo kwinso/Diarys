@@ -40,7 +40,8 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
     return Row(
       children: [
         Expanded(
-          child: TypeAheadField(
+          child: TypeAheadFormField(
+            validator: (v) => v!.isEmpty ? "Введите имя предмета" : null,
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => setState(() {

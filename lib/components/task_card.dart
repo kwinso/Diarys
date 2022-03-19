@@ -35,7 +35,10 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
   }
 
   String _safeTextContent(String t) {
-    return t.length > 30 ? t.characters.take(30).toString() + "..." : t;
+    final safeText = t.replaceAll("\n", "  ");
+    return safeText.length > 30
+        ? safeText.characters.take(30).toString().replaceAll("\n", "") + "..."
+        : safeText;
   }
 
   @override
