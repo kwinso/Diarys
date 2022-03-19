@@ -88,10 +88,11 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     }
 
     // If subject exists, we can find a next lesson date for it
-    if (ref.read(subjectsController).contains(widget.subject))
+    if (ref.read(subjectsController).contains(widget.subject)) {
       items.add(nextLessonItem);
-    else
+    } else {
       items.add(tomorrowItem);
+    }
 
     items.add(const DropdownMenuItem(
       value: DropdownSelection.calendar,
@@ -137,6 +138,8 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
               case DropdownSelection.tomorrow:
                 _setTomorrowDate();
                 break;
+              default:
+                break;
             }
           },
         ),
@@ -159,7 +162,7 @@ class DateDropdownItem extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.only(right: 5),
           child: Icon(icon),
         ),
         Text(text)

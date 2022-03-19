@@ -36,7 +36,7 @@ class NewTaskData {
       difficulty: 2, // Default difficulty is 2
       content: "",
       untilDate: DateTime.now().add(
-        Duration(days: 1),
+        const Duration(days: 1),
       ),
     );
   }

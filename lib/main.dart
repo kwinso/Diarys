@@ -21,9 +21,9 @@ Future<void> initHive() async {
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(TasksListAdapter());
 
-  //TODO: remove
+  // //TODO: remove
   // ! For testing purpuses
-  Hive.deleteBoxFromDisk("tasks");
+  // Hive.deleteBoxFromDisk("tasks");
 }
 
 void main() async {

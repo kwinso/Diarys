@@ -26,8 +26,9 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
             expandedHeight: 70,
             collapsedHeight: 70,
             flexibleSpace: Container(
-                decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
-                child: TasksControls()),
+              decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+              child: const TasksControls(),
+            ),
           ),
           SliverList(
             delegate: SliverChildListDelegate(
