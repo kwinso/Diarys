@@ -109,7 +109,7 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
                 opacity: widget.inEditMode ? 1 : 0,
                 child: ReorderableDragStartListener(
                     child: Icon(
-                      Icons.drag_indicator,
+                      Icons.drag_handle,
                       color: Theme.of(context).colorScheme.tertiaryContainer,
                     ),
                     index: widget.index),
