@@ -22,6 +22,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
 
   /// [fill] runs if opened box is empty
   Future<void> initBox() async {
+    if (isReady) return;
     await Hive.openBox<T>(_name).then((v) => box = v);
     if (box.values.isEmpty) emptyBoxFill(box);
   }

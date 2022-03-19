@@ -38,24 +38,42 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   String _lastSubject = "";
 
   void _setTomorrowDate() {
-    ref.read(addTaskController).setDate(DateTime.now().add(Duration(days: 1)));
+    ref.read(addTaskController).setDate(DateTime.now().add(const Duration(days: 1)));
     setState(() => _value = DropdownSelection.tomorrow);
   }
 
   void _setNextLessonDate() {
+    ref.read(addTaskController).setNextLessonDate();
     setState(() => _value = DropdownSelection.nextLesson);
   }
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropdownItems() {
-    final List<DropdownMenuItem<DropdownSelection>> items = [];
+  @override
+  void didUpdateWidget(oldWidget) {
     final addTask = ref.read(addTaskController);
-    final d = addTask.data.untilDate;
     final subject = addTask.data.subject;
 
     if (subject != _lastSubject) {
       _setTomorrowDate();
       setState(() => _lastSubject = subject);
     }
+
+    if (ref.read(subjectsController).contains(widget.subject)) {
+      if (_value == DropdownSelection.tomorrow) {
+        _setNextLessonDate();
+      }
+    } else {
+      if (_value == DropdownSelection.nextLesson) {
+        _setTomorrowDate();
+      }
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems() {
+    final List<DropdownMenuItem<DropdownSelection>> items = [];
+    final addTask = ref.read(addTaskController);
+    final d = addTask.data.untilDate;
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
@@ -70,19 +88,10 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     }
 
     // If subject exists, we can find a next lesson date for it
-    if (ref.read(subjectsController).state.list.any((e) {
-      return e.name == widget.subject;
-    })) {
+    if (ref.read(subjectsController).contains(widget.subject))
       items.add(nextLessonItem);
-      if (_value == DropdownSelection.tomorrow) {
-        _setNextLessonDate();
-      }
-    } else {
+    else
       items.add(tomorrowItem);
-      if (_value == DropdownSelection.nextLesson) {
-        _setTomorrowDate();
-      }
-    }
 
     items.add(const DropdownMenuItem(
       value: DropdownSelection.calendar,
@@ -94,8 +103,6 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final items = _getDropdownItems();
-
     return DropdownButtonHideUnderline(
       child: ButtonTheme(
         alignedDropdown: true,
@@ -105,7 +112,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
           isExpanded: true,
           dropdownDecoration: BoxDecoration(
               color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
-          items: items,
+          items: _getDropDownItems(),
           buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
           onChanged: (c) {
             switch (c) {

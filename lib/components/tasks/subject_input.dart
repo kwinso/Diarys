@@ -11,14 +11,12 @@ class SubjectInput extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  _TaskNameInputState createState() => _TaskNameInputState();
+  _SubjectInputState createState() => _SubjectInputState();
 }
 
-class _TaskNameInputState extends ConsumerState<SubjectInput> {
+class _SubjectInputState extends ConsumerState<SubjectInput> {
   String _text = "";
-  Timer? _debounce;
   final _textController = TextEditingController();
-  final int _debounceTime = 500;
 
   @override
   void initState() {
@@ -27,16 +25,11 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
   }
 
   void _onTextChange() {
-    // if (_debounce?.isActive ?? false) _debounce!.cancel();
-    // _debounce = Timer(Duration(milliseconds: _debounceTime), () {
     ref.read(addTaskController).setSubject(_text);
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final text = ref.watch(addTaskController).data.subject;
-
     return Row(
       children: [
         Expanded(
@@ -94,7 +87,6 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
   @override
   void dispose() {
     _textController.removeListener(_onTextChange);
-    _debounce!.cancel();
     _textController.dispose();
     super.dispose();
   }

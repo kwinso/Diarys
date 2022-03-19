@@ -1,3 +1,4 @@
+import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +57,33 @@ class AddTaskController with ChangeNotifier {
     _ref.read(tasksController).add(_data.toTask());
   }
 
-  void setSubject(String s) {
-    _data.subject = s;
+  void setDate(DateTime d) {
+    _data.untilDate = d;
     notifyListeners();
   }
 
-  void setDate(DateTime d) {
-    _data.untilDate = d;
+  void setNextLessonDate() async {
+    final today = DateTime.now().weekday - 1;
+    await _ref.read(scheduleController).initBox();
+    var days = _ref.read(scheduleController).getDaysContainingLesson(_data.subject);
+
+    days = days.map((e) {
+      if (e < today) {
+        return 7 - (today - e);
+      } else {
+        return e - today;
+      }
+    }).toList();
+    days.removeWhere((e) => e == 0);
+    days.sort();
+
+    final daysUntillClosesLesson = days.first;
+    final nextLesson = DateTime.now().add(Duration(days: daysUntillClosesLesson));
+    setDate(nextLesson);
+  }
+
+  void setSubject(String s) {
+    _data.subject = s;
     notifyListeners();
   }
 
