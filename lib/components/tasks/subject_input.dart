@@ -24,6 +24,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
   }
 
   void _onTextChange() {
+    // TODO: Limit length of string
     ref.read(addTaskController).setSubject(_text);
   }
 
