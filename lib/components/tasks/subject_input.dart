@@ -27,10 +27,10 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
   }
 
   void _onTextChange() {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(Duration(milliseconds: _debounceTime), () {
-      ref.read(addTaskController).setSubject(_text);
-    });
+    // if (_debounce?.isActive ?? false) _debounce!.cancel();
+    // _debounce = Timer(Duration(milliseconds: _debounceTime), () {
+    ref.read(addTaskController).setSubject(_text);
+    // });
   }
 
   @override
@@ -53,11 +53,13 @@ class _TaskNameInputState extends ConsumerState<SubjectInput> {
               decoration: InputDecoration(
                 labelText: "Предмет",
                 labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+                alignLabelWithHint: true,
+                contentPadding: const EdgeInsets.only(right: 5, left: 5, bottom: 10),
               ),
             ),
             hideSuggestionsOnKeyboardHide: true,
             hideOnLoading: true,
+            keepSuggestionsOnSuggestionSelected: false,
             suggestionsBoxDecoration: SuggestionsBoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Theme.of(context).colorScheme.primary,

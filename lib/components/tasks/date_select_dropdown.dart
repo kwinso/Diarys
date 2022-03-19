@@ -6,9 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-enum DropdownSelection { nextLesson, calendar, date }
-const nextLessonItem =
-    DropdownMenuItem(value: DropdownSelection.nextLesson, child: Text("На следующий урок"));
+enum DropdownSelection { nextLesson, calendar, date, tomorrow }
+const nextLessonItem = DropdownMenuItem(
+  value: DropdownSelection.nextLesson,
+  child: DateDropdownItem(
+    Icons.skip_next,
+    "На следующий урок",
+  ),
+);
+const tomorrowItem = DropdownMenuItem(
+  value: DropdownSelection.tomorrow,
+  child: DateDropdownItem(
+    Icons.skip_next,
+    "На завтра",
+  ),
+);
 
 class DateSelectDropdown extends ConsumerStatefulWidget {
   final String subject;
@@ -22,73 +34,129 @@ class DateSelectDropdown extends ConsumerStatefulWidget {
 }
 
 class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
-  DropdownSelection? _value;
+  DropdownSelection _value = DropdownSelection.tomorrow;
+  String _lastSubject = "";
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropdownItems(DateTime? d) {
+  void _setTomorrowDate() {
+    ref.read(addTaskController).setDate(DateTime.now().add(Duration(days: 1)));
+    setState(() => _value = DropdownSelection.tomorrow);
+  }
+
+  void _setNextLessonDate() {
+    setState(() => _value = DropdownSelection.nextLesson);
+  }
+
+  List<DropdownMenuItem<DropdownSelection>> _getDropdownItems() {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
+    final addTask = ref.read(addTaskController);
+    final d = addTask.data.untilDate;
+    final subject = addTask.data.subject;
+
+    if (subject != _lastSubject) {
+      _setTomorrowDate();
+      setState(() => _lastSubject = subject);
+    }
+
+    // If date is selected by user, then show it in dropdown
+    // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
+    if (_value == DropdownSelection.date) {
+      String date = "${d.day}.${d.month.toString().padLeft(2, "0")}.${d.year}";
+      items.add(
+        DropdownMenuItem(
+          value: DropdownSelection.date,
+          child: DateDropdownItem(Icons.date_range, date),
+        ),
+      );
+    }
+
     // If subject exists, we can find a next lesson date for it
     if (ref.read(subjectsController).state.list.any((e) {
       return e.name == widget.subject;
     })) {
       items.add(nextLessonItem);
+      if (_value == DropdownSelection.tomorrow) {
+        _setNextLessonDate();
+      }
+    } else {
+      items.add(tomorrowItem);
+      if (_value == DropdownSelection.nextLesson) {
+        _setTomorrowDate();
+      }
     }
 
     items.add(const DropdownMenuItem(
       value: DropdownSelection.calendar,
-      child: Text("Выбрать на календаре"),
+      child: DateDropdownItem(Icons.date_range, "Выбрать на календаре"),
     ));
-
-    if (d != null) {
-      String date = "${d.day}.${d.month.toString().padLeft(2, "0")}.${d.year}";
-      items.add(
-        DropdownMenuItem(
-          value: DropdownSelection.date,
-          child: Text(date),
-        ),
-      );
-    }
 
     return items;
   }
 
-  Text _getHint(String t) {
-    return Text(t, style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer));
-  }
-
   @override
   Widget build(BuildContext context) {
-    final selectedDate = ref.watch(addTaskController).data.untilDate;
+    final items = _getDropdownItems();
+
     return DropdownButtonHideUnderline(
       child: ButtonTheme(
         alignedDropdown: true,
         child: DropdownButton2<DropdownSelection>(
           style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-          // disabledHint: _getHint("Предмет обязателен"),
-          hint: _getHint("Дата"),
           value: _value,
           isExpanded: true,
           dropdownDecoration: BoxDecoration(
               color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
-          items: _getDropdownItems(selectedDate),
-          buttonPadding: EdgeInsets.symmetric(horizontal: 5),
+          items: items,
+          buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
           onChanged: (c) {
-            if (c == DropdownSelection.calendar) {
-              showMaterialModalBottomSheet(
+            switch (c) {
+              case DropdownSelection.calendar:
+                showMaterialModalBottomSheet(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   backgroundColor: Theme.of(context).backgroundColor,
                   context: context,
                   builder: (c) => TaskDateSelectCalendar(
-                        lesson: widget.subject,
-                        onSubmit: (d) {
-                          ref.read(addTaskController).setDate(d);
-                          setState(() => _value = DropdownSelection.date);
-                          Navigator.pop(c);
-                        },
-                      ));
+                    lesson: widget.subject,
+                    onSubmit: (d) {
+                      ref.read(addTaskController).setDate(d);
+                      setState(() => _value = DropdownSelection.date);
+                      Navigator.pop(c);
+                    },
+                  ),
+                );
+                break;
+              case DropdownSelection.nextLesson:
+                _setNextLessonDate();
+                break;
+              case DropdownSelection.tomorrow:
+                _setTomorrowDate();
+                break;
             }
           },
         ),
       ),
+    );
+  }
+}
+
+class DateDropdownItem extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const DateDropdownItem(
+    this.icon,
+    this.text, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: 5),
+          child: Icon(icon),
+        ),
+        Text(text)
+      ],
     );
   }
 }

@@ -9,7 +9,7 @@ final addTaskController = ChangeNotifierProvider<AddTaskController>((ref) {
 
 class NewTaskData {
   String subject;
-  DateTime? untilDate;
+  DateTime untilDate;
   int difficulty;
   String content;
 
@@ -25,16 +25,19 @@ class NewTaskData {
       subject: subject,
       difficulty: difficulty,
       content: content,
-      untilDate: untilDate ?? DateTime.now(),
+      untilDate: untilDate,
     );
   }
 
   static NewTaskData empty() {
     return NewTaskData(
-        subject: "",
-        difficulty: 2, // Default difficulty is 2
-        content: "",
-        untilDate: null);
+      subject: "",
+      difficulty: 2, // Default difficulty is 2
+      content: "",
+      untilDate: DateTime.now().add(
+        Duration(days: 1),
+      ),
+    );
   }
 }
 
@@ -46,7 +49,7 @@ class AddTaskController with ChangeNotifier {
 
   NewTaskData get data => _data;
   bool get readyToCommit {
-    return _data.content.isNotEmpty && _data.subject.isNotEmpty && _data.untilDate != null;
+    return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
   void commit() {
@@ -58,7 +61,7 @@ class AddTaskController with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDate(DateTime? d) {
+  void setDate(DateTime d) {
     _data.untilDate = d;
     notifyListeners();
   }
