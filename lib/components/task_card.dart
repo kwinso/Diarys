@@ -59,12 +59,12 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
-                  widget.task.subject,
+                  _safeTextContent(widget.task.content),
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
               Text(
-                _safeTextContent(widget.task.content),
+                widget.task.subject,
                 style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
               ),
             ],
@@ -82,7 +82,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: _animation.value,
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                       width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
               alignment: Alignment.center,

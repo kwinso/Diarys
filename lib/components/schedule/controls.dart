@@ -26,8 +26,10 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
             size: 35,
             color: Theme.of(context).colorScheme.tertiaryContainer,
           )),
-      Text(AppTexts.week.days[widget.index],
-          style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary)),
+      Text(
+        AppTexts.week.days[widget.index],
+        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+      ),
       IconButton(
           onPressed: () => widget.onNext!(),
           icon: Icon(
