@@ -1,6 +1,6 @@
 import 'package:diarys/components/schedule/modal_input.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
-import '../../theme/colors.dart';
 
 class AddModal extends StatefulWidget {
   final VoidCallback onCancel;

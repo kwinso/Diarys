@@ -36,8 +36,8 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
 
   String _safeTextContent(String t) {
     final safeText = t.replaceAll("\n", "  ");
-    return safeText.length > 15
-        ? safeText.characters.take(15).toString().replaceAll("\n", "") + "..."
+    return safeText.length > 30
+        ? safeText.characters.take(30).toString().replaceAll("\n", "") + "..."
         : safeText;
   }
 
@@ -59,12 +59,12 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
-                  _safeTextContent(widget.task.content),
+                  widget.task.subject,
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
               Text(
-                widget.task.subject,
+                  _safeTextContent(widget.task.content),
                 style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
               ),
             ],

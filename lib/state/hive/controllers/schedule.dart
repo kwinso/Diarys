@@ -1,4 +1,4 @@
-import 'package:diarys/state/hive_notifier.dart';
+import 'package:diarys/state/hive/controllers/hive_notifier.dart';
 import 'package:diarys/state/hive/types/day_schedule.dart';
 import 'package:diarys/state/hive/types/schedule.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
@@ -13,7 +13,6 @@ final scheduleController = ChangeNotifierProvider<ScheduleController>((ref) {
 });
 
 class ScheduleController extends HiveChangeNotifier<Schedule> {
-  // late final DatabaseService _db;
   final Ref _ref;
 
   ScheduleController(this._ref) : super('schedule');
@@ -26,7 +25,7 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
     box.add(Schedule(days));
   }
 
-  void updateLessosNameInDay(int day, int index, String newName) {
+  Future<void> updateLessosNameInDay(int day, int index, String newName) async {
     final updated = state;
     final oldName = updated.days[day].lessons[index];
     updated.days[day].lessons[index] = newName;
@@ -34,10 +33,11 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
     final subjects = _ref.read(subjectsController);
     subjects.removeSubjectRefs([oldName]);
     subjects.addSubjectsOrRefs([newName]);
-    updateBox(updated);
+
+    await updateBox(updated);
   }
 
-  void removeLessons(List<DeleteEntry> removed) {
+  Future<void> removeLessons(List<DeleteEntry> removed) async {
     final updated = state;
     List<String> removedNames = [];
 
@@ -50,11 +50,13 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
       final l = updated.days[i.day].lessons.removeAt(i.index);
       removedNames.add(l);
     }
+
     _ref.read(subjectsController).removeSubjectRefs(removedNames);
-    updateBox(updated);
+
+    await updateBox(updated);
   }
 
-  void moveLessonInDay(int day, int oldIdx, int newIdx) {
+  Future<void> moveLessonInDay(int day, int oldIdx, int newIdx) async {
     final lessons = state.days[day].lessons;
     // Since old position is popped, we need to insert 1 pos lower
     final swap = lessons.removeAt(oldIdx);
@@ -62,17 +64,24 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
     final updated = state;
     updated.days[day].lessons = lessons;
 
-    updateBox(updated);
+    await updateBox(updated);
   }
 
-  void addLessonsToDay(int day, List<String> lessons) {
+  Future<void> addLessonsToDay(int day, List<String> lessons, {bool allowDuplicate = true}) async {
     final updated = state;
     for (var l in lessons) {
-      if (l.isNotEmpty) updated.days[day].lessons.add(l);
+      if (l.isNotEmpty) {
+        final d = updated.days[day];
+        if (d.lessons.contains(l) && !allowDuplicate) continue;
+
+        d.lessons.add(l);
+        print(updated.days[day] == d);
+      }
     }
 
     _ref.read(subjectsController).addSubjectsOrRefs(lessons);
-    updateBox(updated);
+
+    await updateBox(updated);
   }
 
   List<int> getDaysContainingLesson(String lesson) {

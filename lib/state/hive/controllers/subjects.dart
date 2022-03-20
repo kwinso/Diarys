@@ -1,4 +1,4 @@
-import 'package:diarys/state/hive_notifier.dart';
+import 'package:diarys/state/hive/controllers/hive_notifier.dart';
 import 'package:diarys/state/hive/types/subject.dart';
 import 'package:diarys/state/hive/types/subjects_list.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";

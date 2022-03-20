@@ -1,4 +1,4 @@
-import 'package:diarys/components/tasks/difficulty_tile.dart';
+import 'package:diarys/components/add_task/difficulty_tile.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';

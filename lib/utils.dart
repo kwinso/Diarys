@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppUtils {
   static List<String> getSubjectSuggestions(WidgetRef ref, String t, bool emptyIfNoText) {
-    final line = t.split("\n").last.trim();
+    final line = t.split("\n").last.trim().toLowerCase();
     if (line.isEmpty && emptyIfNoText) return [];
 
     return ref
@@ -13,7 +13,11 @@ class AppUtils {
         .state
         .list
         .reversed
-        .where((option) => option.name.toLowerCase().startsWith(line.toLowerCase()))
+        .where((option) {
+          final name = option.name.toLowerCase();
+          // Starts with but not equal
+          return name != line && name.startsWith(line);
+        })
         .map((e) => e.name)
         .toList();
   }

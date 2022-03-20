@@ -1,8 +1,10 @@
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import 'package:table_calendar/table_calendar.dart';
 
 final addTaskController = ChangeNotifierProvider<AddTaskController>((ref) {
   return AddTaskController(ref);
@@ -45,16 +47,41 @@ class NewTaskData {
 class AddTaskController with ChangeNotifier {
   final Ref _ref;
   NewTaskData _data = NewTaskData.empty();
+  bool _saveToSchedule = true;
 
   AddTaskController(this._ref);
 
   NewTaskData get data => _data;
+  bool get saveToSchedule => _saveToSchedule;
+  set saveToSchedule(v) {
+    _saveToSchedule = v;
+    notifyListeners();
+  }
+
   bool get readyToCommit {
     return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
-  void commit() {
+  Future<void> init() async {
+    _ref.read(scheduleController).initBox();
+  }
+
+  Future<void> commit() async {
+    if (_saveToSchedule) {
+      final schedule = _ref.read(scheduleController);
+      // Add subject to day the task is assigned to:
+      // If user wants to add to some day, it probably means there's a lesson for a gived subject
+      // On that day
+      final today = DateTime.now();
+      final until = _data.untilDate;
+      await schedule.addLessonsToDay(until.weekday - 1, [_data.subject], allowDuplicate: false);
+      if (!isSameDay(today, until)) {
+        await schedule.addLessonsToDay(today.weekday - 1, [_data.subject], allowDuplicate: false);
+      }
+    }
     _ref.read(tasksController).add(_data.toTask());
+
+    reset();
   }
 
   void setDate(DateTime d) {
@@ -87,7 +114,7 @@ class AddTaskController with ChangeNotifier {
     notifyListeners();
   }
 
-  void setTask(String t) {
+  void setContent(String t) {
     _data.content = t;
     notifyListeners();
   }
@@ -97,7 +124,8 @@ class AddTaskController with ChangeNotifier {
     notifyListeners();
   }
 
-  void clear() {
+  void reset() {
     _data = NewTaskData.empty();
+    _saveToSchedule = true;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:diarys/components/tasks/calendar.dart';
+import 'package:diarys/components/add_task/calendar.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +23,8 @@ const tomorrowItem = DropdownMenuItem(
 );
 
 class DateSelectDropdown extends ConsumerStatefulWidget {
-  final String subject;
   const DateSelectDropdown({
     Key? key,
-    required this.subject,
   }) : super(key: key);
 
   @override
@@ -39,41 +37,18 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   void _setTomorrowDate() {
     ref.read(addTaskController).setDate(DateTime.now().add(const Duration(days: 1)));
-    setState(() => _value = DropdownSelection.tomorrow);
+    _value = DropdownSelection.tomorrow;
   }
 
   void _setNextLessonDate() {
     ref.read(addTaskController).setNextLessonDate();
-    setState(() => _value = DropdownSelection.nextLesson);
+    _value = DropdownSelection.nextLesson;
   }
 
-  @override
-  void didUpdateWidget(oldWidget) {
-    final addTask = ref.read(addTaskController);
-    final subject = addTask.data.subject;
-
-    if (subject != _lastSubject) {
-      _setTomorrowDate();
-      setState(() => _lastSubject = subject);
-    }
-
-    if (ref.read(subjectsController).contains(widget.subject)) {
-      if (_value == DropdownSelection.tomorrow) {
-        _setNextLessonDate();
-      }
-    } else {
-      if (_value == DropdownSelection.nextLesson) {
-        _setTomorrowDate();
-      }
-    }
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems() {
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(AddTaskController addTask) {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
-    final addTask = ref.read(addTaskController);
     final d = addTask.data.untilDate;
+    final subject = addTask.data.subject;
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
@@ -87,11 +62,20 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
       );
     }
 
+    // if (subject != _lastSubject) {
+    //   _lastSubject = subject;
+    // }
     // If subject exists, we can find a next lesson date for it
-    if (ref.read(subjectsController).contains(widget.subject)) {
+    if (ref.read(subjectsController).contains(subject)) {
+      if (_value == DropdownSelection.tomorrow) {
+        _setNextLessonDate();
+      }
       items.add(nextLessonItem);
     } else {
       items.add(tomorrowItem);
+      if (_value == DropdownSelection.nextLesson) {
+        _setTomorrowDate();
+      }
     }
 
     items.add(const DropdownMenuItem(
@@ -104,6 +88,9 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final addTask = ref.watch(addTaskController);
+    final items = _getDropDownItems(addTask);
+
     return DropdownButtonHideUnderline(
       child: ButtonTheme(
         alignedDropdown: true,
@@ -113,7 +100,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
           isExpanded: true,
           dropdownDecoration: BoxDecoration(
               color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
-          items: _getDropDownItems(),
+          items: items,
           buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
           onChanged: (c) {
             switch (c) {
@@ -123,7 +110,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
                   backgroundColor: Theme.of(context).backgroundColor,
                   context: context,
                   builder: (c) => TaskDateSelectCalendar(
-                    lesson: widget.subject,
+                    lesson: ref.read(addTaskController).data.subject,
                     onSubmit: (d) {
                       ref.read(addTaskController).setDate(d);
                       setState(() => _value = DropdownSelection.date);
@@ -163,7 +150,10 @@ class DateDropdownItem extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 5),
-          child: Icon(icon),
+          child: Icon(
+            icon,
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+          ),
         ),
         Text(text)
       ],

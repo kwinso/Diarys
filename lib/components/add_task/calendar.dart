@@ -18,9 +18,10 @@ class TaskDateSelectCalendar extends ConsumerStatefulWidget {
 }
 
 class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar> {
-  DateTime? _date = null;
+  DateTime? _date;
 
-  Widget _buildContent() {
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -50,29 +51,6 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
         ],
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final schedule = ref.read(scheduleController);
-
-    if (schedule.isReady) return _buildContent();
-
-    return FutureBuilder(
-      future: schedule.initBox(),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return _buildContent();
-        }
-        return Container();
-      },
-    );
-  }
-
-  @override
-  void deactivate() {
-    ref.read(scheduleController).closeBox();
-    super.deactivate();
   }
 }
 

@@ -14,18 +14,13 @@ class SubjectInput extends ConsumerStatefulWidget {
 }
 
 class _SubjectInputState extends ConsumerState<SubjectInput> {
-  String _text = "";
-  final _textController = TextEditingController();
+  var _textController = TextEditingController();
 
   @override
   void initState() {
-    _textController.addListener(_onTextChange);
+    _textController = TextEditingController(text: ref.read(addTaskController).data.subject);
+    // TODO: implement initState
     super.initState();
-  }
-
-  void _onTextChange() {
-    // TODO: Limit length of string
-    ref.read(addTaskController).setSubject(_text);
   }
 
   @override
@@ -38,7 +33,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => setState(() {
-                _text = s;
+                ref.read(addTaskController).setSubject(s);
               }),
               autofocus: true,
               maxLines: 1,
@@ -73,7 +68,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             },
             onSuggestionSelected: (String suggestion) {
               setState(() {
-                _text = suggestion;
+                ref.read(addTaskController).setSubject(suggestion);
               });
               _textController.text = suggestion;
               _textController.selection = TextSelection.collapsed(offset: suggestion.length);
@@ -86,7 +81,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
 
   @override
   void dispose() {
-    _textController.removeListener(_onTextChange);
+    // _textController.removeListener(_onTextChange);
     _textController.dispose();
     super.dispose();
   }
