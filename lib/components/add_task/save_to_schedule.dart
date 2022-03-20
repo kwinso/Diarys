@@ -2,11 +2,16 @@ import 'package:diarys/state/add_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-class SaveToScheduleCheckBox extends ConsumerWidget {
+class SaveToScheduleCheckBox extends ConsumerStatefulWidget {
   const SaveToScheduleCheckBox({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _SaveToScheduleCheckBoxState createState() => _SaveToScheduleCheckBoxState();
+}
+
+class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox> {
+  @override
+  Widget build(BuildContext context) {
     final addTask = ref.watch(addTaskController);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,6 +26,7 @@ class SaveToScheduleCheckBox extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             ScaffoldMessenger.of(context).clearSnackBars();
+
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Theme.of(context).primaryColor,

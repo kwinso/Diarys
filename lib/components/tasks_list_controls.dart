@@ -29,7 +29,7 @@ class _TasksControlsState extends State<TasksControls> {
             name: "Добавить",
             icon: Icons.add,
             onClick: () {
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()));
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
             },
           ),
         ],

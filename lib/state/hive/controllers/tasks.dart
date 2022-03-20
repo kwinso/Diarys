@@ -16,12 +16,12 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   dynamic emptyBoxFill(Box<TasksList> box) {
     final startDay = DateTime.now();
     final days =
-        List.generate(7, (index) => DateTime(startDay.year, startDay.month, startDay.day + index));
+        List.generate(4, (index) => DateTime(startDay.year, startDay.month, startDay.day + index));
     final tasks = List.generate(
-        7,
+        4,
         (index) => Task(
             subject: "Алгебра ${AppUtils.formatDate(days[index])}",
-            difficulty: 1,
+            difficulty: index,
             content: "Blah-blah",
             untilDate: days[index]));
 
