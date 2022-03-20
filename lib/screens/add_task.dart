@@ -3,6 +3,7 @@ import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +20,7 @@ class _AddTaskState extends ConsumerState<AddTask> {
   @override
   Widget build(BuildContext context) {
     return HiveControllersInit(
-      controllers: [scheduleController],
+      controllers: [scheduleController, tasksController],
       build: () => Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: const RouteBar(

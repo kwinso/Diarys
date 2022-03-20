@@ -5,6 +5,8 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   final String _name;
   @protected
   late Box<T> box;
+  // Amount of times box was requested to init (means subscribed)
+  int _subs = 0;
 
   HiveChangeNotifier(this._name);
 
@@ -22,6 +24,8 @@ class HiveChangeNotifier<T> with ChangeNotifier {
 
   /// [fill] runs if opened box is empty
   Future<void> initBox() async {
+    _subs += 1;
+
     if (isReady) return;
     await Hive.openBox<T>(_name).then((v) => box = v);
     if (box.values.isEmpty) emptyBoxFill(box);
@@ -35,5 +39,12 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   }
 
   /// Closes the box
-  Future<void> closeBox() async => await box.close();
+  Future<void> closeBox() async {
+    _subs -= 1;
+    // Close the box only if no subscriptions
+    if (_subs <= 0) {
+      _subs = 0;
+      await box.close();
+    }
+  }
 }

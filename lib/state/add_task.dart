@@ -72,12 +72,13 @@ class AddTaskController with ChangeNotifier {
       // Add subject to day the task is assigned to:
       // If user wants to add to some day, it probably means there's a lesson for a gived subject
       // On that day
-      final today = DateTime.now();
       final until = _data.untilDate;
       await schedule.addLessonsToDay(until.weekday - 1, [_data.subject], allowDuplicate: false);
-      if (!isSameDay(today, until)) {
-        await schedule.addLessonsToDay(today.weekday - 1, [_data.subject], allowDuplicate: false);
-      }
+      // TODO: Run if setting to "add to current day too is enabled"
+      // final today = DateTime.now();
+      // if (!isSameDay(today, until)) {
+      //   await schedule.addLessonsToDay(today.weekday - 1, [_data.subject], allowDuplicate: false);
+      // }
     }
     _ref.read(tasksController).add(_data.toTask());
 

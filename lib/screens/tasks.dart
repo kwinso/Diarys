@@ -1,4 +1,4 @@
-import 'package:diarys/components/add_task/controls.dart';
+import 'package:diarys/components/tasks_list_controls.dart';
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/tasks_list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';

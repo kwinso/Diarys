@@ -1,6 +1,7 @@
 import 'package:diarys/components/add_task/calendar.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -33,7 +34,6 @@ class DateSelectDropdown extends ConsumerStatefulWidget {
 
 class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   DropdownSelection _value = DropdownSelection.tomorrow;
-  String _lastSubject = "";
 
   void _setTomorrowDate() {
     ref.read(addTaskController).setDate(DateTime.now().add(const Duration(days: 1)));
@@ -53,7 +53,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
     if (_value == DropdownSelection.date) {
-      String date = "${d.day}.${d.month.toString().padLeft(2, "0")}.${d.year}";
+      String date = AppUtils.formatDate(d);
       items.add(
         DropdownMenuItem(
           value: DropdownSelection.date,
@@ -61,10 +61,6 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
         ),
       );
     }
-
-    // if (subject != _lastSubject) {
-    //   _lastSubject = subject;
-    // }
     // If subject exists, we can find a next lesson date for it
     if (ref.read(subjectsController).contains(subject)) {
       if (_value == DropdownSelection.tomorrow) {

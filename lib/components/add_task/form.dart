@@ -37,7 +37,7 @@ class AddTaskForm extends ConsumerWidget {
               child: TextFormField(
                 initialValue: ref.read(addTaskController).data.content,
                 validator: (v) => v!.isEmpty ? "Домашнее задание обязательно" : null,
-                onChanged: (t) => ref.read(addTaskController).setContent(t),
+                onChanged: (t) => ref.read(addTaskController).setContent(t.trim()),
                 maxLines: null,
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 4,

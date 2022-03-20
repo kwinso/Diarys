@@ -22,13 +22,15 @@ class TasksList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               header,
-              style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiary),
+              style:
+                  TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
             ),
           ),
           tasks.isNotEmpty
               ? Column(children: [for (var t in tasks) TaskCard(t)])
               : Text(
                   "Пока пусто",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18, color: Theme.of(context).colorScheme.tertiaryContainer),
                 ),

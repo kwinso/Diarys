@@ -34,13 +34,6 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-  String _safeTextContent(String t) {
-    final safeText = t.replaceAll("\n", "  ");
-    return safeText.length > 30
-        ? safeText.characters.take(30).toString().replaceAll("\n", "") + "..."
-        : safeText;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,10 +56,6 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
-              Text(
-                  _safeTextContent(widget.task.content),
-                style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-              ),
             ],
           ),
           GestureDetector(
@@ -82,11 +71,15 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: _animation.value,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(100),
                   border: Border.all(
                       width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
               alignment: Alignment.center,
-              child: Icon(Icons.done, size: 20, color: Theme.of(context).colorScheme.tertiary),
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 200),
+                opacity: _done ? 1 : 0,
+                child: Icon(Icons.done, size: 16, color: Theme.of(context).colorScheme.tertiary),
+              ),
             ),
           )
         ],

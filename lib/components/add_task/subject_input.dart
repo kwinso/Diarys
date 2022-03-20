@@ -33,7 +33,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => setState(() {
-                ref.read(addTaskController).setSubject(s);
+                ref.read(addTaskController).setSubject(s.trim());
               }),
               autofocus: true,
               maxLines: 1,

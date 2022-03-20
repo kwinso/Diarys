@@ -24,7 +24,7 @@ class _ControllersInitState extends ConsumerState<HiveControllersInit> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controllers.every((c) => ref.read(c).isReady)) return widget.build();
+    // if (widget.controllers.every((c) => ref.read(c).isReady)) return widget.build();
 
     return FutureBuilder(
       future: _init(),

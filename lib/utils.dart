@@ -42,7 +42,12 @@ class AppUtils {
         return "Средне";
       // 3 and (somehow) more (bc 3 is the max)
       default:
-        return "Сложно";
+        return "Сложноe";
     }
   }
+
+  static String formatDate(DateTime d) =>
+      "${d.day.toString().padLeft(2, "0")}.${d.month.toString().padLeft(2, "0")}.${d.year}";
+
+  static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
 }
