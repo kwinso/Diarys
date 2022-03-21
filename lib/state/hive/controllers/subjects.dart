@@ -18,7 +18,7 @@ class SubjectsController extends HiveChangeNotifier<SubjectsList> {
     box.add(SubjectsList([]));
   }
 
-  bool contains(String subject) => state.list.any((e) => e.name == subject);
+  bool exists(String subject) => state.list.any((e) => e.name == subject);
 
   void addSubjectsOrRefs(List<String> names) {
     final updated = state.list;

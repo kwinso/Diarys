@@ -3,7 +3,6 @@ import 'package:diarys/components/add_task/difficulty_select.dart';
 import 'package:diarys/components/add_task/save_to_schedule.dart';
 import 'package:diarys/components/add_task/subject_input.dart';
 import 'package:diarys/state/add_task.dart';
-import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,9 +21,7 @@ class AddTaskForm extends ConsumerWidget {
             const SubjectInput(),
             AnimatedSize(
                 duration: const Duration(milliseconds: 350),
-                child: !ref
-                        .read(subjectsController)
-                        .contains(ref.watch(addTaskController).data.subject)
+                child: !ref.watch(addTaskController).canAddSubjectToSchedule
                     ? const SaveToScheduleCheckBox()
                     : Container()),
             const TaskDateSelect(),

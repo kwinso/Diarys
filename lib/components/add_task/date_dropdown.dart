@@ -62,7 +62,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
       );
     }
     // If subject exists, we can find a next lesson date for it
-    if (ref.read(subjectsController).contains(subject)) {
+    if (ref.read(subjectsController).exists(subject)) {
       if (_value == DropdownSelection.tomorrow) {
         _setNextLessonDate();
       }

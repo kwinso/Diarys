@@ -62,12 +62,14 @@ class AddTaskController with ChangeNotifier {
     return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
+  bool get canAddSubjectToSchedule => _ref.read(subjectsController).exists(_data.subject);
+
   Future<void> init() async {
     _ref.read(scheduleController).initBox();
   }
 
   Future<void> commit() async {
-    if (_saveToSchedule) {
+    if (_saveToSchedule && canAddSubjectToSchedule) {
       final schedule = _ref.read(scheduleController);
       // Add subject to day the task is assigned to:
       // If user wants to add to some day, it probably means there's a lesson for a gived subject

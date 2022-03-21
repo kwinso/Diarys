@@ -75,7 +75,6 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
         if (d.lessons.contains(l) && !allowDuplicate) continue;
 
         d.lessons.add(l);
-        print(updated.days[day] == d);
       }
     }
 
@@ -92,4 +91,6 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
 
     return days;
   }
+
+  bool dayContains(int day, String subject) => state.days[day].lessons.contains(subject);
 }
