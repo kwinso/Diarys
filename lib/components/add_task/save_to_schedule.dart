@@ -1,4 +1,5 @@
 import 'package:diarys/state/add_task.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -25,23 +26,14 @@ class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox>
         Flexible(child: Text("Добавить в расписание")),
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).clearSnackBars();
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Theme.of(context).primaryColor,
-                content: Text(
-                  "Добавит выбранный предмет в расписание",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                ),
-                action: SnackBarAction(
-                  textColor: Theme.of(context).colorScheme.secondary,
-                  label: "Изменить",
-                  // TODO: Navigate to settings
-                  onPressed: () {},
-                ),
+            AppUtils.showSnackBar(
+              context,
+              text: "Добавит выбранный предмет в расписание",
+              action: SnackBarAction(
+                textColor: Theme.of(context).colorScheme.secondary,
+                label: "Изменить",
+                // TODO: Navigate to settings
+                onPressed: () {},
               ),
             );
           },

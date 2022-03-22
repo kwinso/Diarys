@@ -50,4 +50,21 @@ class AppUtils {
       "${d.day.toString().padLeft(2, "0")}.${d.month.toString().padLeft(2, "0")}.${d.year}";
 
   static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
+
+  static void showSnackBar(BuildContext ctx, {required String text, SnackBarAction? action}) {
+    ScaffoldMessenger.of(ctx).clearSnackBars();
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(ctx).primaryColor,
+        content: Text(
+          text,
+          style: TextStyle(
+            color: Theme.of(ctx).colorScheme.tertiary,
+          ),
+        ),
+        action: action,
+        // content: Text("Хранилище очищено"),
+      ),
+    );
+  }
 }

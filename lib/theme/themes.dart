@@ -24,7 +24,7 @@ class AppThemeData with ChangeNotifier {
         backgroundColor: bg,
         primaryColor: primary,
         colorScheme: const ColorScheme(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           primary: primary,
           primaryContainer: Color.fromARGB(255, 155, 155, 155),
           secondary: AppColors.secondary,
@@ -45,8 +45,9 @@ class AppThemeData with ChangeNotifier {
         canvasColor: Colors.transparent,
         shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
-                bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
-            .apply(bodyColor: tertiary, displayColor: tertiary));
+          bodyText2: TextStyle(),
+          bodyText1: TextStyle(),
+        ).apply(bodyColor: tertiary, displayColor: tertiary));
   }
 
   static ThemeData get dark {

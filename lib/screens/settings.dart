@@ -5,6 +5,7 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:diarys/theme/themes.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -23,7 +24,13 @@ class SettingsScreen extends ConsumerWidget {
             body: SettingsList(
               darkTheme:
                   SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
-              lightTheme: SettingsThemeData(titleTextColor: Theme.of(context).colorScheme.tertiary),
+              lightTheme:
+                  SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
+              // lightTheme: SettingsThemeData(
+              //   titleTextColor: Colors.red,
+              //   // settingsTileTextColor: Theme.of(context).colorScheme.tertiary,
+              //   // inactiveTitleColor: Theme.of(context).colorScheme.tertiary,
+              // ),
               sections: [
                 SettingsSection(
                   // title: const Text('Common'),
@@ -33,7 +40,7 @@ class SettingsScreen extends ConsumerWidget {
                       activeSwitchColor: Theme.of(context).colorScheme.secondary,
                       initialValue: currentTheme.mode == ThemeMode.dark,
                       leading: const Icon(Icons.dark_mode_outlined),
-                      title: const Text('Темная тема'),
+                      title: Text('Темная тема'),
                     ),
                   ],
                 ),
@@ -51,18 +58,7 @@ class SettingsScreen extends ConsumerWidget {
                           ref.read(tasksController).emptyBox();
                           ref.read(scheduleController).emptyBox();
                           ref.read(subjectsController).emptyBox();
-                          ScaffoldMessenger.of(ctx).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              content: Text(
-                                "Хранилище очищено",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                ),
-                              ),
-                              // content: Text("Хранилище очищено"),
-                            ),
-                          );
+                          AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
                         },
                       )
                     ])
