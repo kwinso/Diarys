@@ -21,7 +21,7 @@ class AddTaskForm extends ConsumerWidget {
             const SubjectInput(),
             AnimatedSize(
                 duration: const Duration(milliseconds: 350),
-                child: !ref.watch(addTaskController).canAddSubjectToSchedule
+                child: ref.watch(addTaskController).canAddSubjectToSchedule
                     ? const SaveToScheduleCheckBox()
                     : Container()),
             const TaskDateSelect(),

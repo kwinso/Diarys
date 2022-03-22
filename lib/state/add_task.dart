@@ -62,7 +62,7 @@ class AddTaskController with ChangeNotifier {
     return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
-  bool get canAddSubjectToSchedule => _ref.read(subjectsController).exists(_data.subject);
+  bool get canAddSubjectToSchedule => !_ref.read(subjectsController).exists(_data.subject);
 
   Future<void> init() async {
     _ref.read(scheduleController).initBox();
