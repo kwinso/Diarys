@@ -1,7 +1,6 @@
 import 'package:diarys/state/hive/controllers/hive_notifier.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/state/hive/types/tasks_list.dart';
-import 'package:diarys/utils.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:hive/hive.dart';
 
@@ -20,9 +19,9 @@ class TasksController extends HiveChangeNotifier<TasksList> {
     final tasks = List.generate(
         4,
         (index) => Task(
-            subject: "Алгебра ${AppUtils.formatDate(days[index])}",
+            subject: "Алгебра",
             difficulty: index,
-            content: "Blah-blah",
+            content: "Какое-то дз.",
             untilDate: days[index]));
 
     await box.add(TasksList(

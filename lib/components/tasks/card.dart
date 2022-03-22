@@ -52,17 +52,16 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    widget.task.subject,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 5),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+                child: Text(
+                  widget.task.subject,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 20),
                 ),
-              ],
+              ),
             ),
             GestureDetector(
               onTap: () {

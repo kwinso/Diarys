@@ -90,9 +90,10 @@ class AddTaskController with ChangeNotifier {
     _saveToSchedule = true;
   }
 
+  // Listeners for this one are not notified because the only place where untilDate is used
+  // will be aware of change when date is changed
   void setDate(DateTime d) {
     _data.untilDate = d;
-    notifyListeners();
   }
 
   void setNextLessonDate() async {

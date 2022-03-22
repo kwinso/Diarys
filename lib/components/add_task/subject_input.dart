@@ -29,7 +29,12 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
       children: [
         Expanded(
           child: TypeAheadFormField(
-            validator: (v) => v!.isEmpty ? "Введите имя предмета" : null,
+            validator: (v) {
+              if (v!.isEmpty) return "Введите имя предмета";
+              if (v.length > 20) return "Максимум: 20 символов";
+
+              return null;
+            },
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => setState(() {
