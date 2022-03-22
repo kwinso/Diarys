@@ -22,34 +22,32 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _CustomCalendar(
-            selected: _date ?? DateTime.now(),
-            allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.lesson),
-            onSelect: (d) => setState(() => _date = d),
-          ),
-          TextButton(
-              // TODO:
-              onPressed: () {
-                if (_date != null) widget.onSubmit(_date!);
-              },
-              child: Opacity(
-                opacity: _date != null ? 1 : 0.5,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      borderRadius: const BorderRadius.all(Radius.circular(12))),
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: const Text(
-                    "Сохранить",
-                    style: TextStyle(fontSize: 15, color: Colors.white),
-                  ),
+    return Column(
+      children: [
+        _CustomCalendar(
+          selected: _date ?? DateTime.now(),
+          allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.lesson),
+          onSelect: (d) => setState(() => _date = d),
+        ),
+        TextButton(
+            // TODO:
+            onPressed: () {
+              if (_date != null) widget.onSubmit(_date!);
+            },
+            child: Opacity(
+              opacity: _date != null ? 1 : 0.5,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: const Text(
+                  "Сохранить",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
-              )),
-        ],
-      ),
+              ),
+            )),
+      ],
     );
   }
 }

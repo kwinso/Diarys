@@ -1,6 +1,6 @@
 import 'package:diarys/components/tasks_list_controls.dart';
 import 'package:diarys/components/controllers_init.dart';
-import 'package:diarys/components/tasks_list.dart';
+import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

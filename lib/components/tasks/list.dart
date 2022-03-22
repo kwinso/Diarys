@@ -1,4 +1,4 @@
-import 'package:diarys/components/task_card.dart';
+import 'package:diarys/components/tasks/card.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
 

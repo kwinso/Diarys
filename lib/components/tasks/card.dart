@@ -1,3 +1,4 @@
+import 'package:diarys/components/tasks/info.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppUtils.showBottomSheet(context: context, builder: (context) => Text(widget.task.subject));
+        AppUtils.showBottomSheet(context: context, builder: (context) => TaskInfo(widget.task));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),

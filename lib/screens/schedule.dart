@@ -1,6 +1,6 @@
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/schedule/fabs/dynamic_fab.dart';
-import 'package:diarys/components/schedule/schedule_swiper.dart';
+import 'package:diarys/components/schedule/swiper.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';

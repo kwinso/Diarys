@@ -29,53 +29,52 @@ class _ModalFormState extends State<ModalForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Container(
-            padding: EdgeInsets.only(
-              left: 15,
-              right: 15,
-              top: 15,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 15,
+    return Container(
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: 15,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 15,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: widget.input,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            widget.input.multiline ? const MultilineHint() : Container(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: widget.input,
-                ),
-                widget.input.multiline ? const MultilineHint() : Container(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                        onPressed: widget.onCancel,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: const BorderRadius.all(Radius.circular(12))),
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
-                            "Отмена",
-                            style: TextStyle(
-                                fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
-                          ),
-                        )),
-                    TextButton(
-                        onPressed: () => widget.onSubmit(),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.green,
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
-                            widget.submitButtonText,
-                            style: const TextStyle(fontSize: 15, color: Colors.white),
-                          ),
-                        ))
-                  ],
-                )
+                TextButton(
+                    onPressed: widget.onCancel,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: const BorderRadius.all(Radius.circular(12))),
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Text(
+                        "Отмена",
+                        style:
+                            TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
+                      ),
+                    )),
+                TextButton(
+                    onPressed: () => widget.onSubmit(),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: AppColors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Text(
+                        widget.submitButtonText,
+                        style: const TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                    ))
               ],
-            )));
+            )
+          ],
+        ));
   }
 }
