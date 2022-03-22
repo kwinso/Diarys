@@ -31,7 +31,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
           child: TypeAheadFormField(
             validator: (v) {
               if (v!.isEmpty) return "Введите имя предмета";
-              if (v.length > 20) return "Максимум: 20 символов";
+              if (v.length > 20) return "Не более 20 символов";
 
               return null;
             },
