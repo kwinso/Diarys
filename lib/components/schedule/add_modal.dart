@@ -1,3 +1,4 @@
+import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -42,34 +43,17 @@ class _AddModalState extends State<AddModal> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                        onPressed: widget.onCancel,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: const BorderRadius.all(Radius.circular(12))),
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
-                            "Отмена",
-                            style: TextStyle(
-                                fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
-                          ),
-                        )),
-                    TextButton(
-                        onPressed: () {
-                          if (_text.isNotEmpty) widget.onAdd(_text.trim().split("\n"));
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.green,
-                              borderRadius: BorderRadius.all(Radius.circular(12))),
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                          child: Text(
-                            "Добавить",
-                            style: TextStyle(
-                                fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
-                          ),
-                        ))
+                    AppElevatedButton(
+                      onPressed: widget.onCancel,
+                      text: "Отмена",
+                    ),
+                    AppElevatedButton(
+                      color: AppColors.green,
+                      onPressed: () {
+                        if (_text.isNotEmpty) widget.onAdd(_text.trim().split("\n"));
+                      },
+                      text: "Добавить",
+                    )
                   ],
                 )
               ],

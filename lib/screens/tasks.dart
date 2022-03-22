@@ -19,6 +19,7 @@ class TasksScreen extends ConsumerWidget {
           final forTomorrow =
               tasks.list.all.where((e) => e.untilDate.day - today.day == 1).toList();
           return Scaffold(
+            // resizeToAvoidBottomInset: true,
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(

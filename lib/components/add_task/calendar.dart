@@ -1,3 +1,4 @@
+import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,24 +30,17 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
           allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.lesson),
           onSelect: (d) => setState(() => _date = d),
         ),
-        TextButton(
+        Opacity(
+          opacity: _date != null ? 1 : 0.5,
+          child: AppElevatedButton(
+            color: Theme.of(context).colorScheme.secondary,
             // TODO:
             onPressed: () {
               if (_date != null) widget.onSubmit(_date!);
             },
-            child: Opacity(
-              opacity: _date != null ? 1 : 0.5,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: const Text(
-                  "Сохранить",
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                ),
-              ),
-            )),
+            text: 'Сохранить',
+          ),
+        ),
       ],
     );
   }

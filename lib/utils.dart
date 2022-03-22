@@ -77,7 +77,17 @@ class AppUtils {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       backgroundColor: Theme.of(context).backgroundColor,
       context: context,
-      builder: (ctx) => SingleChildScrollView(child: builder(ctx)),
+      builder: (ctx) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 15,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + 15,
+          ),
+          child: builder(ctx),
+        ),
+      ),
     );
   }
 }

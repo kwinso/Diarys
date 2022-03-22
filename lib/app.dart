@@ -61,6 +61,7 @@ class _MainPageState extends ConsumerState<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: const CustomAppBar(),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 100),

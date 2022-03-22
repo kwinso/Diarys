@@ -20,14 +20,17 @@ class AddTaskForm extends ConsumerWidget {
           children: [
             const SubjectInput(),
             AnimatedSize(
-                duration: const Duration(milliseconds: 350),
-                child: !ref.watch(addTaskController).subjectInSchedule
-                    ? const SaveToScheduleCheckBox()
-                    : Container(),),
+              duration: const Duration(milliseconds: 350),
+              child: !ref.watch(addTaskController).subjectInSchedule
+                  ? const SaveToScheduleCheckBox()
+                  : Container(),
+            ),
             const TaskDateSelect(),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-              child: TaskDifficultySelect(),
+              child: TaskDifficultySelect(
+                selected: ref.watch(addTaskController).data.difficulty,
+              ),
             ),
             Container(
               constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),

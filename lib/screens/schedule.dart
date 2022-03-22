@@ -20,7 +20,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     return HiveControllersInit(
       controllers: [scheduleController],
       build: () => Scaffold(
-        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).backgroundColor,
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

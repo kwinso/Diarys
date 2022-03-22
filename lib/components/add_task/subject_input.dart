@@ -81,7 +81,6 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
 
   @override
   void dispose() {
-    // _textController.removeListener(_onTextChange);
     _textController.dispose();
     super.dispose();
   }
