@@ -20,9 +20,9 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
   Schedule get state => Schedule(box.values.first.days);
 
   @override
-  dynamic emptyBoxFill(Box<Schedule> box) {
+  Future<dynamic> emptyBoxFill(Box<Schedule> box) async {
     final days = List<DaySchedule>.generate(7, (int idx) => DaySchedule([]));
-    box.add(Schedule(days));
+    await box.add(Schedule(days));
   }
 
   Future<void> updateLessosNameInDay(int day, int index, String newName) async {

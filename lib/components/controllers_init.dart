@@ -16,15 +16,19 @@ class HiveControllersInit extends ConsumerStatefulWidget {
 }
 
 class _ControllersInitState extends ConsumerState<HiveControllersInit> {
+  bool _subscribed = false;
+
   Future<void> _init() async {
     for (var c in widget.controllers) {
       await ref.read(c).initBox();
     }
+    _subscribed = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (widget.controllers.every((c) => ref.read(c).isReady)) return widget.build();
+    bool allReady = widget.controllers.every((c) => ref.watch(c).isReady);
+    if (allReady && _subscribed) return widget.build();
 
     return FutureBuilder(
       future: _init(),

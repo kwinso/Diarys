@@ -14,8 +14,8 @@ class SubjectsController extends HiveChangeNotifier<SubjectsList> {
   SubjectsList get state => SubjectsList(box.values.first.list);
 
   @override
-  dynamic emptyBoxFill(Box<SubjectsList> box) {
-    box.add(SubjectsList([]));
+  Future<dynamic> emptyBoxFill(Box<SubjectsList> box) async {
+    await box.add(SubjectsList([]));
   }
 
   bool exists(String subject) => state.list.any((e) => e.name == subject);

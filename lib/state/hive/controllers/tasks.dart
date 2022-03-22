@@ -13,7 +13,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   TasksController() : super('tasks');
 
   @override
-  dynamic emptyBoxFill(Box<TasksList> box) {
+  Future<dynamic> emptyBoxFill(Box<TasksList> box) async {
     final startDay = DateTime.now();
     final days =
         List.generate(4, (index) => DateTime(startDay.year, startDay.month, startDay.day + index));
@@ -25,7 +25,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
             content: "Blah-blah",
             untilDate: days[index]));
 
-    box.add(TasksList(
+    await box.add(TasksList(
       all: tasks,
       recomendations: [],
     ));

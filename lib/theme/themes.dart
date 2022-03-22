@@ -7,8 +7,8 @@ class AppThemeData with ChangeNotifier {
   static bool _isDark = true;
   ThemeMode get mode => _isDark ? ThemeMode.dark : ThemeMode.light;
 
-  void toggle() {
-    _isDark = !_isDark;
+  void toggle({bool? value}) {
+    _isDark = value ?? !_isDark;
     notifyListeners();
   }
 

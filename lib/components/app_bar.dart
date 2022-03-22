@@ -1,3 +1,4 @@
+import 'package:diarys/screens/settings.dart';
 import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   IconButton(
                       tooltip: "Настройки",
                       splashRadius: 1,
-                      onPressed: () => currentTheme.toggle(),
+                      onPressed: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (ctx) => SettingsScreen())),
+                      // onPressed: () => currentTheme.toggle(),
                       icon: Icon(
                         Icons.settings,
                         color: Theme.of(context).colorScheme.tertiaryContainer,
