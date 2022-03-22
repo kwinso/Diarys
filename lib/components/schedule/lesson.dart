@@ -104,7 +104,16 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
                 style: const TextStyle(fontSize: 20),
               ),
               Expanded(
-                  child: Center(child: Text(widget.name, style: const TextStyle(fontSize: 20)))),
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child: Text(
+                    widget.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+              )),
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 150),
                 opacity: widget.inEditMode ? 1 : 0,

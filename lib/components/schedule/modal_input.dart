@@ -1,3 +1,4 @@
+import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +23,7 @@ class ModalAutoCompleteInput extends ConsumerStatefulWidget {
 class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   String _text = "";
   List<String> _suggestions = [];
+  bool _valid = true;
   final _textEditingController = TextEditingController();
   final _hintsScrollController = ScrollController();
   final _inputScrollController = ScrollController();
@@ -112,50 +114,67 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                             }))
                     : null)),
         Container(
-            constraints: const BoxConstraints(maxHeight: 80),
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Theme.of(context).primaryColor, width: 2))),
-            child: ListView(
-                controller: _inputScrollController,
-                padding: const EdgeInsets.symmetric(vertical: 0),
-                shrinkWrap: true,
-                children: [
-                  TextField(
-                    controller: _textEditingController,
-                    onChanged: (t) {
-                      if (t.endsWith("\n")) {
-                        _scrollInputToBottom();
-                      }
-                      setState(() {
-                        _suggestions = _getSuggestions(t);
-                      });
-                      // Max name length is 20 chars
-                      if (t.trim().split("\n").last.length > 20) {
-                        // Set the prev text and set cursor on the end of the text
-                        // This way we forbid user  to type after 20 chars
-                        _setControllerText(_text);
-                        return;
-                      }
+          constraints: const BoxConstraints(maxHeight: 80),
+          margin: EdgeInsets.only(bottom: !_valid ? 15 : 0),
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Theme.of(context).primaryColor, width: 2))),
+          child: ListView(
+            controller: _inputScrollController,
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            shrinkWrap: true,
+            children: [
+              TextField(
+                controller: _textEditingController,
+                onChanged: (t) {
+                  if (t.endsWith("\n")) {
+                    _scrollInputToBottom();
+                  }
+                  setState(() {
+                    _suggestions = _getSuggestions(t);
+                  });
+                  // Max name length is 20 chars
+                  if (t.split("\n").last.length > 20) {
+                    // Set the prev text and set cursor on the end of the text
+                    // This way we forbid user  to type after 20 chars
+                    _setControllerText(_text);
+                    setState(() {
+                      _valid = false;
+                    });
+                    return;
+                  }
 
-                      _updateText(t);
-                    },
-                    onSubmitted: widget.onSubmit,
-                    keyboardType: widget.multiline ? TextInputType.multiline : TextInputType.text,
-                    maxLines: null,
-                    autofocus: true,
-                    textCapitalization: TextCapitalization.sentences,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Название предмета",
-                        // border: BorderSide(),
-                        hintStyle:
-                            TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer)),
-                  )
-                ])),
+                  setState(() {
+                    _valid = true;
+                  });
+
+                  _updateText(t.trim());
+                },
+                // onSubmitted: widget.onSubmit,
+                keyboardType: widget.multiline ? TextInputType.multiline : TextInputType.text,
+                maxLines: null,
+                autofocus: true,
+                textCapitalization: TextCapitalization.sentences,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Название предмета",
+                    // border: BorderSide(),
+                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer)),
+              )
+            ],
+          ),
+        ),
+        AnimatedSize(
+          duration: Duration(milliseconds: 100),
+          child: !_valid
+              ? Text(
+                  "Не больше 20 символов",
+                  style: TextStyle(color: AppColors.red),
+                )
+              : Container(),
+        ),
       ],
     );
   }
