@@ -101,9 +101,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
           onChanged: (c) {
             switch (c) {
               case DropdownSelection.calendar:
-                showMaterialModalBottomSheet(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  backgroundColor: Theme.of(context).backgroundColor,
+                AppUtils.showBottomSheet(
                   context: context,
                   builder: (c) => TaskDateSelectCalendar(
                     lesson: ref.read(addTaskController).data.subject,

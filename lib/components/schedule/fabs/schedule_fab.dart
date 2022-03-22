@@ -1,6 +1,7 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -36,61 +37,44 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
 
     final buttons = [
       SpeedDialChild(
-          child: const Icon(Icons.add),
-          labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-          labelBackgroundColor: theme.colorScheme.primaryContainer,
+          child: Icon(Icons.add, color: Colors.white),
           backgroundColor: theme.colorScheme.secondary,
           label: 'Добавить предмет',
           onTap: () {
-            showMaterialModalBottomSheet(
-                context: context,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                backgroundColor: theme.backgroundColor,
-                builder: (ctx) => ModalForm(
-                      input: ModalAutoCompleteInput(
-                        value: "",
-                        onTextUpdate: (s) {
-                          setState(() {
-                            _newSubjectText = s;
-                          });
-                        },
-                        onSubmit: (_) {
-                          _onFormSubmit(ctx);
-                        },
-                        multiline: true,
-                      ),
-                      onCancel: () {
-                        Navigator.pop(ctx);
-                      },
-                      submitButtonText: "Добавить",
-                      onSubmit: () {
-                        _onFormSubmit(ctx);
-                      },
-                    ));
+            AppUtils.showBottomSheet(
+              context: context,
+              builder: (ctx) => ModalForm(
+                  input: ModalAutoCompleteInput(
+                    value: "",
+                    onTextUpdate: (s) {
+                      setState(() {
+                        _newSubjectText = s;
+                      });
+                    },
+                    onSubmit: (_) {
+                      _onFormSubmit(ctx);
+                    },
+                    multiline: true,
+                  ),
+                  onCancel: () {
+                    Navigator.pop(ctx);
+                  },
+                  submitButtonText: "Добавить",
+                  onSubmit: () {
+                    _onFormSubmit(ctx);
+                  }),
+            );
           }),
       SpeedDialChild(
-          child: const Icon(Icons.share_rounded),
-          labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-          labelBackgroundColor: theme.colorScheme.primaryContainer,
-          backgroundColor: theme.colorScheme.primaryContainer,
+          child: Icon(Icons.share_rounded),
+          // labelBackgroundColor: theme.colorScheme.primaryContainer,
+          // backgroundColor: theme.colorScheme.primaryContainer,
           label: 'Поделиться',
           // TODO:
           onTap: () {
             print('Share Tapped');
           }),
     ];
-
-    // if (ref.watch(scheduleController).state.days[widget.day].lessons.isNotEmpty) {
-    //   buttons.insert(
-    //       1,
-    //       SpeedDialChild(
-    //           child: const Icon(Icons.edit),
-    //           labelStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-    //           labelBackgroundColor: theme.colorScheme.primaryContainer,
-    //           backgroundColor: AppColors.green,
-    //           label: 'Редактировать',
-    //           onTap: widget.onEnterEditMode));
-    // }
 
     return buttons;
   }

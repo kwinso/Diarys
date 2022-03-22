@@ -54,8 +54,10 @@ class _EditFABState extends State<EditFAB> {
         spaceBetweenChildren: 15,
         children: [
           SpeedDialChild(
-            child: const Icon(Icons.clear),
-            labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+            child: const Icon(
+              Icons.clear,
+              color: Colors.white,
+            ),
             labelBackgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             backgroundColor: AppColors.red,
             onTap: widget.onClearSelectedItems,

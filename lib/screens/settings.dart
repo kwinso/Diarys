@@ -16,79 +16,54 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return HiveControllersInit(
-      controllers: [scheduleController, tasksController, subjectsController],
+      controllers: [scheduleController, tasksController],
       build: () => ScaffoldMessenger(
         child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
-            appBar: const RouteBar(name: "Настройки"),
-            body: SettingsList(
-              darkTheme:
-                  SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
-              lightTheme:
-                  SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
-              // lightTheme: SettingsThemeData(
-              //   titleTextColor: Colors.red,
-              //   // settingsTileTextColor: Theme.of(context).colorScheme.tertiary,
-              //   // inactiveTitleColor: Theme.of(context).colorScheme.tertiary,
-              // ),
-              sections: [
-                SettingsSection(
-                  // title: const Text('Common'),
-                  tiles: <SettingsTile>[
-                    SettingsTile.switchTile(
-                      onToggle: (value) => currentTheme.toggle(value: value),
-                      activeSwitchColor: Theme.of(context).colorScheme.secondary,
-                      initialValue: currentTheme.mode == ThemeMode.dark,
-                      leading: const Icon(Icons.dark_mode_outlined),
-                      title: Text('Темная тема'),
-                    ),
-                  ],
-                ),
-                SettingsSection(
-                    title: const Text(
-                      "Опасное место",
-                      style: TextStyle(color: AppColors.red),
-                    ),
-                    tiles: [
-                      SettingsTile(
-                        leading: const Icon(Icons.delete),
-                        title: const Text("Очистить хранилище"),
-                        onPressed: (ctx) {
-                          print("press");
-                          ref.read(tasksController).emptyBox();
-                          ref.read(scheduleController).emptyBox();
-                          ref.read(subjectsController).emptyBox();
-                          AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
-                        },
-                      )
-                    ])
-              ],
-            )
-            // body: Column(
-            //   children: [
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Text("Темная тема"),
-            //         Switch(
-            //           value: currentTheme.mode == ThemeMode.dark,
-            //           onChanged: (v) {
-            //             currentTheme.toggle(value: v);
-            //           },
-            //         ),
-            //       ],
-            //     ),
-            //     TextButton(
-            //       onPressed: () {
-            //       },
-            //       child: Container(
-            //         color: AppColors.red,
-            //         child: Text("Очистить БД"),
-            //       ),
-            //     )
-            //   ],
+          backgroundColor: Theme.of(context).backgroundColor,
+          appBar: const RouteBar(name: "Настройки"),
+          body: SettingsList(
+            darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
+            lightTheme:
+                SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
+            // lightTheme: SettingsThemeData(
+            //   titleTextColor: Colors.red,
+            //   // settingsTileTextColor: Theme.of(context).colorScheme.tertiary,
+            //   // inactiveTitleColor: Theme.of(context).colorScheme.tertiary,
             // ),
-            ),
+            sections: [
+              SettingsSection(
+                // title: const Text('Common'),
+                tiles: <SettingsTile>[
+                  SettingsTile.switchTile(
+                    onToggle: (value) => currentTheme.toggle(value: value),
+                    activeSwitchColor: Theme.of(context).colorScheme.secondary,
+                    initialValue: currentTheme.mode == ThemeMode.dark,
+                    leading: const Icon(Icons.dark_mode_outlined),
+                    title: Text('Темная тема'),
+                  ),
+                ],
+              ),
+              SettingsSection(
+                  title: const Text(
+                    "Опасное место",
+                    style: TextStyle(color: AppColors.red),
+                  ),
+                  tiles: [
+                    SettingsTile(
+                      leading: const Icon(Icons.delete),
+                      title: const Text("Очистить хранилище"),
+                      onPressed: (ctx) {
+                        print("press");
+                        ref.read(tasksController).emptyBox();
+                        ref.read(scheduleController).emptyBox();
+                        ref.read(subjectsController).emptyBox();
+                        AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
+                      },
+                    )
+                  ])
+            ],
+          ),
+        ),
       ),
     );
   }

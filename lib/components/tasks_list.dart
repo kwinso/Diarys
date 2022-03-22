@@ -16,14 +16,14 @@ class TasksList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               header,
               style:
-                  TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
+                  TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.tertiaryContainer),
             ),
           ),
           tasks.isNotEmpty
@@ -32,7 +32,7 @@ class TasksList extends StatelessWidget {
                   "Пока пусто",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).colorScheme.tertiaryContainer),
+                      fontSize: 16, color: Theme.of(context).colorScheme.tertiaryContainer),
                 ),
 
           // Task Cards

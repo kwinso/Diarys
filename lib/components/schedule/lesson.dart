@@ -2,6 +2,7 @@ import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/edit_mode.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -58,32 +59,32 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
           widget.onToggleSelection(widget.day, widget.index);
           return;
         }
-        showMaterialModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: Theme.of(context).backgroundColor,
-            builder: (context) => ModalForm(
-                input: ModalAutoCompleteInput(
-                  multiline: false,
-                  value: _newName,
-                  onTextUpdate: (t) {
-                    setState(() {
-                      _newName = t;
-                    });
-                  },
-                ),
-                onCancel: () {
-                  Navigator.pop(context);
-                },
-                submitButtonText: "Сохранить",
-                onSubmit: () {
-                  if (_newName.isNotEmpty) {
-                    ref
-                        .read(scheduleController)
-                        .updateLessosNameInDay(widget.day, widget.index, _newName);
-                  }
-                  Navigator.pop(context);
-                }));
+        AppUtils.showBottomSheet(
+          context: context,
+          builder: (context) => ModalForm(
+            input: ModalAutoCompleteInput(
+              multiline: false,
+              value: _newName,
+              onTextUpdate: (t) {
+                setState(() {
+                  _newName = t;
+                });
+              },
+            ),
+            onCancel: () {
+              Navigator.pop(context);
+            },
+            submitButtonText: "Сохранить",
+            onSubmit: () {
+              if (_newName.isNotEmpty) {
+                ref
+                    .read(scheduleController)
+                    .updateLessosNameInDay(widget.day, widget.index, _newName);
+              }
+              Navigator.pop(context);
+            },
+          ),
+        );
       },
       child: Container(
           height: 50,

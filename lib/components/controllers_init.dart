@@ -22,13 +22,16 @@ class _ControllersInitState extends ConsumerState<HiveControllersInit> {
     for (var c in widget.controllers) {
       await ref.read(c).initBox();
     }
+    // Widget is ready to be used since it's subscribed to all controllers
     _subscribed = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    bool allReady = widget.controllers.every((c) => ref.watch(c).isReady);
-    if (allReady && _subscribed) return widget.build();
+    if (_subscribed) {
+      bool allReady = widget.controllers.every((c) => ref.watch(c).isReady);
+      if (allReady) return widget.build();
+    }
 
     return FutureBuilder(
       future: _init(),

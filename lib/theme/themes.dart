@@ -26,7 +26,7 @@ class AppThemeData with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: primary,
-          primaryContainer: Color.fromARGB(255, 155, 155, 155),
+          primaryContainer: Color.fromARGB(255, 197, 197, 197),
           secondary: AppColors.secondary,
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF9C9C9C),
@@ -53,6 +53,7 @@ class AppThemeData with ChangeNotifier {
   static ThemeData get dark {
     const primary = Color(0xFF35383F);
     const bg = Color(0xFF1E1F25);
+    const tertiary = Colors.white;
 
     return ThemeData(
         splashColor: Colors.transparent,
@@ -65,24 +66,23 @@ class AppThemeData with ChangeNotifier {
           primary: primary,
           primaryContainer: Color(0xFF5C5F64),
           secondary: AppColors.secondary,
-          tertiary: Colors.white,
+          tertiary: tertiary,
           tertiaryContainer: Color(0xFFA1A19F),
           background: bg,
-          onSecondary: Colors.white,
-          onPrimaryContainer: Colors.white,
-          onPrimary: Colors.white,
+          onSecondary: tertiary,
+          onPrimaryContainer: tertiary,
+          onPrimary: tertiary,
           error: Color(0xFFFB4343),
-          onError: Colors.white,
-          onBackground: Colors.white,
+          onError: tertiary,
+          onBackground: tertiary,
           surface: primary,
-          onSurface: Colors.white,
+          onSurface: tertiary,
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
         shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
-                bodyText2: TextStyle(color: Colors.white),
-                bodyText1: TextStyle(color: Colors.white))
-            .apply(bodyColor: Colors.white, displayColor: Colors.white));
+                bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
+            .apply(bodyColor: tertiary, displayColor: tertiary));
   }
 }

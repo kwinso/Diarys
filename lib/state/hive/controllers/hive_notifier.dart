@@ -5,7 +5,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   final String _name;
   @protected
   late Box<T> box;
-  // Amount of times box was requested to init (means subscribed)
+  // Amount of times box was requested to init (describes how many listeners depend on this box)
   int _subs = 0;
 
   HiveChangeNotifier(this._name);
@@ -39,6 +39,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     notifyListeners();
   }
 
+  // Clears values in box and fills it with default values
   Future<void> emptyBox() async {
     if (isReady) {
       await box.clear();
@@ -47,10 +48,11 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     }
   }
 
-  /// Closes the box
+  /// Removes the subscription and closes the box when no subscriptions for box is left
   Future<void> closeBox() async {
     _subs -= 1;
-    // Close the box only if no subscriptions
+    // Because many places can depend on one box,
+    // closing box is safe only there's no subscribers
     if (_subs <= 0) {
       _subs = 0;
       await box.close();

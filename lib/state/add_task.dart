@@ -53,6 +53,7 @@ class AddTaskController with ChangeNotifier {
 
   NewTaskData get data => _data;
   bool get saveToSchedule => _saveToSchedule;
+
   set saveToSchedule(v) {
     _saveToSchedule = v;
     notifyListeners();
@@ -62,14 +63,11 @@ class AddTaskController with ChangeNotifier {
     return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
-  bool get canAddSubjectToSchedule => !_ref.read(subjectsController).exists(_data.subject);
-
-  Future<void> init() async {
-    _ref.read(scheduleController).initBox();
-  }
+  bool get subjectInSchedule =>
+      _ref.read(scheduleController).dayContains(_data.untilDate.weekday - 1, _data.subject);
 
   Future<void> commit() async {
-    if (_saveToSchedule && canAddSubjectToSchedule) {
+    if (_saveToSchedule && !subjectInSchedule) {
       final schedule = _ref.read(scheduleController);
       // Add subject to day the task is assigned to:
       // If user wants to add to some day, it probably means there's a lesson for a gived subject
@@ -85,6 +83,11 @@ class AddTaskController with ChangeNotifier {
     _ref.read(tasksController).add(_data.toTask());
 
     reset();
+  }
+
+  void reset() {
+    _data = NewTaskData.empty();
+    _saveToSchedule = true;
   }
 
   void setDate(DateTime d) {
@@ -125,10 +128,5 @@ class AddTaskController with ChangeNotifier {
   void setDifficulty(int d) {
     _data.difficulty = d;
     notifyListeners();
-  }
-
-  void reset() {
-    _data = NewTaskData.empty();
-    _saveToSchedule = true;
   }
 }

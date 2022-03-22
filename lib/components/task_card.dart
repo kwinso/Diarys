@@ -1,6 +1,7 @@
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TaskCard extends StatefulWidget {
   final Task task;
@@ -36,53 +37,58 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        color: Theme.of(context).primaryColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  widget.task.subject,
-                  style: const TextStyle(fontSize: 20),
+    return GestureDetector(
+      onTap: () {
+        AppUtils.showBottomSheet(context: context, builder: (context) => Text(widget.task.subject));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          color: Theme.of(context).primaryColor,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    widget.task.subject,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                if (_done) {
+                  _controller.reverse();
+                } else {
+                  _controller.forward();
+                }
+                _done = !_done;
+              },
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: _animation.value,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                        width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
+                alignment: Alignment.center,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: _done ? 1 : 0,
+                  child: const Icon(Icons.done, size: 16, color: Colors.white),
                 ),
               ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-              if (_done) {
-                _controller.reverse();
-              } else {
-                _controller.forward();
-              }
-              _done = !_done;
-            },
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: _animation.value,
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                      width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
-              alignment: Alignment.center,
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: 200),
-                opacity: _done ? 1 : 0,
-                child: Icon(Icons.done, size: 16, color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

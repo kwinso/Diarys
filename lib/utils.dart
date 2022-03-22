@@ -2,6 +2,7 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AppUtils {
   static List<String> getSubjectSuggestions(WidgetRef ref, String t, bool emptyIfNoText) {
@@ -65,6 +66,18 @@ class AppUtils {
         action: action,
         // content: Text("Хранилище очищено"),
       ),
+    );
+  }
+
+  static void showBottomSheet({
+    required BuildContext context,
+    required Widget Function(BuildContext) builder,
+  }) {
+    showMaterialModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      backgroundColor: Theme.of(context).backgroundColor,
+      context: context,
+      builder: builder,
     );
   }
 }

@@ -19,7 +19,6 @@ class AllTasksScreen extends ConsumerWidget {
 
     tasks.sort(((a, b) => a.untilDate.compareTo(b.untilDate)));
     var tasksForDays = <TasksList>[];
-    var currentDay = tasks.first.untilDate;
     var currentList = <Task>[];
 
     for (var i = 0; i < tasks.length; i++) {
@@ -34,7 +33,6 @@ class AllTasksScreen extends ConsumerWidget {
       if (i + 1 == tasks.length || !isSameDay(date, tasks[i + 1].untilDate)) {
         if (date.isBefore(DateTime.now())) title += " (Просрочено)";
 
-        currentDay = date;
         tasksForDays.add(TasksList(header: title, tasks: List.from(currentList)));
         currentList.clear();
       }
@@ -54,7 +52,6 @@ class AllTasksScreen extends ConsumerWidget {
           appBar: const RouteBar(name: "Все задания"),
           body: SingleChildScrollView(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: list.isNotEmpty
                   ? list
@@ -69,6 +66,7 @@ class AllTasksScreen extends ConsumerWidget {
                         width: double.infinity,
                         child: Text(
                           "Заданий еще нет",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 25,
                             color: Theme.of(context).colorScheme.tertiaryContainer,
