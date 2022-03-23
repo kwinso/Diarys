@@ -39,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
                     activeSwitchColor: Theme.of(context).colorScheme.secondary,
                     initialValue: currentTheme.mode == ThemeMode.dark,
                     leading: const Icon(Icons.dark_mode_outlined),
-                    title: Text('Темная тема'),
+                    title: const Text('Темная тема'),
                   ),
                 ],
               ),
@@ -53,7 +53,6 @@ class SettingsScreen extends ConsumerWidget {
                       leading: const Icon(Icons.delete),
                       title: const Text("Очистить хранилище"),
                       onPressed: (ctx) {
-                        print("press");
                         ref.read(tasksController).emptyBox();
                         ref.read(scheduleController).emptyBox();
                         ref.read(subjectsController).emptyBox();

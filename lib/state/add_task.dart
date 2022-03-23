@@ -1,10 +1,8 @@
 import 'package:diarys/state/hive/controllers/schedule.dart';
-import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import 'package:table_calendar/table_calendar.dart';
 
 final addTaskController = ChangeNotifierProvider<AddTaskController>((ref) {
   return AddTaskController(ref);
@@ -74,7 +72,7 @@ class AddTaskController with ChangeNotifier {
       // On that day
       final until = _data.untilDate;
       await schedule.addLessonsToDay(until.weekday - 1, [_data.subject], allowDuplicate: false);
-      // TODO: Run if setting to "add to current day too is enabled"
+      // TODO: Run if setting to "add to current day too" is enabled
       // final today = DateTime.now();
       // if (!isSameDay(today, until)) {
       //   await schedule.addLessonsToDay(today.weekday - 1, [_data.subject], allowDuplicate: false);

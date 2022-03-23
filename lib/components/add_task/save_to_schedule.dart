@@ -23,7 +23,7 @@ class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox>
           value: addTask.saveToSchedule,
           onChanged: (v) => addTask.saveToSchedule = v,
         ),
-        Flexible(child: Text("Добавить в расписание")),
+        const Flexible(child: Text("Добавить в расписание")),
         GestureDetector(
           onTap: () {
             AppUtils.showSnackBar(

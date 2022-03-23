@@ -2,7 +2,6 @@ import 'package:diarys/components/tasks/info.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TaskCard extends StatefulWidget {
   final Task task;
@@ -64,6 +63,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               ),
             ),
             GestureDetector(
+              // TODO: Remove since it's done
               onTap: () {
                 if (_done) {
                   _controller.reverse();

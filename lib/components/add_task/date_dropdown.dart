@@ -4,7 +4,6 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 enum DropdownSelection { nextLesson, calendar, date, tomorrow }

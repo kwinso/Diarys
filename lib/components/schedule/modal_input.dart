@@ -167,9 +167,9 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
           ),
         ),
         AnimatedSize(
-          duration: Duration(milliseconds: 100),
+          duration: const Duration(milliseconds: 100),
           child: !_valid
-              ? Text(
+              ? const Text(
                   "Не больше 20 символов",
                   style: TextStyle(color: AppColors.red),
                 )

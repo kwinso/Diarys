@@ -1,11 +1,9 @@
-import 'dart:async';
-
-import 'package:diarys/components/add_task/difficulty_select.dart';
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 
+// TODO: Implement editing
 class TaskInfo extends StatefulWidget {
   final Task task;
   const TaskInfo(this.task, {Key? key}) : super(key: key);
@@ -33,7 +31,7 @@ class _TaskInfoState extends State<TaskInfo> {
           color: AppUtils.getDifficultyColor(widget.task.difficulty),
         ),
         Container(
-          margin: EdgeInsets.symmetric(vertical: 15),
+          margin: const EdgeInsets.symmetric(vertical: 15),
           constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
           child: TextFormField(
             // initialValue: ref.read(addTaskController).data.content,
@@ -52,22 +50,10 @@ class _TaskInfoState extends State<TaskInfo> {
             ),
           ),
         ),
-        // TaskDifficultySelect(
-        //   selected: widget.task.difficulty,
-        // )
-        // Button
-        // TODO:
+        // TODO: Delete button
+        // TODO: Mark as done
         AppElevatedButton(
             text: "Сделано", onPressed: () {}, color: Theme.of(context).colorScheme.secondary),
-
-        // Text(
-        //   AppUtils.formatDate(task.untilDate),
-        //   style: const TextStyle(fontSize: 20),
-        // ),
-        // Text(
-        //   task.content,
-        //   style: const TextStyle(fontSize: 20),
-        // ),
       ],
     );
   }

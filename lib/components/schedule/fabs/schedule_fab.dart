@@ -5,7 +5,6 @@ import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ScheduleFAB extends ConsumerStatefulWidget {
   final ValueNotifier<int> day;
@@ -37,7 +36,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
 
     final buttons = [
       SpeedDialChild(
-          child: Icon(Icons.add, color: Colors.white),
+          child: const Icon(Icons.add, color: Colors.white),
           backgroundColor: theme.colorScheme.secondary,
           label: 'Добавить предмет',
           onTap: () {
@@ -66,7 +65,7 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
             );
           }),
       SpeedDialChild(
-          child: Icon(Icons.share_rounded),
+          child: const Icon(Icons.share_rounded),
           // labelBackgroundColor: theme.colorScheme.primaryContainer,
           // backgroundColor: theme.colorScheme.primaryContainer,
           label: 'Поделиться',

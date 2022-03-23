@@ -50,7 +50,8 @@ class AppUtils {
   static String formatDate(DateTime d) =>
       "${d.day.toString().padLeft(2, "0")}.${d.month.toString().padLeft(2, "0")}.${d.year}";
 
-  static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
+  // static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
+  static getTomorrowDate() => DateTime.now().add(const Duration(days: 1));
 
   static void showSnackBar(BuildContext ctx, {required String text, SnackBarAction? action}) {
     ScaffoldMessenger.of(ctx).clearSnackBars();

@@ -19,7 +19,6 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
   @override
   void initState() {
     _textController = TextEditingController(text: ref.read(addTaskController).data.subject);
-    // TODO: implement initState
     super.initState();
   }
 

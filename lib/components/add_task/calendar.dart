@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TaskDateSelectCalendar extends ConsumerStatefulWidget {
-  // TODO: Add param with selected date to callback
   final Function(DateTime d) onSubmit;
   final String lesson;
   const TaskDateSelectCalendar({
@@ -34,7 +33,6 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
           opacity: _date != null ? 1 : 0.5,
           child: AppElevatedButton(
             color: Theme.of(context).colorScheme.secondary,
-            // TODO:
             onPressed: () {
               if (_date != null) widget.onSubmit(_date!);
             },

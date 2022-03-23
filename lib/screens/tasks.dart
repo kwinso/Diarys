@@ -11,45 +11,75 @@ class TasksScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return HiveControllersInit(
-        controllers: [tasksController],
-        build: () {
-          final tasks = ref.watch(tasksController);
-          final today = DateTime.now();
-          // Get days that are 1 day ahead of today (basically tomorrow)
-          final forTomorrow =
-              tasks.list.all.where((e) => e.untilDate.day - today.day == 1).toList();
-          return Scaffold(
-            // resizeToAvoidBottomInset: true,
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  floating: true,
-                  // pinned: true,
-                  expandedHeight: 70,
-                  collapsedHeight: 70,
-                  flexibleSpace: Container(
-                    decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
-                    child: const TasksControls(),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      TasksList(
-                        header: "На завтра",
-                        tasks: forTomorrow,
-                      ),
-                      TasksList(
-                        header: "Рекомендации",
-                        // TODO: Change with recomendations later
-                        tasks: tasks.list.all,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+      controllers: [tasksController],
+      build: () => const Scaffold(
+        // resizeToAvoidBottomInset: true,
+        body: TasksScrollView(),
+      ),
+    );
+  }
+}
+
+class TasksScrollView extends ConsumerWidget {
+  const TasksScrollView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasks = ref.watch(tasksController).list;
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          // pinned: true,
+          expandedHeight: 70,
+          collapsedHeight: 70,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+            child: const TasksControls(),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              tasks.all.isEmpty ? const NoTasksMessage() : Container(),
+              TasksList(
+                header: "На завтра",
+                tasks: tasks.tomorrow,
+              ),
+              TasksList(
+                header: "Рекомендации",
+                tasks: tasks.recomendations,
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class NoTasksMessage extends StatelessWidget {
+  const NoTasksMessage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        children: [
+          const Text(
+            "Заданий нет",
+            style: TextStyle(
+              fontSize: 25,
             ),
-          );
-        });
+          ),
+          Text(
+            "Добавьте их с помощью кнопки выше",
+            style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+          )
+        ],
+      ),
+    );
   }
 }

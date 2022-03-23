@@ -27,7 +27,7 @@ class AddTaskForm extends ConsumerWidget {
             ),
             const TaskDateSelect(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
               child: TaskDifficultySelect(
                 selected: ref.watch(addTaskController).data.difficulty,
               ),

@@ -3,7 +3,6 @@ import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +24,7 @@ class AllTasksScreen extends ConsumerWidget {
       final date = tasks[i].untilDate;
       var title = AppUtils.formatDate(date);
       // TODO: Make for exceptions for whole week and only then start counting as dates
-      if (isSameDay(AppUtils.addOneDayToDate(DateTime.now()), date)) title = "На завтра";
+      if (isSameDay(AppUtils.getTomorrowDate(), date)) title = "На завтра";
 
       // final title =
       currentList.add(tasks[i]);
@@ -48,35 +47,30 @@ class AllTasksScreen extends ConsumerWidget {
       build: () {
         final list = _getList(ref);
         return Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: const RouteBar(name: "Все задания"),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: list.isNotEmpty
-                  ? list
-                      .map((e) => SizedBox(
-                            width: double.infinity,
-                            child: e,
-                          ))
-                      .toList()
-                  : [
-                      // TODO: Fix
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          "Заданий еще нет",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Theme.of(context).colorScheme.tertiaryContainer,
-                          ),
-                        ),
-                      )
-                    ],
-            ),
-          ),
-        );
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: const RouteBar(name: "Все задания"),
+            body: list.isNotEmpty
+                ? SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: list
+                            .map((e) => SizedBox(
+                                  width: double.infinity,
+                                  child: e,
+                                ))
+                            .toList()),
+                  )
+                : Center(
+                    child: Text(
+                      "Заданий еще нет",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Theme.of(context).colorScheme.tertiaryContainer,
+                      ),
+                    ),
+                  ));
       },
     );
   }

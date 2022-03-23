@@ -13,31 +13,39 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   @override
   Future<dynamic> emptyBoxFill(Box<TasksList> box) async {
-    final startDay = DateTime.now();
-    final days =
-        List.generate(4, (index) => DateTime(startDay.year, startDay.month, startDay.day + index));
-    final tasks = List.generate(
-        4,
-        (index) => Task(
-            subject: "Алгебра",
-            difficulty: index,
-            content: "Какое-то дз.",
-            untilDate: days[index]));
+    // final startDay = DateTime.now();
+    // final days = [
+    //   DateTime(startDay.year, startDay.month, startDay.day + 0),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 2),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 2),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 5),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 6),
+    //   DateTime(startDay.year, startDay.month, startDay.day + 3),
+    // ];
 
-    await box.add(TasksList(
-      all: tasks,
-      recomendations: [],
-    ));
+    // final tasks = List.generate(days.length, (index) {
+    //   final rnd = Random().nextInt(3);
+    //   return Task(
+    //       subject: "Алгебра",
+    //       difficulty: rnd == 0 ? 1 : rnd,
+    //       content: "Какое-то дз.",
+    //       untilDate: days[index]);
+    // });
+
+    await box.add(TasksList([]));
   }
 
   TasksList get list {
     final l = box.values.first;
-    return TasksList(all: l.all, recomendations: l.recomendations);
+    return TasksList(l.all, recomendations: l.recomendations, tomorrow: l.tomorrow);
   }
 
   void add(Task t) {
     final newList = list;
-    newList.all.add(t);
+    newList.add(t);
     updateBox(newList);
   }
 }

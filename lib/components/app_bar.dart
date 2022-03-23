@@ -1,5 +1,4 @@
 import 'package:diarys/screens/settings.dart';
-import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
 
 class LogoText extends StatelessWidget {
@@ -52,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       tooltip: "Настройки",
                       splashRadius: 1,
                       onPressed: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (ctx) => SettingsScreen())),
+                          context, MaterialPageRoute(builder: (ctx) => const SettingsScreen())),
                       // onPressed: () => currentTheme.toggle(),
                       icon: Icon(
                         Icons.settings,
