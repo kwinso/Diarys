@@ -7,7 +7,8 @@ class AddModal extends StatefulWidget {
   final VoidCallback onCancel;
   final Function(List<String>) onAdd;
 
-  const AddModal({Key? key, required this.onCancel, required this.onAdd}) : super(key: key);
+  const AddModal({Key? key, required this.onCancel, required this.onAdd})
+      : super(key: key);
 
   @override
   State<AddModal> createState() => _AddModalState();
@@ -50,7 +51,8 @@ class _AddModalState extends State<AddModal> {
                     AppElevatedButton(
                       color: AppColors.green,
                       onPressed: () {
-                        if (_text.isNotEmpty) widget.onAdd(_text.trim().split("\n"));
+                        if (_text.isNotEmpty)
+                          widget.onAdd(_text.trim().split("\n"));
                       },
                       text: "Добавить",
                     )

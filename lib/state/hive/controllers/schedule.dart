@@ -67,7 +67,8 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
     await updateBox(updated);
   }
 
-  Future<void> addLessonsToDay(int day, List<String> lessons, {bool allowDuplicate = true}) async {
+  Future<void> addLessonsToDay(int day, List<String> lessons,
+      {bool allowDuplicate = true}) async {
     final updated = state;
     for (var l in lessons) {
       if (l.isNotEmpty) {
@@ -92,5 +93,6 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
     return days;
   }
 
-  bool dayContains(int day, String subject) => state.days[day].lessons.contains(subject);
+  bool dayContains(int day, String subject) =>
+      state.days[day].lessons.contains(subject);
 }

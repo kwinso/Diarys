@@ -16,7 +16,9 @@ class TaskDateSelect extends ConsumerWidget {
             child: const DateSelectDropdown(),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 1, color: Theme.of(context).colorScheme.primaryContainer),
+                bottom: BorderSide(
+                    width: 1,
+                    color: Theme.of(context).colorScheme.primaryContainer),
               ),
             ),
           ),

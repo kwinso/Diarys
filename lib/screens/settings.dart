@@ -22,9 +22,10 @@ class SettingsScreen extends ConsumerWidget {
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: const RouteBar(name: "Настройки"),
           body: SettingsList(
-            darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
-            lightTheme:
-                SettingsThemeData(settingsListBackground: Theme.of(context).backgroundColor),
+            darkTheme: SettingsThemeData(
+                settingsListBackground: Theme.of(context).backgroundColor),
+            lightTheme: SettingsThemeData(
+                settingsListBackground: Theme.of(context).backgroundColor),
             // lightTheme: SettingsThemeData(
             //   titleTextColor: Colors.red,
             //   // settingsTileTextColor: Theme.of(context).colorScheme.tertiary,

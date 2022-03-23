@@ -93,10 +93,13 @@ class _MainPageState extends ConsumerState<MainPage> {
               },
               backgroundColor: Theme.of(context).backgroundColor,
               selectedItemColor: Theme.of(context).colorScheme.secondary,
-              unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
+              unselectedItemColor:
+                  Theme.of(context).colorScheme.tertiaryContainer,
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-                BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: "Расписание")
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.task_alt_sharp), label: "Задания"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.list_alt), label: "Расписание")
               ])),
     );
   }

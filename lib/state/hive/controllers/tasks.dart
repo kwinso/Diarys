@@ -40,7 +40,8 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   TasksList get list {
     final l = box.values.first;
-    return TasksList(l.all, recomendations: l.recomendations, tomorrow: l.tomorrow);
+    return TasksList(l.all,
+        recomendations: l.recomendations, tomorrow: l.tomorrow);
   }
 
   void add(Task t) {

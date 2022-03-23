@@ -14,7 +14,8 @@ class LogoText extends StatelessWidget {
         height: 25,
         child: Text(data,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, color: color, fontFamily: "RubikMonoOne")));
+            style: TextStyle(
+                fontSize: 25, color: color, fontFamily: "RubikMonoOne")));
   }
 }
 
@@ -51,7 +52,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       tooltip: "Настройки",
                       splashRadius: 1,
                       onPressed: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (ctx) => const SettingsScreen())),
+                          context,
+                          MaterialPageRoute(
+                              builder: (ctx) => const SettingsScreen())),
                       // onPressed: () => currentTheme.toggle(),
                       icon: Icon(
                         Icons.settings,

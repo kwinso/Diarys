@@ -13,7 +13,8 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
-  final ValueNotifier<int> _currentDay = ValueNotifier(DateTime.now().weekday - 1);
+  final ValueNotifier<int> _currentDay =
+      ValueNotifier(DateTime.now().weekday - 1);
 
   @override
   Widget build(BuildContext context) {

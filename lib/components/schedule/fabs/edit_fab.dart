@@ -58,7 +58,8 @@ class _EditFABState extends State<EditFAB> {
               Icons.clear,
               color: Colors.white,
             ),
-            labelBackgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            labelBackgroundColor:
+                Theme.of(context).colorScheme.onPrimaryContainer,
             backgroundColor: AppColors.red,
             onTap: widget.onClearSelectedItems,
           )

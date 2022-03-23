@@ -76,7 +76,8 @@ class NoTasksMessage extends StatelessWidget {
           ),
           Text(
             "Добавьте их с помощью кнопки выше",
-            style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.tertiaryContainer),
           )
         ],
       ),

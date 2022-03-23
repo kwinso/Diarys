@@ -47,7 +47,9 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
           "Пусто",
           key: const Key("empty"),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
+          style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).colorScheme.tertiaryContainer),
         )
       ];
     }
@@ -135,7 +137,8 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
               curve: Curves.linear,
               controller: _swiperController,
               index: widget.currentDay.value,
-              onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
+              onIndexChanged: (idx) =>
+                  setState(() => widget.currentDay.value = idx),
               itemBuilder: _getSwiperDaysBuilder(),
               itemCount: 7,
               loop: true))

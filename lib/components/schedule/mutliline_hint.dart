@@ -18,7 +18,8 @@ class MultilineHint extends StatelessWidget {
             Flexible(
                 child: Text(
               "Перечесляйте предметы с новой строки, чтобы добавить сразу несколько",
-              style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiaryContainer),
             ))
           ],
         ));

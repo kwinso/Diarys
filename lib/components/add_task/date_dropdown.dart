@@ -35,7 +35,9 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   DropdownSelection _value = DropdownSelection.tomorrow;
 
   void _setTomorrowDate() {
-    ref.read(addTaskController).setDate(DateTime.now().add(const Duration(days: 1)));
+    ref
+        .read(addTaskController)
+        .setDate(DateTime.now().add(const Duration(days: 1)));
     _value = DropdownSelection.tomorrow;
   }
 
@@ -44,7 +46,8 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     _value = DropdownSelection.nextLesson;
   }
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(AddTaskController addTask) {
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(
+      AddTaskController addTask) {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
     final d = addTask.data.untilDate;
     final subject = addTask.data.subject;
@@ -90,11 +93,13 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
       child: ButtonTheme(
         alignedDropdown: true,
         child: DropdownButton2<DropdownSelection>(
-          style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+          style: TextStyle(
+              fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
           value: _value,
           isExpanded: true,
           dropdownDecoration: BoxDecoration(
-              color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(12)),
           items: items,
           buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
           onChanged: (c) {

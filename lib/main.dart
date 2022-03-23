@@ -33,5 +33,6 @@ void main() async {
   await subjects.initBox();
 
   runApp(ProviderScope(
-      overrides: [subjectsController.overrideWithValue(subjects)], child: const App()));
+      overrides: [subjectsController.overrideWithValue(subjects)],
+      child: const App()));
 }

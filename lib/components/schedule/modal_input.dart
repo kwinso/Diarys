@@ -42,8 +42,10 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
 
   void _scrollInputToBottom() {
     // Scroll a little more than max to be sure it's at the bottom
-    _inputScrollController.animateTo(_inputScrollController.position.maxScrollExtent + 100,
-        duration: const Duration(milliseconds: 1), curve: Curves.easeOut);
+    _inputScrollController.animateTo(
+        _inputScrollController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.easeOut);
   }
 
   void _onSuggestionSelect(int idx) {
@@ -105,19 +107,23 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                                     _onSuggestionSelect(index);
                                   },
                                   child: Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 10),
                                       child: Text(_suggestions[index],
                                           style: TextStyle(
                                               fontSize: 20,
-                                              color: Theme.of(context).colorScheme.tertiary))));
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary))));
                             }))
                     : null)),
         Container(
           constraints: const BoxConstraints(maxHeight: 80),
           margin: EdgeInsets.only(bottom: !_valid ? 15 : 0),
           decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Theme.of(context).primaryColor, width: 2))),
+              border: Border(
+                  bottom: BorderSide(
+                      color: Theme.of(context).primaryColor, width: 2))),
           child: ListView(
             controller: _inputScrollController,
             padding: const EdgeInsets.symmetric(vertical: 0),
@@ -150,7 +156,9 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                   _updateText(t.trim());
                 },
                 // onSubmitted: widget.onSubmit,
-                keyboardType: widget.multiline ? TextInputType.multiline : TextInputType.text,
+                keyboardType: widget.multiline
+                    ? TextInputType.multiline
+                    : TextInputType.text,
                 maxLines: null,
                 autofocus: true,
                 textCapitalization: TextCapitalization.sentences,
@@ -161,7 +169,9 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                     border: InputBorder.none,
                     hintText: "Название предмета",
                     // border: BorderSide(),
-                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer)),
+                    hintStyle: TextStyle(
+                        color:
+                            Theme.of(context).colorScheme.tertiaryContainer)),
               )
             ],
           ),

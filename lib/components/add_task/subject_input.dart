@@ -18,7 +18,8 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
 
   @override
   void initState() {
-    _textController = TextEditingController(text: ref.read(addTaskController).data.subject);
+    _textController =
+        TextEditingController(text: ref.read(addTaskController).data.subject);
     super.initState();
   }
 
@@ -42,12 +43,15 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
               autofocus: true,
               maxLines: 1,
               textCapitalization: TextCapitalization.sentences,
-              style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
               decoration: InputDecoration(
                 labelText: "Предмет",
-                labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+                labelStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.tertiaryContainer),
                 alignLabelWithHint: true,
-                contentPadding: const EdgeInsets.only(right: 5, left: 5, bottom: 10),
+                contentPadding:
+                    const EdgeInsets.only(right: 5, left: 5, bottom: 10),
               ),
             ),
             hideSuggestionsOnKeyboardHide: true,
@@ -66,7 +70,8 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
               return ListTile(
                 title: Text(
                   suggestion,
-                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.tertiary),
                 ),
               );
             },
@@ -75,7 +80,8 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
                 ref.read(addTaskController).setSubject(suggestion);
               });
               _textController.text = suggestion;
-              _textController.selection = TextSelection.collapsed(offset: suggestion.length);
+              _textController.selection =
+                  TextSelection.collapsed(offset: suggestion.length);
             },
           ),
         ),

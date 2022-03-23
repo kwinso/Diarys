@@ -10,7 +10,8 @@ class SaveToScheduleCheckBox extends ConsumerStatefulWidget {
   _SaveToScheduleCheckBoxState createState() => _SaveToScheduleCheckBoxState();
 }
 
-class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox> {
+class _SaveToScheduleCheckBoxState
+    extends ConsumerState<SaveToScheduleCheckBox> {
   @override
   Widget build(BuildContext context) {
     final addTask = ref.watch(addTaskController);

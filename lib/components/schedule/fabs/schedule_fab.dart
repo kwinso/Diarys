@@ -24,9 +24,8 @@ class _ScheduleFABState extends ConsumerState<ScheduleFAB> {
 
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {
-      ref
-          .read(scheduleController.notifier)
-          .addLessonsToDay(widget.day.value, _newSubjectText.trim().split("\n"));
+      ref.read(scheduleController.notifier).addLessonsToDay(
+          widget.day.value, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }

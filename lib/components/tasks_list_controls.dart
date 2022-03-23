@@ -22,14 +22,16 @@ class _TasksControlsState extends State<TasksControls> {
             name: "Все задания",
             icon: Icons.list,
             onClick: () {
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
             },
           ),
           _ControlButton(
             name: "Добавить",
             icon: Icons.add,
             onClick: () {
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (ctx) => AddTask()));
             },
           ),
         ],

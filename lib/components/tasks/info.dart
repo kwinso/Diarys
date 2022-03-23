@@ -23,7 +23,9 @@ class _TaskInfoState extends State<TaskInfo> {
         ),
         Text(
           AppUtils.formatDate(widget.task.untilDate),
-          style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+          style: TextStyle(
+              fontSize: 15,
+              color: Theme.of(context).colorScheme.tertiaryContainer),
         ),
         Divider(
           thickness: 2,
@@ -53,7 +55,9 @@ class _TaskInfoState extends State<TaskInfo> {
         // TODO: Delete button
         // TODO: Mark as done
         AppElevatedButton(
-            text: "Сделано", onPressed: () {}, color: Theme.of(context).colorScheme.secondary),
+            text: "Сделано",
+            onPressed: () {},
+            color: Theme.of(context).colorScheme.secondary),
       ],
     );
   }

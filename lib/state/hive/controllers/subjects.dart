@@ -39,7 +39,8 @@ class SubjectsController extends HiveChangeNotifier<SubjectsList> {
   void removeSubjectRefs(List<String> names) {
     final updated = state.list
         .map((e) {
-          if (names.contains(e.name)) e.refs -= names.where((name) => name == e.name).length;
+          if (names.contains(e.name))
+            e.refs -= names.where((name) => name == e.name).length;
           return e;
         })
         .where((e) => e.refs > 0)

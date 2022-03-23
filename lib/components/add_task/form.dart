@@ -36,8 +36,10 @@ class AddTaskForm extends ConsumerWidget {
               constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
               child: TextFormField(
                 initialValue: ref.read(addTaskController).data.content,
-                validator: (v) => v!.isEmpty ? "Домашнее задание обязательно" : null,
-                onChanged: (t) => ref.read(addTaskController).setContent(t.trim()),
+                validator: (v) =>
+                    v!.isEmpty ? "Домашнее задание обязательно" : null,
+                onChanged: (t) =>
+                    ref.read(addTaskController).setContent(t.trim()),
                 maxLines: null,
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 4,
@@ -46,8 +48,10 @@ class AddTaskForm extends ConsumerWidget {
                 decoration: InputDecoration(
                   labelText: "Домашнее задание",
                   alignLabelWithHint: true,
-                  labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  labelStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiaryContainer),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
                 ),
               ),
             ),

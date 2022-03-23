@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AppUtils {
-  static List<String> getSubjectSuggestions(WidgetRef ref, String t, bool emptyIfNoText) {
+  static List<String> getSubjectSuggestions(
+      WidgetRef ref, String t, bool emptyIfNoText) {
     final line = t.split("\n").last.trim().toLowerCase();
     if (line.isEmpty && emptyIfNoText) return [];
 
@@ -53,7 +54,8 @@ class AppUtils {
   // static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
   static getTomorrowDate() => DateTime.now().add(const Duration(days: 1));
 
-  static void showSnackBar(BuildContext ctx, {required String text, SnackBarAction? action}) {
+  static void showSnackBar(BuildContext ctx,
+      {required String text, SnackBarAction? action}) {
     ScaffoldMessenger.of(ctx).clearSnackBars();
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(

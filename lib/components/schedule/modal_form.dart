@@ -45,19 +45,25 @@ class _ModalFormState extends State<ModalForm> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(12))),
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12))),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Text(
                     "Отмена",
-                    style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).colorScheme.tertiary),
                   ),
                 )),
             TextButton(
                 onPressed: () => widget.onSubmit(),
                 child: Container(
                   decoration: const BoxDecoration(
-                      color: AppColors.green, borderRadius: BorderRadius.all(Radius.circular(12))),
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      color: AppColors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Text(
                     widget.submitButtonText,
                     style: const TextStyle(fontSize: 15, color: Colors.white),
