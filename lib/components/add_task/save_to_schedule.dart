@@ -10,21 +10,13 @@ class SaveToScheduleCheckBox extends ConsumerStatefulWidget {
   _SaveToScheduleCheckBoxState createState() => _SaveToScheduleCheckBoxState();
 }
 
-class _SaveToScheduleCheckBoxState
-    extends ConsumerState<SaveToScheduleCheckBox> {
+class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox> {
   @override
   Widget build(BuildContext context) {
     final addTask = ref.watch(addTaskController);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Checkbox(
-          // TODO: Change with value form settings
-          activeColor: Theme.of(context).colorScheme.secondary,
-          value: addTask.saveToSchedule,
-          onChanged: (v) => addTask.saveToSchedule = v,
-        ),
-        const Flexible(child: Text("Добавить в расписание")),
         GestureDetector(
           onTap: () {
             AppUtils.showSnackBar(
@@ -42,7 +34,13 @@ class _SaveToScheduleCheckBoxState
             Icons.info_outline,
             color: Theme.of(context).colorScheme.tertiaryContainer,
           ),
-        )
+        ),
+        const Flexible(child: Text("Добавить в расписание")),
+        Switch(
+          value: addTask.saveToSchedule,
+          onChanged: (v) => addTask.saveToSchedule = v,
+          activeColor: Theme.of(context).colorScheme.secondary,
+        ),
       ],
     );
   }

@@ -1,5 +1,6 @@
-import 'package:diarys/components/add_task/date_select.dart';
+import 'package:diarys/components/add_task/date_dropdown.dart';
 import 'package:diarys/components/add_task/difficulty_select.dart';
+import 'package:diarys/components/add_task/label.dart';
 import 'package:diarys/components/add_task/save_to_schedule.dart';
 import 'package:diarys/components/add_task/subject_input.dart';
 import 'package:diarys/state/add_task.dart';
@@ -12,6 +13,7 @@ class AddTaskForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final addTask = ref.watch(addTaskController);
     return Form(
       key: formKey,
       child: Container(
@@ -19,41 +21,33 @@ class AddTaskForm extends ConsumerWidget {
         child: Column(
           children: [
             const SubjectInput(),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 350),
-              child: !ref.watch(addTaskController).subjectInSchedule
-                  ? const SaveToScheduleCheckBox()
-                  : Container(),
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: DateSelectDropdown(),
             ),
-            const TaskDateSelect(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-              child: TaskDifficultySelect(
-                selected: ref.watch(addTaskController).data.difficulty,
-              ),
-            ),
+            const AddTaskLabel("Укажите сложность: "),
+            const DifficultySelect(),
+            const AddTaskLabel("Введите текст задания: "),
             Container(
+              margin: EdgeInsets.only(bottom: 20),
               constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
               child: TextFormField(
-                initialValue: ref.read(addTaskController).data.content,
-                validator: (v) =>
-                    v!.isEmpty ? "Домашнее задание обязательно" : null,
-                onChanged: (t) =>
-                    ref.read(addTaskController).setContent(t.trim()),
+                initialValue: addTask.data.content,
+                validator: (v) => v!.isEmpty ? "Домашнее задание обязательно" : null,
+                onChanged: (t) => ref.read(addTaskController).setContent(t.trim()),
                 maxLines: null,
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 4,
                 style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                  labelText: "Домашнее задание",
-                  alignLabelWithHint: true,
-                  labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiaryContainer),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                 ),
               ),
+            ),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 350),
+              child: !addTask.subjectInSchedule ? const SaveToScheduleCheckBox() : Container(),
             ),
           ],
         ),

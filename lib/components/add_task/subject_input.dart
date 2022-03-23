@@ -18,8 +18,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
 
   @override
   void initState() {
-    _textController =
-        TextEditingController(text: ref.read(addTaskController).data.subject);
+    _textController = TextEditingController(text: ref.read(addTaskController).data.subject);
     super.initState();
   }
 
@@ -37,21 +36,17 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             },
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
-              onChanged: (s) => setState(() {
-                ref.read(addTaskController).setSubject(s.trim());
-              }),
+              onChanged: (s) => ref.read(addTaskController).subject = s.trim(),
               autofocus: true,
               maxLines: 1,
               textCapitalization: TextCapitalization.sentences,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
-              decoration: InputDecoration(
-                labelText: "Предмет",
-                labelStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiaryContainer),
+              style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
+              decoration: const InputDecoration(
+                hintText: "Предмет",
+                // labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
                 alignLabelWithHint: true,
-                contentPadding:
-                    const EdgeInsets.only(right: 5, left: 5, bottom: 10),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                border: OutlineInputBorder(),
               ),
             ),
             hideSuggestionsOnKeyboardHide: true,
@@ -70,18 +65,17 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
               return ListTile(
                 title: Text(
                   suggestion,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                 ),
               );
             },
             onSuggestionSelected: (String suggestion) {
               setState(() {
-                ref.read(addTaskController).setSubject(suggestion);
+                ref.read(addTaskController).subject = suggestion;
+                // ref.read(addTaskCortroller).setSubject(suggestion);
               });
               _textController.text = suggestion;
-              _textController.selection =
-                  TextSelection.collapsed(offset: suggestion.length);
+              _textController.selection = TextSelection.collapsed(offset: suggestion.length);
             },
           ),
         ),

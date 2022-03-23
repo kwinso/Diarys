@@ -25,16 +25,16 @@ class AddTask extends ConsumerWidget {
           body: SingleChildScrollView(
             child: AddTaskForm(formKey: _formKey),
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                await ref.read(addTaskController).commit();
-                Navigator.pop(context);
-              }
-            },
-            child: const Icon(Icons.done),
-          ),
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: Theme.of(context).colorScheme.secondary,
+          //   onPressed: () async {
+          //     if (_formKey.currentState!.validate()) {
+          //       await ref.read(addTaskController).commit();
+          //       Navigator.pop(context);
+          //     }
+          //   },
+          //   child: const Icon(Icons.done),
+          // ),
         ),
       ),
     );

@@ -45,6 +45,21 @@ class NewTaskData {
 class AddTaskController with ChangeNotifier {
   final Ref _ref;
   NewTaskData _data = NewTaskData.empty();
+
+  String _subject = '';
+  String get subject => _subject;
+  set subject(String name) {
+    _subject = name;
+    notifyListeners();
+  }
+
+  int _difficulty = 3;
+  int get difficulty => _difficulty;
+  set difficulty(int dif) {
+    _difficulty = dif;
+    notifyListeners();
+  }
+
   bool _saveToSchedule = true;
 
   AddTaskController(this._ref);
@@ -61,9 +76,8 @@ class AddTaskController with ChangeNotifier {
     return _data.content.isNotEmpty && _data.subject.isNotEmpty;
   }
 
-  bool get subjectInSchedule => _ref
-      .read(scheduleController)
-      .dayContains(_data.untilDate.weekday - 1, _data.subject);
+  bool get subjectInSchedule =>
+      _ref.read(scheduleController).dayContains(_data.untilDate.weekday - 1, _data.subject);
 
   Future<void> commit() async {
     if (_saveToSchedule && !subjectInSchedule) {
@@ -72,8 +86,7 @@ class AddTaskController with ChangeNotifier {
       // If user wants to add to some day, it probably means there's a lesson for a gived subject
       // On that day
       final until = _data.untilDate;
-      await schedule.addLessonsToDay(until.weekday - 1, [_data.subject],
-          allowDuplicate: false);
+      await schedule.addLessonsToDay(until.weekday - 1, [_data.subject], allowDuplicate: false);
       // TODO: Run if setting to "add to current day too" is enabled
       // final today = DateTime.now();
       // if (!isSameDay(today, until)) {
@@ -94,13 +107,13 @@ class AddTaskController with ChangeNotifier {
   // will be aware of change when date is changed
   void setDate(DateTime d) {
     _data.untilDate = d;
+    notifyListeners();
   }
 
   void setNextLessonDate() async {
     final today = DateTime.now().weekday - 1;
     await _ref.read(scheduleController).initBox();
-    var days =
-        _ref.read(scheduleController).getDaysContainingLesson(_data.subject);
+    var days = _ref.read(scheduleController).getDaysContainingLesson(_data.subject);
 
     days = days.map((e) {
       if (e < today) {
@@ -113,12 +126,12 @@ class AddTaskController with ChangeNotifier {
     days.sort();
 
     final daysUntillClosesLesson = days.first;
-    final nextLesson =
-        DateTime.now().add(Duration(days: daysUntillClosesLesson));
+    final nextLesson = DateTime.now().add(Duration(days: daysUntillClosesLesson));
     setDate(nextLesson);
   }
 
   void setSubject(String s) {
+    print(s);
     _data.subject = s;
     notifyListeners();
   }
