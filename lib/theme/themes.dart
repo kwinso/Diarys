@@ -41,8 +41,7 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
-        textSelectionTheme:
-            const TextSelectionThemeData(cursorColor: AppColors.secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
         shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
@@ -79,13 +78,11 @@ class AppThemeData with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
-        textSelectionTheme:
-            const TextSelectionThemeData(cursorColor: AppColors.secondary),
+        textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
         shadowColor: AppColors.shadow,
         textTheme: const TextTheme(
-                bodyText2: TextStyle(color: tertiary),
-                bodyText1: TextStyle(color: tertiary))
+                bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
   }
 }

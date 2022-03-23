@@ -3,13 +3,15 @@ import 'package:diarys/components/add_task/difficulty_select.dart';
 import 'package:diarys/components/add_task/label.dart';
 import 'package:diarys/components/add_task/save_to_schedule.dart';
 import 'package:diarys/components/add_task/subject_input.dart';
+import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddTaskForm extends ConsumerWidget {
-  final GlobalKey<FormState> formKey;
-  const AddTaskForm({Key? key, required this.formKey}) : super(key: key);
+  AddTaskForm({Key? key}) : super(key: key);
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,6 +50,16 @@ class AddTaskForm extends ConsumerWidget {
             AnimatedSize(
               duration: const Duration(milliseconds: 350),
               child: !addTask.subjectInSchedule ? const SaveToScheduleCheckBox() : Container(),
+            ),
+            AppElevatedButton(
+              text: "Добавить",
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  await ref.read(addTaskController).commit();
+                  Navigator.pop(context);
+                }
+              },
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ],
         ),
