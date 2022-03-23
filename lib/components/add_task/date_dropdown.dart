@@ -35,9 +35,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   DropdownSelection _value = DropdownSelection.tomorrow;
 
   void _setTomorrowDate() {
-    ref
-        .read(addTaskController)
-        .setDate(DateTime.now().add(const Duration(days: 1)));
+    ref.read(addTaskController).setDate(AppUtils.getTomorrowDate());
     _value = DropdownSelection.tomorrow;
   }
 
@@ -46,20 +44,17 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     _value = DropdownSelection.nextLesson;
   }
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(
-      AddTaskController addTask) {
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(String subject, DateTime date) {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
-    final d = addTask.data.untilDate;
-    final subject = addTask.data.subject;
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
     if (_value == DropdownSelection.date) {
-      String date = AppUtils.formatDate(d);
+      String d = AppUtils.formatDate(date);
       items.add(
         DropdownMenuItem(
           value: DropdownSelection.date,
-          child: DateDropdownItem(Icons.date_range, date),
+          child: DateDropdownItem(Icons.date_range, d),
         ),
       );
     }
@@ -86,48 +81,53 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final addTask = ref.watch(addTaskController);
-    final items = _getDropDownItems(addTask);
+    final subject = ref.watch(addTaskController.select((v) => v.subject));
+    final untilDate = ref.read(addTaskController).data.untilDate;
+
+    final items = _getDropDownItems(subject, untilDate);
 
     return DropdownButtonHideUnderline(
-      child: ButtonTheme(
-        alignedDropdown: true,
-        child: DropdownButton2<DropdownSelection>(
-          style: TextStyle(
-              fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-          value: _value,
-          isExpanded: true,
-          dropdownDecoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(12)),
-          items: items,
-          buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
-          onChanged: (c) {
-            switch (c) {
-              case DropdownSelection.calendar:
-                AppUtils.showBottomSheet(
-                  context: context,
-                  builder: (c) => TaskDateSelectCalendar(
-                    lesson: ref.read(addTaskController).data.subject,
-                    onSubmit: (d) {
-                      ref.read(addTaskController).setDate(d);
-                      setState(() => _value = DropdownSelection.date);
-                      Navigator.pop(c);
-                    },
-                  ),
-                );
-                break;
-              case DropdownSelection.nextLesson:
-                _setNextLessonDate();
-                break;
-              case DropdownSelection.tomorrow:
-                _setTomorrowDate();
-                break;
-              default:
-                break;
-            }
-          },
+      child: DropdownButton2<DropdownSelection>(
+        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+        value: _value,
+        isExpanded: true,
+        dropdownDecoration: BoxDecoration(
+            color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
+        items: items,
+        buttonDecoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(5),
         ),
+        focusColor: Theme.of(context).colorScheme.primary,
+        buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
+        onChanged: (c) {
+          switch (c) {
+            case DropdownSelection.calendar:
+              AppUtils.showBottomSheet(
+                context: context,
+                builder: (c) => TaskDateSelectCalendar(
+                  lesson: ref.read(addTaskController).data.subject,
+                  onSubmit: (d) {
+                    ref.read(addTaskController).setDate(d);
+                    setState(() => _value = DropdownSelection.date);
+                    Navigator.pop(c);
+                  },
+                ),
+              );
+              break;
+            case DropdownSelection.nextLesson:
+              _setNextLessonDate();
+              break;
+            case DropdownSelection.tomorrow:
+              _setTomorrowDate();
+              break;
+            default:
+              break;
+          }
+        },
       ),
     );
   }
