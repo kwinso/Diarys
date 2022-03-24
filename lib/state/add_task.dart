@@ -1,4 +1,5 @@
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
@@ -9,39 +10,21 @@ final addTaskController = ChangeNotifierProvider<AddTaskController>((ref) {
   return AddTaskController(ref);
 });
 
-class NewTaskData {
-  String subject;
-  DateTime untilDate;
-  int difficulty;
-  String content;
-
-  NewTaskData({
-    required this.subject,
-    required this.difficulty,
-    required this.content,
-    required this.untilDate,
-  });
-
-  static NewTaskData empty() {
-    return NewTaskData(
-      subject: "",
-      difficulty: 2, // Default difficulty is 2
-      content: "",
-      untilDate: DateTime.now().add(
-        const Duration(days: 1),
-      ),
-    );
-  }
-}
-
 class AddTaskController with ChangeNotifier {
   final Ref _ref;
 
   String _subject = "";
   String get subject => _subject;
+
   set subject(String name) {
     _subject = name;
-    notifyListeners();
+
+    if (_ref.read(subjectsController).exists(subject)) {
+      setNextLessonDate(); // Will also notify listeners
+    } else {
+      _untilDate = AppUtils.getTomorrowDate();
+      notifyListeners();
+    }
   }
 
   String _content = "";

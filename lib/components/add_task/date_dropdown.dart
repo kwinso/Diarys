@@ -5,6 +5,7 @@ import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 enum DropdownSelection { nextLesson, calendar, date, tomorrow }
 const nextLessonItem = DropdownMenuItem(
@@ -44,30 +45,31 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     _value = DropdownSelection.nextLesson;
   }
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(String subject) {
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems() {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
+    final addTask = ref.read(addTaskController);
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
     if (_value == DropdownSelection.date) {
-      String d = AppUtils.formatDate(ref.read(addTaskController).untilDate);
+      String d = AppUtils.formatDate(addTask.untilDate);
       items.add(
         DropdownMenuItem(
           value: DropdownSelection.date,
           child: DateDropdownItem(Icons.date_range, d),
         ),
       );
-    }
-    // If subject exists, we can find a next lesson date for it
-    if (ref.read(subjectsController).exists(subject)) {
-      if (_value == DropdownSelection.tomorrow) {
-        _setNextLessonDate();
-      }
-      items.add(nextLessonItem);
     } else {
-      items.add(tomorrowItem);
-      if (_value == DropdownSelection.nextLesson) {
-        _setTomorrowDate();
+      if (isSameDay(addTask.untilDate, AppUtils.getTomorrowDate())) {
+        // if (_value == DropdownSelection.nextLesson) {
+        _value = DropdownSelection.tomorrow;
+        items.add(tomorrowItem);
+        // }
+      } else {
+        // if (_value == DropdownSelection.tomorrow) {
+        _value = DropdownSelection.nextLesson;
+        items.add(nextLessonItem);
+        // }
       }
     }
 
@@ -81,10 +83,11 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final subject = ref.watch(addTaskController.select((v) => v.subject));
-    // final untilDate = ref.read(addTaskController).untilDate;
+    ref.watch(addTaskController.select((v) => v.subject));
+    // Subject changed: Set value to default to process it again
+    _value = DropdownSelection.tomorrow;
 
-    final items = _getDropDownItems(subject);
+    final items = _getDropDownItems();
 
     return DropdownButtonHideUnderline(
       child: DropdownButton2<DropdownSelection>(
@@ -110,7 +113,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
                 context: context,
                 builder: (c) => TaskDateSelectCalendar(
                   onSubmit: (d) {
-                    ref.read(addTaskController).untilDate = (d);
+                    ref.read(addTaskController).untilDate = d;
                     setState(() => _value = DropdownSelection.date);
                     Navigator.pop(c);
                   },

@@ -15,12 +15,12 @@ class AddTaskForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final addTask = ref.watch(addTaskController);
     return Form(
       key: formKey,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SubjectInput(),
             const Padding(
@@ -31,7 +31,7 @@ class AddTaskForm extends ConsumerWidget {
             const DifficultySelect(),
             const AddTaskLabel("Введите текст задания: "),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 20),
               constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
               child: TextFormField(
                 initialValue: ref.read(addTaskController).content,
@@ -47,21 +47,18 @@ class AddTaskForm extends ConsumerWidget {
                 ),
               ),
             ),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 350),
-              child: !ref.watch(addTaskController.select((value) => value.subjectInSchedule))
-                  ? const SaveToScheduleCheckBox()
-                  : Container(),
-            ),
-            AppElevatedButton(
-              text: "Добавить",
-              onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  await ref.read(addTaskController).commit();
-                  Navigator.pop(context);
-                }
-              },
-              color: Theme.of(context).colorScheme.secondary,
+            SaveToScheduleSwitch(),
+            Center(
+              child: AppElevatedButton(
+                text: "Добавить",
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    await ref.read(addTaskController).commit();
+                    Navigator.pop(context);
+                  }
+                },
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
           ],
         ),

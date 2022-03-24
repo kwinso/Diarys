@@ -3,17 +3,24 @@ import 'package:diarys/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-class SaveToScheduleCheckBox extends ConsumerStatefulWidget {
-  const SaveToScheduleCheckBox({Key? key}) : super(key: key);
+class SaveToScheduleSwitch extends ConsumerWidget {
+  const SaveToScheduleSwitch({Key? key}) : super(key: key);
 
   @override
-  _SaveToScheduleCheckBoxState createState() => _SaveToScheduleCheckBoxState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(addTaskController.select((v) => v.subject));
+    return AnimatedSize(
+      duration: Duration(milliseconds: 200),
+      child: !ref.read(addTaskController).subjectInSchedule ? _Switch() : Container(),
+    );
+  }
 }
 
-class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox> {
+class _Switch extends ConsumerWidget {
+  const _Switch({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    final addTask = ref.watch(addTaskController);
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -37,8 +44,8 @@ class _SaveToScheduleCheckBoxState extends ConsumerState<SaveToScheduleCheckBox>
         ),
         const Flexible(child: Text("Добавить в расписание")),
         Switch(
-          value: addTask.saveToSchedule,
-          onChanged: (v) => addTask.saveToSchedule = v,
+          value: ref.watch(addTaskController.select((value) => value.saveToSchedule)),
+          onChanged: (v) => ref.read(addTaskController).saveToSchedule = v,
           activeColor: Theme.of(context).colorScheme.secondary,
         ),
       ],
