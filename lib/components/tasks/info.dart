@@ -1,3 +1,5 @@
+import 'package:diarys/components/add_task/calendar.dart';
+import 'package:diarys/components/add_task/difficulty_select.dart';
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
@@ -17,16 +19,40 @@ class _TaskInfoState extends State<TaskInfo> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          widget.task.subject,
-          style: const TextStyle(fontSize: 30),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: TextFormField(
+                initialValue: widget.task.subject,
+                maxLines: 1,
+                decoration: InputDecoration(border: InputBorder.none),
+                //  widget.task.subject,
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+            AppElevatedButton(
+              text: AppUtils.formatDate(widget.task.untilDate),
+              // TODO: Open a calendar
+              onPressed: () {
+                AppUtils.showBottomSheet(
+                  context: context,
+                  builder: (_) => AppCalendarDatePicker(
+                    allowedDays: [],
+                    selected: DateTime.now(),
+                    onSelect: (_) {},
+                  ),
+                );
+                // showPop
+              },
+            ),
+          ]),
         ),
-        Text(
-          AppUtils.formatDate(widget.task.untilDate),
-          style: TextStyle(
-              fontSize: 15,
-              color: Theme.of(context).colorScheme.tertiaryContainer),
-        ),
+        // Text(
+        //   AppUtils.formatDate(widget.task.untilDate),
+        //   style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+        // ),
         Divider(
           thickness: 2,
           // height: 5,
@@ -52,12 +78,18 @@ class _TaskInfoState extends State<TaskInfo> {
             ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: DifficultySelect(),
+        ),
         // TODO: Delete button
         // TODO: Mark as done
         AppElevatedButton(
-            text: "Сделано",
-            onPressed: () {},
-            color: Theme.of(context).colorScheme.secondary),
+          foregroundColor: Colors.white,
+          text: "Сделано",
+          onPressed: () {},
+          color: Theme.of(context).colorScheme.secondary,
+        ),
       ],
     );
   }

@@ -23,7 +23,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _CustomCalendar(
+        AppCalendarDatePicker(
           selected: _date ?? DateTime.now(),
           allowedDays: ref
               .read(scheduleController)
@@ -34,6 +34,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
           opacity: _date != null ? 1 : 0.5,
           child: AppElevatedButton(
             color: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Colors.white,
             onPressed: () {
               if (_date != null) widget.onSubmit(_date!);
             },
@@ -45,11 +46,11 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
   }
 }
 
-class _CustomCalendar extends StatelessWidget {
+class AppCalendarDatePicker extends StatelessWidget {
   final List<int> allowedDays;
   final DateTime selected;
   final Function(DateTime d) onSelect;
-  const _CustomCalendar({
+  const AppCalendarDatePicker({
     Key? key,
     required this.allowedDays,
     required this.selected,

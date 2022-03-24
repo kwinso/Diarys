@@ -9,7 +9,6 @@ class DifficultySelect extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
-      // alignment: Alignment.center,
       children: [
         const DifficultySelectLayout(),
         Row(

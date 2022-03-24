@@ -14,8 +14,7 @@ class TaskCard extends StatefulWidget {
   State<TaskCard> createState() => _TaskCardState();
 }
 
-class _TaskCardState extends State<TaskCard>
-    with SingleTickerProviderStateMixin {
+class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin {
   late Animation<Color?> _animation;
   late AnimationController _controller;
   bool _done = false;
@@ -23,11 +22,9 @@ class _TaskCardState extends State<TaskCard>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 200), vsync: this);
+    _controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
     _animation = ColorTween(
-            begin: Colors.transparent,
-            end: AppUtils.getDifficultyColor(widget.task.difficulty))
+            begin: Colors.transparent, end: AppUtils.getDifficultyColor(widget.task.difficulty))
         .animate(_controller)
       ..addListener(() => setState(() {}));
   }
@@ -43,7 +40,11 @@ class _TaskCardState extends State<TaskCard>
     return GestureDetector(
       onTap: () {
         AppUtils.showBottomSheet(
-            context: context, builder: (context) => TaskInfo(widget.task));
+            context: context,
+            builder: (context) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: TaskInfo(widget.task),
+                ));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -58,8 +59,7 @@ class _TaskCardState extends State<TaskCard>
             Flexible(
               child: Container(
                 padding: const EdgeInsets.only(bottom: 5),
-                constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
                 child: Text(
                   widget.task.subject,
                   overflow: TextOverflow.ellipsis,
@@ -83,9 +83,7 @@ class _TaskCardState extends State<TaskCard>
                     color: _animation.value,
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(
-                        width: 1,
-                        color: AppUtils.getDifficultyColor(
-                            widget.task.difficulty))),
+                        width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
                 alignment: Alignment.center,
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),

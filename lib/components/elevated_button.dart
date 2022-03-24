@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppElevatedButton extends StatelessWidget {
   final String text;
+  final Color? foregroundColor;
   final Color? color;
   final VoidCallback onPressed;
   const AppElevatedButton({
     Key? key,
     required this.text,
     this.color,
+    this.foregroundColor,
     required this.onPressed,
   }) : super(key: key);
 
@@ -20,8 +22,9 @@ class AppElevatedButton extends StatelessWidget {
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        backgroundColor: MaterialStateProperty.all(color),
+        foregroundColor:
+            MaterialStateProperty.all(foregroundColor ?? Theme.of(context).colorScheme.tertiary),
+        backgroundColor: MaterialStateProperty.all(color ?? Theme.of(context).colorScheme.primary),
       ),
     );
   }

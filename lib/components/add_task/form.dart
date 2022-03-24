@@ -50,6 +50,7 @@ class AddTaskForm extends ConsumerWidget {
             SaveToScheduleSwitch(),
             Center(
               child: AppElevatedButton(
+                foregroundColor: Colors.white,
                 text: "Добавить",
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
