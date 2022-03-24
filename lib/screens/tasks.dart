@@ -43,11 +43,11 @@ class TasksScrollView extends ConsumerWidget {
           delegate: SliverChildListDelegate(
             [
               AnimatedCrossFade(
-                firstChild: Center(child: NoTasksMessage()),
+                firstChild: const Center(child: NoTasksMessage()),
                 secondChild: Container(),
                 crossFadeState:
                     tasks.all.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
               ),
               TasksList(
                 header: "На завтра",
@@ -74,10 +74,13 @@ class NoTasksMessage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          const Text(
-            "Заданий нет",
-            style: TextStyle(
-              fontSize: 25,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: const Text(
+              "Заданий нет",
+              style: TextStyle(
+                fontSize: 25,
+              ),
             ),
           ),
           Text(

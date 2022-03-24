@@ -10,10 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TaskCard extends ConsumerStatefulWidget {
   final Task task;
-  const TaskCard(
-    this.task, {
-    Key? key,
-  }) : super(key: key);
+  final VoidCallback onDelete;
+  const TaskCard(this.task, {Key? key, required this.onDelete}) : super(key: key);
 
   @override
   _TaskCardState createState() => _TaskCardState();
@@ -43,6 +41,8 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
   void _setDone() {
     _controller.forward();
     _done = true;
+
+    widget.onDelete();
     Timer(Duration(milliseconds: 400), () {
       _controller.reverse(from: 0);
       ref.read(tasksController).remove(widget.task.id);

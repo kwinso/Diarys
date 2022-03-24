@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/tasks/list.dart';
@@ -32,7 +34,10 @@ class AllTasksScreen extends ConsumerWidget {
       if (i + 1 == tasks.length || !isSameDay(date, tasks[i + 1].untilDate)) {
         if (date.isBefore(DateTime.now())) title += " (Просрочено)";
 
-        tasksForDays.add(TasksList(header: title, tasks: List.from(currentList)));
+        tasksForDays.add(TasksList(
+          header: title,
+          tasks: List.from(currentList),
+        ));
         currentList.clear();
       }
     }
@@ -56,6 +61,7 @@ class AllTasksScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: list
                             .map((e) => SizedBox(
+                                  key: e.tasks.first.id,
                                   width: double.infinity,
                                   child: e,
                                 ))
