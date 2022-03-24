@@ -1,7 +1,4 @@
-import 'package:diarys/components/add_task/difficulty_tile.dart';
-import 'package:diarys/components/add_task/label.dart';
 import 'package:diarys/state/add_task.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +9,7 @@ class DifficultySelect extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
-      alignment: Alignment.center,
+      // alignment: Alignment.center,
       children: [
         const DifficultySelectLayout(),
         Row(
@@ -22,13 +19,7 @@ class DifficultySelect extends ConsumerWidget {
             for (var i = 1; i <= 3; i++)
               GestureDetector(
                 onTap: () => ref.read(addTaskController).difficulty = i,
-                child: Opacity(
-                    opacity: 0,
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      color: Colors.transparent,
-                    )),
+                child: Container(height: 55, width: 30, color: Colors.transparent),
               ),
           ],
         )
@@ -126,22 +117,19 @@ class LineDivider extends ConsumerWidget {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 100),
       opacity: selectedDif == ownDif ? 1 : 0.3,
-      child: GestureDetector(
-        onTap: () => ref.read(addTaskController).difficulty = ownDif,
-        child: Column(
-          children: [
-            Container(
-              width: 2,
-              height: 15,
-              color: Theme.of(context).colorScheme.primaryContainer,
-              margin: const EdgeInsets.only(bottom: 5),
-            ),
-            Text(
-              icon,
-              style: const TextStyle(fontSize: 18),
-            )
-          ],
-        ),
+      child: Column(
+        children: [
+          Container(
+            width: 2,
+            height: 15,
+            color: Theme.of(context).colorScheme.primaryContainer,
+            margin: const EdgeInsets.only(bottom: 5),
+          ),
+          Text(
+            icon,
+            style: const TextStyle(fontSize: 18),
+          )
+        ],
       ),
     );
   }
