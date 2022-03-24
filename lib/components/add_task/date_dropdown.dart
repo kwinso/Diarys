@@ -60,16 +60,13 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
         ),
       );
     } else {
-      if (isSameDay(addTask.untilDate, AppUtils.getTomorrowDate())) {
-        // if (_value == DropdownSelection.nextLesson) {
-        _value = DropdownSelection.tomorrow;
-        items.add(tomorrowItem);
-        // }
-      } else {
-        // if (_value == DropdownSelection.tomorrow) {
+      // If subject exists, we can find a next lesson date for it
+      if (ref.read(addTaskController).subjectInSchedule) {
         _value = DropdownSelection.nextLesson;
         items.add(nextLessonItem);
-        // }
+      } else {
+        _value = DropdownSelection.tomorrow;
+        items.add(tomorrowItem);
       }
     }
 

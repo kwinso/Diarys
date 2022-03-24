@@ -41,7 +41,7 @@ class AddTaskController with ChangeNotifier {
     notifyListeners();
   }
 
-  int _difficulty = 3;
+  int _difficulty = 2;
   int get difficulty => _difficulty;
   set difficulty(int dif) {
     _difficulty = dif;

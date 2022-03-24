@@ -42,6 +42,7 @@ class TasksList {
       recomendations = l;
       return;
     }
+    recomendations.clear();
 
     var tasks = List<Task>.from(all);
     var tomorrowDate = AppUtils.getTomorrowDate();
