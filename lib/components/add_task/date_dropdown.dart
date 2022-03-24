@@ -79,8 +79,11 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   @override
   Widget build(BuildContext context) {
     ref.watch(addTaskController.select((v) => v.subject));
-    // Subject changed: Set value to default to process it again
-    _value = DropdownSelection.tomorrow;
+    // State changes in 2 situtions: subject update and selection of date from calendar
+    // If date was not select, then subject is changed => set defeault value
+    // Since we need to process the subject again
+    // To determine if it's in schedule or not
+    if (_value != DropdownSelection.date) _value = DropdownSelection.tomorrow;
 
     final items = _getDropDownItems();
 
