@@ -68,7 +68,7 @@ class _TaskCardState extends State<TaskCard> with SingleTickerProviderStateMixin
               ),
             ),
             GestureDetector(
-              // TODO: Remove since it's done
+              // TODO: Remove task after timeout because "done"  is tapped
               onTap: () {
                 if (_done) {
                   _controller.reverse();

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part "task.g.dart";
@@ -15,6 +16,9 @@ class Task {
 
   @HiveField(3)
   String content;
+
+  @HiveField(4)
+  int id = UniqueKey().hashCode;
 
   Task(
       {required this.subject,

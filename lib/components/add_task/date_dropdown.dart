@@ -1,11 +1,9 @@
 import 'package:diarys/components/add_task/calendar.dart';
 import 'package:diarys/state/add_task.dart';
-import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 enum DropdownSelection { nextLesson, calendar, date, tomorrow }
 const nextLessonItem = DropdownMenuItem(

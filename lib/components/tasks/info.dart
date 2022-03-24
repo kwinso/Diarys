@@ -5,7 +5,6 @@ import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 
-// TODO: Implement editing
 class TaskInfo extends StatefulWidget {
   final Task task;
   const TaskInfo(this.task, {Key? key}) : super(key: key);
@@ -13,6 +12,11 @@ class TaskInfo extends StatefulWidget {
   @override
   State<TaskInfo> createState() => _TaskInfoState();
 }
+
+// TODO: 1. Split every elemnt to own widget
+// TODO: 2. Add suggestions when typing subject
+// TODO: 3. Detatch DifficultySelect from addTaskController
+// TODO: 4. Update button at the button from "done" to "save" and backwards when data is updated
 
 class _TaskInfoState extends State<TaskInfo> {
   @override
@@ -27,14 +31,14 @@ class _TaskInfoState extends State<TaskInfo> {
               child: TextFormField(
                 initialValue: widget.task.subject,
                 maxLines: 1,
-                decoration: InputDecoration(border: InputBorder.none),
+                decoration: const InputDecoration(border: InputBorder.none),
                 //  widget.task.subject,
                 style: const TextStyle(fontSize: 20),
               ),
             ),
             AppElevatedButton(
               text: AppUtils.formatDate(widget.task.untilDate),
-              // TODO: Open a calendar
+              // TODO: Add "save"  button for calendar. Update arguments for proper work of calendar
               onPressed: () {
                 AppUtils.showBottomSheet(
                   context: context,
@@ -78,11 +82,10 @@ class _TaskInfoState extends State<TaskInfo> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
           child: DifficultySelect(),
         ),
-        // TODO: Delete button
         // TODO: Mark as done
         AppElevatedButton(
           foregroundColor: Colors.white,

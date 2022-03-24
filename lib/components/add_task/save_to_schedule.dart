@@ -10,8 +10,8 @@ class SaveToScheduleSwitch extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(addTaskController.select((v) => v.subject));
     return AnimatedSize(
-      duration: Duration(milliseconds: 200),
-      child: !ref.read(addTaskController).subjectInSchedule ? _Switch() : Container(),
+      duration: const Duration(milliseconds: 200),
+      child: !ref.read(addTaskController).subjectInSchedule ? const _Switch() : Container(),
     );
   }
 }

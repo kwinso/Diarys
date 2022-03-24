@@ -47,7 +47,7 @@ class AddTaskForm extends ConsumerWidget {
                 ),
               ),
             ),
-            SaveToScheduleSwitch(),
+            const SaveToScheduleSwitch(),
             Center(
               child: AppElevatedButton(
                 foregroundColor: Colors.white,
