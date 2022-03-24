@@ -1,5 +1,6 @@
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -21,10 +22,19 @@ class TasksList {
   @HiveField(2)
   List<Task> recomendations = [];
 
-  void add(Task task) {
-    all.add(task);
+  void _updateLists() {
     _udpdateTomorrow(null);
     _updateRecomendations(null);
+  }
+
+  void add(Task task) {
+    all.add(task);
+    _updateLists();
+  }
+
+  void remove(UniqueKey id) {
+    all.removeWhere((e) => e.id == id);
+    _updateLists();
   }
 
   void _udpdateTomorrow(List<Task>? l) {

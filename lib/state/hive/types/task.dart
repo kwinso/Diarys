@@ -17,12 +17,14 @@ class Task {
   @HiveField(3)
   String content;
 
-  @HiveField(4)
-  int id = UniqueKey().hashCode;
+  late UniqueKey id;
 
-  Task(
-      {required this.subject,
-      required this.difficulty,
-      required this.content,
-      required this.untilDate});
+  Task({
+    required this.subject,
+    required this.difficulty,
+    required this.content,
+    required this.untilDate,
+  }) {
+    id = UniqueKey();
+  }
 }

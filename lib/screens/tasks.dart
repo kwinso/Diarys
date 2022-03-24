@@ -42,7 +42,13 @@ class TasksScrollView extends ConsumerWidget {
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              tasks.all.isEmpty ? const NoTasksMessage() : Container(),
+              AnimatedCrossFade(
+                firstChild: Center(child: NoTasksMessage()),
+                secondChild: Container(),
+                crossFadeState:
+                    tasks.all.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                duration: Duration(milliseconds: 200),
+              ),
               TasksList(
                 header: "На завтра",
                 tasks: tasks.tomorrow,
@@ -76,8 +82,7 @@ class NoTasksMessage extends StatelessWidget {
           ),
           Text(
             "Добавьте их с помощью кнопки выше",
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.tertiaryContainer),
+            style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
           )
         ],
       ),

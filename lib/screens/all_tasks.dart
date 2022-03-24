@@ -12,7 +12,7 @@ class AllTasksScreen extends ConsumerWidget {
   const AllTasksScreen({Key? key}) : super(key: key);
 
   List<TasksList> _getList(WidgetRef ref) {
-    final tasks = ref.read(tasksController).list.all;
+    final tasks = ref.watch(tasksController).list.all;
 
     if (tasks.isEmpty) return [];
 

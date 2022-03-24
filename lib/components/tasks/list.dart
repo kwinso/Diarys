@@ -14,7 +14,7 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tasks.isEmpty) return Container();
+    // if (tasks.isEmpty) return Container();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -23,12 +23,20 @@ class TasksList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              header,
-              style: const TextStyle(fontSize: 25),
+            child: AnimatedCrossFade(
+              duration: Duration(milliseconds: 200),
+              crossFadeState:
+                  tasks.isNotEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              secondChild: Container(),
+              firstChild: Center(
+                child: Text(
+                  header,
+                  style: const TextStyle(fontSize: 25),
+                ),
+              ),
             ),
           ),
-          Column(children: [for (var t in tasks) TaskCard(t)])
+          Column(children: [for (var t in tasks) TaskCard(t, key: t.id)])
         ],
       ),
     );

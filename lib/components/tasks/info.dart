@@ -1,16 +1,25 @@
+import 'dart:async';
+
 import 'package:diarys/components/add_task/calendar.dart';
 import 'package:diarys/components/add_task/difficulty_select.dart';
 import 'package:diarys/components/elevated_button.dart';
+import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TaskInfo extends StatefulWidget {
+class TaskInfo extends ConsumerStatefulWidget {
   final Task task;
-  const TaskInfo(this.task, {Key? key}) : super(key: key);
+  final VoidCallback onBeforeDone;
+  const TaskInfo(
+    this.task, {
+    Key? key,
+    required this.onBeforeDone,
+  }) : super(key: key);
 
   @override
-  State<TaskInfo> createState() => _TaskInfoState();
+  _TaskInfoState createState() => _TaskInfoState();
 }
 
 // TODO: 1. Split every elemnt to own widget
@@ -18,7 +27,7 @@ class TaskInfo extends StatefulWidget {
 // TODO: 3. Detatch DifficultySelect from addTaskController
 // TODO: 4. Update button at the button from "done" to "save" and backwards when data is updated
 
-class _TaskInfoState extends State<TaskInfo> {
+class _TaskInfoState extends ConsumerState<TaskInfo> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,10 +62,6 @@ class _TaskInfoState extends State<TaskInfo> {
             ),
           ]),
         ),
-        // Text(
-        //   AppUtils.formatDate(widget.task.untilDate),
-        //   style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
-        // ),
         Divider(
           thickness: 2,
           // height: 5,
@@ -90,7 +95,13 @@ class _TaskInfoState extends State<TaskInfo> {
         AppElevatedButton(
           foregroundColor: Colors.white,
           text: "Сделано",
-          onPressed: () {},
+          onPressed: () {
+            widget.onBeforeDone();
+            Navigator.pop(context);
+            Timer(Duration(milliseconds: 400), () {
+              ref.read(tasksController).remove(widget.task.id);
+            });
+          },
           color: Theme.of(context).colorScheme.secondary,
         ),
       ],
