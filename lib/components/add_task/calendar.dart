@@ -1,4 +1,5 @@
 import 'package:diarys/components/elevated_button.dart';
+import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,19 +7,16 @@ import 'package:table_calendar/table_calendar.dart';
 
 class TaskDateSelectCalendar extends ConsumerStatefulWidget {
   final Function(DateTime d) onSubmit;
-  final String lesson;
   const TaskDateSelectCalendar({
     Key? key,
     required this.onSubmit,
-    required this.lesson,
   }) : super(key: key);
 
   @override
   _TaskDateSelectCalendarState createState() => _TaskDateSelectCalendarState();
 }
 
-class _TaskDateSelectCalendarState
-    extends ConsumerState<TaskDateSelectCalendar> {
+class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar> {
   DateTime? _date;
 
   @override
@@ -29,7 +27,7 @@ class _TaskDateSelectCalendarState
           selected: _date ?? DateTime.now(),
           allowedDays: ref
               .read(scheduleController)
-              .getDaysContainingLesson(widget.lesson),
+              .getDaysContainingLesson(ref.read(addTaskController).subject),
           onSelect: (d) => setState(() => _date = d),
         ),
         Opacity(
@@ -67,10 +65,8 @@ class _CustomCalendar extends StatelessWidget {
       startingDayOfWeek: StartingDayOfWeek.monday,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
-        leftChevronIcon: Icon(Icons.chevron_left,
-            color: Theme.of(context).colorScheme.tertiary),
-        rightChevronIcon: Icon(Icons.chevron_right,
-            color: Theme.of(context).colorScheme.tertiary),
+        leftChevronIcon: Icon(Icons.chevron_left, color: Theme.of(context).colorScheme.tertiary),
+        rightChevronIcon: Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.tertiary),
       ),
       calendarStyle: CalendarStyle(
         selectedDecoration: BoxDecoration(
@@ -78,27 +74,20 @@ class _CustomCalendar extends StatelessWidget {
           shape: BoxShape.circle,
           // borderRadius: BorderRadius.circular(100),
         ),
-        defaultTextStyle:
-            TextStyle(color: Theme.of(context).colorScheme.tertiary),
-        weekendTextStyle:
-            TextStyle(color: Theme.of(context).colorScheme.tertiary),
-        disabledTextStyle:
-            TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
+        defaultTextStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+        weekendTextStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+        disabledTextStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
         outsideDaysVisible: false,
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle:
-            TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-        weekdayStyle:
-            TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+        weekendStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+        weekdayStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
       ),
       pageAnimationDuration: const Duration(milliseconds: 300),
       focusedDay: selected,
       enabledDayPredicate: (d) {
         if (isSameDay(d, now)) return false;
-        return allowedDays.isNotEmpty
-            ? allowedDays.contains(d.weekday - 1)
-            : true;
+        return allowedDays.isNotEmpty ? allowedDays.contains(d.weekday - 1) : true;
       },
       selectedDayPredicate: (d) => isSameDay(d, selected),
       holidayPredicate: (d) => false,

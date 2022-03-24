@@ -34,9 +34,9 @@ class AddTaskForm extends ConsumerWidget {
               margin: EdgeInsets.only(bottom: 20),
               constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
               child: TextFormField(
-                initialValue: addTask.data.content,
+                initialValue: ref.read(addTaskController).content,
                 validator: (v) => v!.isEmpty ? "Домашнее задание обязательно" : null,
-                onChanged: (t) => ref.read(addTaskController).setContent(t.trim()),
+                onChanged: (t) => ref.read(addTaskController).content = t.trim(),
                 maxLines: null,
                 textCapitalization: TextCapitalization.sentences,
                 minLines: 4,
@@ -49,7 +49,9 @@ class AddTaskForm extends ConsumerWidget {
             ),
             AnimatedSize(
               duration: const Duration(milliseconds: 350),
-              child: !addTask.subjectInSchedule ? const SaveToScheduleCheckBox() : Container(),
+              child: !ref.watch(addTaskController.select((value) => value.subjectInSchedule))
+                  ? const SaveToScheduleCheckBox()
+                  : Container(),
             ),
             AppElevatedButton(
               text: "Добавить",

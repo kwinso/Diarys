@@ -35,7 +35,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   DropdownSelection _value = DropdownSelection.tomorrow;
 
   void _setTomorrowDate() {
-    ref.read(addTaskController).setDate(AppUtils.getTomorrowDate());
+    ref.read(addTaskController).untilDate = AppUtils.getTomorrowDate();
     _value = DropdownSelection.tomorrow;
   }
 
@@ -44,13 +44,13 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     _value = DropdownSelection.nextLesson;
   }
 
-  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(String subject, DateTime date) {
+  List<DropdownMenuItem<DropdownSelection>> _getDropDownItems(String subject) {
     final List<DropdownMenuItem<DropdownSelection>> items = [];
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
     if (_value == DropdownSelection.date) {
-      String d = AppUtils.formatDate(date);
+      String d = AppUtils.formatDate(ref.read(addTaskController).untilDate);
       items.add(
         DropdownMenuItem(
           value: DropdownSelection.date,
@@ -82,9 +82,9 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   @override
   Widget build(BuildContext context) {
     final subject = ref.watch(addTaskController.select((v) => v.subject));
-    final untilDate = ref.read(addTaskController).data.untilDate;
+    // final untilDate = ref.read(addTaskController).untilDate;
 
-    final items = _getDropDownItems(subject, untilDate);
+    final items = _getDropDownItems(subject);
 
     return DropdownButtonHideUnderline(
       child: DropdownButton2<DropdownSelection>(
@@ -109,9 +109,8 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
               AppUtils.showBottomSheet(
                 context: context,
                 builder: (c) => TaskDateSelectCalendar(
-                  lesson: ref.read(addTaskController).data.subject,
                   onSubmit: (d) {
-                    ref.read(addTaskController).setDate(d);
+                    ref.read(addTaskController).untilDate = (d);
                     setState(() => _value = DropdownSelection.date);
                     Navigator.pop(c);
                   },

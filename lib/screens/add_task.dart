@@ -35,12 +35,6 @@ class AddTask extends ConsumerWidget {
           //   ),
           // ),
         ),
-
-        // floatingActionButton: FloatingActionButton(
-        //   backgroundColor: Theme.of(context).colorScheme.secondary,
-        //   onPressed: () async {
-        //   child: const Icon(Icons.done),
-        // ),
       ),
     );
   }
