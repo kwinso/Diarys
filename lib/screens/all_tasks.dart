@@ -5,6 +5,7 @@ import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
+import 'package:diarys/texts.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,8 @@ class AllTasksScreen extends ConsumerWidget {
         if (date.isBefore(DateTime.now())) title += " (Просрочено)";
 
         tasksForDays.add(TasksList(
-          header: title,
+          title: AppTexts.week.days[date.weekday - 1],
+          dateLabel: AppUtils.formatDate(date),
           tasks: List.from(currentList),
         ));
         currentList.clear();

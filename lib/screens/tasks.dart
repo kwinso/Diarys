@@ -2,6 +2,7 @@ import 'package:diarys/components/tasks_list_controls.dart';
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
+import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,11 +51,12 @@ class TasksScrollView extends ConsumerWidget {
                 duration: const Duration(milliseconds: 200),
               ),
               TasksList(
-                header: "На завтра",
+                title: "На завтра",
+                dateLabel: AppUtils.formatDate(AppUtils.getTomorrowDate()),
                 tasks: tasks.tomorrow,
               ),
               TasksList(
-                header: "Рекомендации",
+                title: "Рекомендации",
                 tasks: tasks.recomendations,
               )
             ],
@@ -74,9 +76,9 @@ class NoTasksMessage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Text(
               "Заданий нет",
               style: TextStyle(
                 fontSize: 25,
