@@ -21,6 +21,7 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
   late Animation<Color?> _animation;
   late AnimationController _controller;
   bool _done = false;
+  bool _rendered = false;
 
   @override
   void initState() {
@@ -30,6 +31,8 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
             begin: Colors.transparent, end: AppUtils.getDifficultyColor(widget.task.difficulty))
         .animate(_controller)
       ..addListener(() => setState(() {}));
+
+    Timer(Duration.zero, () => setState(() => _rendered = true));
   }
 
   @override
@@ -41,11 +44,11 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
   void _setDone() {
     _controller.forward();
     _done = true;
-
     widget.onDelete();
-    Timer(Duration(milliseconds: 400), () {
-      _controller.reverse(from: 0);
+
+    Timer(Duration(milliseconds: 300), () {
       ref.read(tasksController).remove(widget.task.id);
+
       AppUtils.showSnackBar(context,
           text: "Задание выполнено.",
           action: SnackBarAction(
@@ -60,7 +63,7 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 300),
       crossFadeState: _done ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       secondChild: Container(),
       firstChild: GestureDetector(
