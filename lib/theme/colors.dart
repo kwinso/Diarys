@@ -1,9 +1,9 @@
 import 'package:flutter/rendering.dart';
 
 class AppColors {
-  static const green = Color(0xFF4FC232);
-  static const yellow = Color(0xFFFACB28);
-  static const red = Color(0xFFFB4343);
+  static const green = Color.fromRGBO(79, 194, 50, 0.5);
+  static const yellow = Color.fromRGBO(250, 203, 40, 0.72);
+  static const red = Color.fromRGBO(251, 67, 67, 0.85);
   static const secondary = Color(0xFF9556D3);
-  static const shadow = Color.fromARGB(117, 0, 0, 0);
+  static const shadow = Color.fromRGBO(122, 122, 122, 0.25);
 }

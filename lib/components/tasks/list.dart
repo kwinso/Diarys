@@ -1,7 +1,6 @@
 import 'package:diarys/components/tasks/card.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
-import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,7 +43,6 @@ class _TasksListState extends ConsumerState<TasksList> {
       widget.title,
       style: TextStyle(fontSize: 23, color: Theme.of(context).colorScheme.tertiaryContainer),
     );
-    // if (widget.dateLabel != null) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -55,9 +53,6 @@ class _TasksListState extends ConsumerState<TasksList> {
         )
       ],
     );
-    // }
-
-    // return Center(child: nameLabel);
   }
 
   @override
@@ -67,7 +62,6 @@ class _TasksListState extends ConsumerState<TasksList> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedCrossFade(
             duration: Duration(milliseconds: 200),
@@ -78,28 +72,14 @@ class _TasksListState extends ConsumerState<TasksList> {
               child: _getHeader(),
             ),
           ),
-          ListView(
-            physics: NeverScrollableScrollPhysics(),
-            key: _key,
-            shrinkWrap: true,
-            children: [
-              for (var t in widget.tasks)
-                TaskCard(
-                  t,
-                  key: t.id,
-                  onDelete: () {
-                    if (widget.tasks.length == 1) setState(() => _titleHidden = true);
-                  },
-                )
-            ],
-          ),
-          // Column(children: [
-          //   for (var t in widget.tasks)
-          //     TaskCard(
-          //       t,
-          //       key: t.id,
-          //     )
-          // ])
+          for (var t in widget.tasks)
+            TaskCard(
+              t,
+              key: t.id,
+              onDelete: () {
+                if (widget.tasks.length == 1) setState(() => _titleHidden = true);
+              },
+            )
         ],
       ),
     );

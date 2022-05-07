@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 AppThemeData currentTheme = AppThemeData();
 
 class AppThemeData with ChangeNotifier {
-  static bool _isDark = true;
+  static bool _isDark = false;
   ThemeMode get mode => _isDark ? ThemeMode.dark : ThemeMode.light;
 
   void toggle({bool? value}) {
@@ -13,9 +13,9 @@ class AppThemeData with ChangeNotifier {
   }
 
   static ThemeData get light {
-    const primary = Color(0xFFDFDEDE);
-    const bg = Color(0xFFFFFFFF);
-    const tertiary = Color(0xFF161515);
+    const bg = Color(0xFFEFF1F6);
+    const primary = Color(0xFFFFFFFF);
+    const tertiary = Color(0xFF343434);
 
     return ThemeData(
         splashColor: Colors.transparent,
@@ -26,10 +26,10 @@ class AppThemeData with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: primary,
-          primaryContainer: Color.fromARGB(255, 197, 197, 197),
+          primaryContainer: Color(0xFFBFBFBF),
           secondary: AppColors.secondary,
           tertiary: tertiary,
-          tertiaryContainer: Color(0xFF9C9C9C),
+          tertiaryContainer: Color(0xFF676E83),
           background: bg,
           onSecondary: Colors.white,
           onPrimaryContainer: Colors.white,

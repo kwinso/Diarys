@@ -1,4 +1,4 @@
-import 'package:diarys/components/add_task/calendar.dart';
+import 'package:diarys/components/date_select.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,8 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
             case DropdownSelection.calendar:
               AppUtils.showBottomSheet(
                 context: context,
-                builder: (c) => TaskDateSelectCalendar(
+                builder: (c) => DateSelectCalendar(
+                  subject: ref.read(addTaskController).subject,
                   onSubmit: (d) {
                     ref.read(addTaskController).untilDate = d;
                     setState(() => _value = DropdownSelection.date);

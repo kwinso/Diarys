@@ -47,6 +47,18 @@ class AppUtils {
     }
   }
 
+  static String getDifficultyEmoji(int d) {
+    switch (d) {
+      case 1:
+        return "👌";
+      case 2:
+        return "😀";
+      // 3 and (somehow) more (bc 3 is the max)
+      default:
+        return "😓";
+    }
+  }
+
   static String formatDate(DateTime d) =>
       "${d.day.toString().padLeft(2, "0")}.${d.month.toString().padLeft(2, "0")}.${d.year}";
 
@@ -62,6 +74,7 @@ class AppUtils {
     ScaffoldMessenger.of(ctx).clearSnackBars();
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
+        dismissDirection: DismissDirection.horizontal,
         backgroundColor: Theme.of(ctx).colorScheme.primaryContainer,
         content: Text(
           text,
@@ -78,12 +91,14 @@ class AppUtils {
   static void showBottomSheet({
     required BuildContext context,
     required Widget Function(BuildContext) builder,
+    Key? key,
   }) {
     showMaterialModalBottomSheet(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       backgroundColor: Theme.of(context).backgroundColor,
       context: context,
       builder: (ctx) => SingleChildScrollView(
+        key: key,
         child: Container(
           padding: EdgeInsets.only(
             left: 15,

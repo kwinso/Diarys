@@ -1,6 +1,6 @@
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
-import 'package:diarys/state/edit_mode.dart';
+import 'package:diarys/state/edit_schedule.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';

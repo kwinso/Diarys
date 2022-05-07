@@ -1,6 +1,6 @@
 import 'package:diarys/components/schedule/fabs/edit_fab.dart';
 import 'package:diarys/components/schedule/fabs/schedule_fab.dart';
-import 'package:diarys/state/edit_mode.dart';
+import 'package:diarys/state/edit_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

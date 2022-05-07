@@ -1,6 +1,6 @@
 import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/schedule/lesson.dart';
-import 'package:diarys/state/edit_mode.dart';
+import 'package:diarys/state/edit_schedule.dart';
 import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,9 +47,7 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
           "Пусто",
           key: const Key("empty"),
           textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 25,
-              color: Theme.of(context).colorScheme.tertiaryContainer),
+          style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
         )
       ];
     }
@@ -137,8 +135,7 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
               curve: Curves.linear,
               controller: _swiperController,
               index: widget.currentDay.value,
-              onIndexChanged: (idx) =>
-                  setState(() => widget.currentDay.value = idx),
+              onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
               itemBuilder: _getSwiperDaysBuilder(),
               itemCount: 7,
               loop: true))

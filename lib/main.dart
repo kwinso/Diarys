@@ -7,6 +7,7 @@ import 'package:diarys/state/hive/types/subjects_list.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/state/hive/types/tasks_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,12 @@ void main() async {
   await initHive();
   final subjects = SubjectsController();
   await subjects.initBox();
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.white, // navigation bar color
+    statusBarColor: Colors.white, // status bar color
+    statusBarIconBrightness: Brightness.dark,
+  ));
 
   runApp(ProviderScope(
       overrides: [subjectsController.overrideWithValue(subjects)], child: const App()));

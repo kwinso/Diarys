@@ -1,8 +1,8 @@
-import 'package:diarys/components/add_task/date_dropdown.dart';
-import 'package:diarys/components/add_task/difficulty_select.dart';
-import 'package:diarys/components/add_task/label.dart';
-import 'package:diarys/components/add_task/save_to_schedule.dart';
-import 'package:diarys/components/add_task/subject_input.dart';
+import 'package:diarys/components/tasks/add/date_dropdown.dart';
+import 'package:diarys/components/tasks/add/difficulty_select.dart';
+import 'package:diarys/components/tasks/add/label.dart';
+import 'package:diarys/components/tasks/add/save_to_schedule.dart';
+import 'package:diarys/components/tasks/add/subject_input.dart';
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,10 @@ class AddTaskForm extends ConsumerWidget {
               child: DateSelectDropdown(),
             ),
             const AddTaskLabel("Укажите сложность: "),
-            const DifficultySelect(),
+            DifficultySelect(
+              selected: ref.watch(addTaskController.select((value) => value.difficulty)),
+              onSelect: (d) => ref.read(addTaskController).difficulty = d,
+            ),
             const AddTaskLabel("Введите текст задания: "),
             Container(
               margin: const EdgeInsets.only(bottom: 20),

@@ -1,3 +1,4 @@
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
@@ -28,6 +29,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [Locale("ru")],
       builder: (context, child) {
@@ -62,7 +64,7 @@ class _MainPageState extends ConsumerState<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: const CustomAppBar(),
+      // appBar: Container(),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 100),
         transitionBuilder: (Widget child, Animation<double> animation) {
@@ -74,16 +76,22 @@ class _MainPageState extends ConsumerState<MainPage> {
       // body: screens[_activeScreen],
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-            ),
+          decoration: const BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(color: AppColors.shadow, blurRadius: 3, offset: Offset(0.0, 0.1))
+            ],
           ),
+          // decoration: BoxDecoration(
+          //     // TODO: Add shadow
+          //     // border: Border(
+          //     //   top: BorderSide(
+          //     //     color: Theme.of(context).colorScheme.primaryContainer,
+          //     // ),
+          //     // ),
+          //     ),
           child: BottomNavigationBar(
               currentIndex: _activeScreen,
-              elevation: 0,
+              elevation: 10.0,
               onTap: (idx) {
                 if (idx != _activeScreen) {
                   setState(() {
@@ -91,15 +99,13 @@ class _MainPageState extends ConsumerState<MainPage> {
                   });
                 }
               },
-              backgroundColor: Theme.of(context).backgroundColor,
+              backgroundColor: Theme.of(context).primaryColor,
               selectedItemColor: Theme.of(context).colorScheme.secondary,
-              unselectedItemColor:
-                  Theme.of(context).colorScheme.tertiaryContainer,
+              unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
               items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.list_alt), label: "Расписание")
+                    icon: Icon(Icons.calendar_month_rounded), label: "Расписание")
               ])),
     );
   }

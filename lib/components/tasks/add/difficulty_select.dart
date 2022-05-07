@@ -3,21 +3,27 @@ import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DifficultySelect extends ConsumerWidget {
-  const DifficultySelect({Key? key}) : super(key: key);
+class DifficultySelect extends StatelessWidget {
+  final int selected;
+  final Function(int) onSelect;
+  const DifficultySelect({
+    Key? key,
+    required this.selected,
+    required this.onSelect,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Stack(
       children: [
-        const DifficultySelectLayout(),
+        DifficultySelectLayout(selected: selected),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (var i = 1; i <= 3; i++)
               GestureDetector(
-                onTap: () => ref.read(addTaskController).difficulty = i,
+                onTap: () => onSelect(i),
                 child: Container(height: 55, width: 30, color: Colors.transparent),
               ),
           ],
@@ -29,12 +35,14 @@ class DifficultySelect extends ConsumerWidget {
 
 const double indicatorSize = 18;
 
-class DifficultySelectLayout extends ConsumerWidget {
+class DifficultySelectLayout extends StatelessWidget {
+  final int selected;
   const DifficultySelectLayout({
     Key? key,
+    required this.selected,
   }) : super(key: key);
 
-  Offset _getIndicatorOffSet(double maxWidth, int dif) {
+  Offset _getIndicatorOffset(double maxWidth, int dif) {
     // Since indicator is moved by edge, we should keep the size of it in percentage to whole slider width
     double padding = indicatorSize / maxWidth;
     double xOffset = 0;
@@ -48,8 +56,8 @@ class DifficultySelectLayout extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ref) {
-    final dif = ref.watch(addTaskController.select((value) => value.difficulty));
+  Widget build(BuildContext context) {
+    // final dif = ref.watch(addTaskController.select((value) => value.difficulty));
 
     return Column(
       children: [
@@ -65,7 +73,7 @@ class DifficultySelectLayout extends ConsumerWidget {
               LayoutBuilder(
                 builder: (context, constraints) => AnimatedSlide(
                   duration: const Duration(milliseconds: 200),
-                  offset: _getIndicatorOffSet(constraints.maxWidth, dif),
+                  offset: _getIndicatorOffset(constraints.maxWidth, selected),
                   child: Row(
                     children: [
                       Container(
@@ -73,7 +81,8 @@ class DifficultySelectLayout extends ConsumerWidget {
                         height: indicatorSize,
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
-                          border: Border.all(width: 1, color: AppUtils.getDifficultyColor(dif)),
+                          border:
+                              Border.all(width: 1, color: AppUtils.getDifficultyColor(selected)),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       )
@@ -89,9 +98,9 @@ class DifficultySelectLayout extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              LineDivider(icon: "😄", selectedDif: dif, ownDif: 1),
-              LineDivider(icon: "😓", selectedDif: dif, ownDif: 2),
-              LineDivider(icon: "😫", selectedDif: dif, ownDif: 3),
+              LineDivider(icon: "😄", selectedDif: selected, ownDif: 1),
+              LineDivider(icon: "😓", selectedDif: selected, ownDif: 2),
+              LineDivider(icon: "😫", selectedDif: selected, ownDif: 3),
             ],
           ),
         )
@@ -100,7 +109,7 @@ class DifficultySelectLayout extends ConsumerWidget {
   }
 }
 
-class LineDivider extends ConsumerWidget {
+class LineDivider extends StatelessWidget {
   final String icon;
   final int selectedDif;
   final int ownDif;
@@ -112,7 +121,7 @@ class LineDivider extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 100),
       opacity: selectedDif == ownDif ? 1 : 0.3,

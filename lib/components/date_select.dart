@@ -1,23 +1,31 @@
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class TaskDateSelectCalendar extends ConsumerStatefulWidget {
+class DateSelectCalendar extends ConsumerStatefulWidget {
   final Function(DateTime d) onSubmit;
-  const TaskDateSelectCalendar({
-    Key? key,
-    required this.onSubmit,
-  }) : super(key: key);
+  final String subject;
+  final DateTime? selected;
+  const DateSelectCalendar({Key? key, required this.onSubmit, required this.subject, this.selected})
+      : super(key: key);
 
   @override
-  _TaskDateSelectCalendarState createState() => _TaskDateSelectCalendarState();
+  _DateSelectCalendarState createState() => _DateSelectCalendarState();
 }
 
-class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar> {
+class _DateSelectCalendarState extends ConsumerState<DateSelectCalendar> {
   DateTime? _date;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _date = widget.selected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +33,7 @@ class _TaskDateSelectCalendarState extends ConsumerState<TaskDateSelectCalendar>
       children: [
         AppCalendarDatePicker(
           selected: _date ?? DateTime.now(),
-          allowedDays: ref
-              .read(scheduleController)
-              .getDaysContainingLesson(ref.read(addTaskController).subject),
+          allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.subject),
           onSelect: (d) => setState(() => _date = d),
         ),
         Opacity(
@@ -88,6 +94,7 @@ class AppCalendarDatePicker extends StatelessWidget {
       focusedDay: selected,
       enabledDayPredicate: (d) {
         if (isSameDay(d, now)) return false;
+        if (isSameDay(d, selected)) return true;
         return allowedDays.isNotEmpty ? allowedDays.contains(d.weekday - 1) : true;
       },
       selectedDayPredicate: (d) => isSameDay(d, selected),

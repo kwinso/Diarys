@@ -1,6 +1,9 @@
-import 'package:diarys/components/tasks_list_controls.dart';
+import 'package:diarys/components/app_bar.dart';
+import 'package:diarys/components/screen_header.dart';
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/tasks/list.dart';
+import 'package:diarys/screens/add_task.dart';
+import 'package:diarys/screens/all_tasks.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +17,6 @@ class TasksScreen extends ConsumerWidget {
     return HiveControllersInit(
       controllers: [tasksController],
       build: () => const Scaffold(
-        // resizeToAvoidBottomInset: true,
         body: TasksScrollView(),
       ),
     );
@@ -31,18 +33,37 @@ class TasksScrollView extends ConsumerWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          floating: true,
-          // pinned: true,
-          expandedHeight: 70,
-          collapsedHeight: 70,
+          pinned: true,
+          expandedHeight: 50,
+          toolbarHeight: 50,
           flexibleSpace: Container(
             decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
-            child: const TasksControls(),
+            child: const CustomAppBar(),
           ),
         ),
         SliverList(
           delegate: SliverChildListDelegate(
             [
+              ScreenHeader(
+                title: "Задания",
+                buttons: [
+                  ScreenHeaderButton(
+                    label: "Все задания",
+                    icon: Icons.subject_rounded,
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
+                    },
+                  ),
+                  ScreenHeaderButton(
+                    label: "Добавить",
+                    icon: Icons.add_rounded,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()));
+                    },
+                  ),
+                ],
+              ),
               AnimatedCrossFade(
                 firstChild: const Center(child: NoTasksMessage()),
                 secondChild: Container(),
@@ -74,22 +95,12 @@ class NoTasksMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(
-              "Заданий нет",
-              style: TextStyle(
-                fontSize: 25,
-              ),
-            ),
-          ),
-          Text(
-            "Добавьте их с помощью кнопки выше",
-            style: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
-          )
-        ],
+      child: Text(
+        "Заданий нет",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+          fontSize: 25,
+        ),
       ),
     );
   }
