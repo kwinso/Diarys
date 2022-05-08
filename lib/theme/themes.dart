@@ -36,7 +36,7 @@ class AppThemeData with ChangeNotifier {
           onPrimaryContainer: Colors.white,
           onTertiary: Colors.white,
           onPrimary: tertiary,
-          error: Color(0xFFFB4343),
+          error: AppColors.red,
           onError: Colors.white,
           onBackground: tertiary,
           surface: primary,
@@ -52,8 +52,8 @@ class AppThemeData with ChangeNotifier {
   }
 
   static ThemeData get dark {
-    const primary = Color(0xFF35383F);
-    const bg = Color(0xFF1E1F25);
+    const primary = Color(0xFF3D3D3D);
+    const bg = Color(0xFF2A2A2A);
     const tertiary = Colors.white;
 
     return ThemeData(
@@ -65,15 +65,15 @@ class AppThemeData with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color.fromARGB(255, 68, 72, 80),
+          primaryContainer: Color(0xFF7E7E7E),
           secondary: AppColors.secondary,
           tertiary: tertiary,
-          tertiaryContainer: Color(0xFFA1A19F),
+          tertiaryContainer: Color(0xFF828690),
           background: bg,
           onSecondary: tertiary,
           onPrimaryContainer: tertiary,
           onPrimary: tertiary,
-          error: Color(0xFFFB4343),
+          error: AppColors.red,
           onError: tertiary,
           onBackground: tertiary,
           surface: primary,
@@ -81,7 +81,7 @@ class AppThemeData with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: const Color.fromRGBO(122, 122, 122, 0.25),
+        shadowColor: Color.fromARGB(62, 107, 107, 107),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));

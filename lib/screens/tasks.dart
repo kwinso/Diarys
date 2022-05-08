@@ -54,7 +54,7 @@ class TasksScrollView extends ConsumerWidget {
                     label: "Все задания",
                     icon: Icons.subject_rounded,
                     onPressed: () {
-                      Navigator.push(
+                      Routing.push(
                           context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
                     },
                   ),
@@ -62,7 +62,9 @@ class TasksScrollView extends ConsumerWidget {
                     label: "Добавить",
                     icon: Icons.add_rounded,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()));
+                      Routing.push(context, MaterialPageRoute(builder: (ctx) => const AddTask()),
+                          overlayColor: Theme.of(context).backgroundColor,
+                          popOverlayColor: Theme.of(context).primaryColor);
                     },
                   ),
                 ],

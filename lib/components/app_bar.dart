@@ -1,3 +1,4 @@
+import 'package:diarys/routing.dart';
 import 'package:diarys/screens/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
               IconButton(
                   tooltip: "Настройки",
                   splashRadius: 1,
-                  onPressed: () => Navigator.push(
+                  onPressed: () => Routing.push(
                       context, MaterialPageRoute(builder: (ctx) => const SettingsScreen())),
                   icon: Icon(
                     Icons.settings_rounded,

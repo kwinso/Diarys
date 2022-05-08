@@ -99,7 +99,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
             color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
         items: items,
         buttonDecoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(12),
         ),
         focusColor: Theme.of(context).colorScheme.primary,

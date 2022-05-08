@@ -16,9 +16,10 @@ class AddTask extends ConsumerWidget {
       build: () => ScaffoldMessenger(
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Theme.of(context).primaryColor,
-            appBar: const RouteBar(
+            backgroundColor: Theme.of(context).backgroundColor,
+            appBar: RouteBar(
               name: "Новое задание",
+              backgroundColor: Theme.of(context).backgroundColor,
             ),
             body: SingleChildScrollView(
               child: AddTaskForm(),

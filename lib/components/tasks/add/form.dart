@@ -50,7 +50,7 @@ class AddTaskForm extends ConsumerWidget {
                   hintText: "Задание",
                   hintStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
                   filled: true,
-                  fillColor: Theme.of(context).colorScheme.background,
+                  fillColor: Theme.of(context).primaryColor,
                   border: UnderlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,

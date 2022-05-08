@@ -8,21 +8,22 @@ class Routing {
     Color? overlayColor,
     Color? popOverlayColor,
   }) async {
-    _changeSystemColor(overlayColor ?? Theme.of(context).backgroundColor);
+    _changeSystemColor(overlayColor);
     Navigator.push(
       context,
       route,
     ).then((res) {
-      _changeSystemColor(popOverlayColor ?? Theme.of(context).backgroundColor);
+      _changeSystemColor(popOverlayColor);
     });
   }
 
-  static void _changeSystemColor(Color overlayColor) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-          systemNavigationBarColor: overlayColor,
-          statusBarColor: overlayColor,
-          statusBarBrightness: Brightness.dark),
-    );
+  static void _changeSystemColor(Color? overlayColor) {
+    if (overlayColor != null)
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+            systemNavigationBarColor: overlayColor,
+            statusBarColor: overlayColor,
+            statusBarBrightness: Brightness.dark),
+      );
   }
 }

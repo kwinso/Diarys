@@ -46,7 +46,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
                 hintText: "Предмет",
                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.background,
+                fillColor: Theme.of(context).primaryColor,
                 alignLabelWithHint: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 border: UnderlineInputBorder(
@@ -60,7 +60,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             keepSuggestionsOnSuggestionSelected: false,
             suggestionsBoxDecoration: SuggestionsBoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).primaryColor,
             ),
             hideOnEmpty: true,
             noItemsFoundBuilder: (_) => Container(),
