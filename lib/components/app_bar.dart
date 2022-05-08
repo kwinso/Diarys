@@ -18,10 +18,10 @@ class LogoText extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height = 50;
 
-  const CustomAppBar({Key? key}) : super(key: key);
+  const MainAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

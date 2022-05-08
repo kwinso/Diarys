@@ -90,17 +90,17 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<DropdownSelection>(
         style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+        buttonHeight: 50,
+        icon: const Icon(Icons.expand_more_rounded),
         value: _value,
         isExpanded: true,
+        offset: const Offset(0, -5),
         dropdownDecoration: BoxDecoration(
             color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
         items: items,
         buttonDecoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(5),
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.circular(12),
         ),
         focusColor: Theme.of(context).colorScheme.primary,
         buttonPadding: const EdgeInsets.symmetric(horizontal: 5),
@@ -148,7 +148,7 @@ class DateDropdownItem extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Icon(
             icon,
             color: Theme.of(context).colorScheme.tertiaryContainer,

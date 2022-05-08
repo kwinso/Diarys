@@ -14,13 +14,15 @@ class AddTask extends ConsumerWidget {
     return HiveControllersInit(
       controllers: [scheduleController, tasksController],
       build: () => ScaffoldMessenger(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: const RouteBar(
-            name: "Новое задание",
-          ),
-          body: SingleChildScrollView(
-            child: AddTaskForm(),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Theme.of(context).primaryColor,
+            appBar: const RouteBar(
+              name: "Новое задание",
+            ),
+            body: SingleChildScrollView(
+              child: AddTaskForm(),
+            ),
           ),
         ),
       ),

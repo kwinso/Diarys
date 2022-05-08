@@ -34,6 +34,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
 
               return null;
             },
+            suggestionsBoxVerticalOffset: 5,
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => ref.read(addTaskController).subject = s.trim(),
@@ -41,12 +42,17 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
               maxLines: 1,
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Предмет",
-                // labelStyle: TextStyle(color: Theme.of(context).colorScheme.tertiaryContainer),
+                hintStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.background,
                 alignLabelWithHint: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                border: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
             hideSuggestionsOnKeyboardHide: true,

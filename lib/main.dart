@@ -29,12 +29,6 @@ void main() async {
   final subjects = SubjectsController();
   await subjects.initBox();
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.white, // navigation bar color
-    statusBarColor: Colors.white, // status bar color
-    statusBarIconBrightness: Brightness.dark,
-  ));
-
   runApp(ProviderScope(
       overrides: [subjectsController.overrideWithValue(subjects)], child: const App()));
 }

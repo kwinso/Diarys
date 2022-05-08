@@ -1,8 +1,6 @@
-import 'package:diarys/theme/colors.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
-import 'package:diarys/components/app_bar.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
 import 'package:diarys/theme/themes.dart';
@@ -23,6 +21,10 @@ class _AppState extends State<App> {
     super.initState();
     currentTheme.addListener(() {
       setState(() {});
+      // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      //   systemNavigationBarIconBrightness: currentTheme.overlayBrightness,
+      //   statusBarIconBrightness: currentTheme.overlayBrightness,
+      // ));
     });
   }
 
@@ -64,7 +66,6 @@ class _MainPageState extends ConsumerState<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // appBar: Container(),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 100),
         transitionBuilder: (Widget child, Animation<double> animation) {
@@ -76,9 +77,13 @@ class _MainPageState extends ConsumerState<MainPage> {
       // body: screens[_activeScreen],
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             boxShadow: <BoxShadow>[
-              BoxShadow(color: AppColors.shadow, blurRadius: 3, offset: Offset(0.0, 0.1))
+              BoxShadow(
+                color: Theme.of(context).shadowColor,
+                blurRadius: 3,
+                offset: Offset(0.0, 0.1),
+              )
             ],
           ),
           // decoration: BoxDecoration(

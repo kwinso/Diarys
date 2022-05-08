@@ -1,12 +1,16 @@
 import 'package:diarys/components/app_bar.dart';
 import 'package:diarys/components/screen_header.dart';
 import 'package:diarys/components/controllers_init.dart';
+import 'package:diarys/components/sliver.dart';
 import 'package:diarys/components/tasks/list.dart';
+import 'package:diarys/routing.dart';
 import 'package:diarys/screens/add_task.dart';
 import 'package:diarys/screens/all_tasks.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
+import 'package:diarys/theme/themes.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TasksScreen extends ConsumerWidget {
@@ -30,16 +34,15 @@ class TasksScrollView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(tasksController).list;
 
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+      ),
+    );
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 50,
-          toolbarHeight: 50,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
-            child: const CustomAppBar(),
-          ),
+        const CustomSliverAppBar(
+          MainAppBar(),
         ),
         SliverList(
           delegate: SliverChildListDelegate(

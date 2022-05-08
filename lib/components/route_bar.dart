@@ -2,35 +2,55 @@ import 'package:flutter/material.dart';
 
 class RouteBar extends StatelessWidget implements PreferredSizeWidget {
   final String name;
+  final bool sliver;
   const RouteBar({
     Key? key,
     required this.name,
+    this.sliver = false,
   }) : super(key: key);
+
+  IconButton backButton(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.arrow_back,
+          color: Theme.of(context).colorScheme.secondary,
+        ));
+  }
+
+  Text title() {
+    return Text(
+      name,
+      style: const TextStyle(fontSize: 20),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Row(
-          // mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                    ))),
-            Text(
-              name,
-              style: const TextStyle(fontSize: 20),
-            ),
-          ]),
-    );
+    if (sliver) {
+      return SliverAppBar(
+          pinned: true,
+          shadowColor: Theme.of(context).shadowColor,
+          leading: backButton(context),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [title()],
+          ));
+    } else {
+      return Container(
+        color: Theme.of(context).primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [backButton(context), title()],
+          ),
+        ),
+      );
+    }
   }
 
   @override

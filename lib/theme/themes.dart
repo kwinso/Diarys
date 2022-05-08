@@ -1,5 +1,6 @@
 import 'package:diarys/theme/colors.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 
 AppThemeData currentTheme = AppThemeData();
 
@@ -43,7 +44,7 @@ class AppThemeData with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: AppColors.shadow,
+        shadowColor: const Color.fromRGBO(122, 122, 122, 0.25),
         textTheme: const TextTheme(
           bodyText2: TextStyle(),
           bodyText1: TextStyle(),
@@ -80,7 +81,7 @@ class AppThemeData with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: AppColors.shadow,
+        shadowColor: const Color.fromRGBO(122, 122, 122, 0.25),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));

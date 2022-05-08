@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/route_bar.dart';
+import 'package:diarys/components/sliver.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
@@ -54,31 +53,46 @@ class AllTasksScreen extends ConsumerWidget {
       build: () {
         final list = _getList(ref);
         return Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
-            appBar: const RouteBar(name: "Все задания"),
-            body: list.isNotEmpty
-                ? SingleChildScrollView(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: list
-                            .map((e) => SizedBox(
-                                  key: e.tasks.first.id,
-                                  width: double.infinity,
-                                  child: e,
-                                ))
-                            .toList()),
-                  )
-                : Center(
-                    child: Text(
-                      "Заданий еще нет",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Theme.of(context).colorScheme.tertiaryContainer,
-                      ),
-                    ),
-                  ));
+          backgroundColor: Theme.of(context).backgroundColor,
+          body: SafeArea(
+            child: CustomScrollView(
+              slivers: [
+                const RouteBar(
+                  name: "Задания",
+                  sliver: true,
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      list.isEmpty
+                          ? Center(
+                              child: Text(
+                                "Заданий еще нет",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                                ),
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: list
+                                  .map((e) => SizedBox(
+                                        key: e.tasks.first.id,
+                                        width: double.infinity,
+                                        child: e,
+                                      ))
+                                  .toList(),
+                            ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
       },
     );
   }

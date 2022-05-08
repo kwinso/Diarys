@@ -5,6 +5,7 @@ import 'package:diarys/components/tasks/add/save_to_schedule.dart';
 import 'package:diarys/components/tasks/add/subject_input.dart';
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/add_task.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +19,7 @@ class AddTaskForm extends ConsumerWidget {
     return Form(
       key: formKey,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,33 +28,40 @@ class AddTaskForm extends ConsumerWidget {
               padding: EdgeInsets.only(top: 20),
               child: DateSelectDropdown(),
             ),
-            const AddTaskLabel("Укажите сложность: "),
+            const AddTaskLabel("Сложность"),
             DifficultySelect(
               selected: ref.watch(addTaskController.select((value) => value.difficulty)),
               onSelect: (d) => ref.read(addTaskController).difficulty = d,
             ),
-            const AddTaskLabel("Введите текст задания: "),
             Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              constraints: const BoxConstraints(minHeight: 50, maxHeight: 100),
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              constraints: const BoxConstraints(minHeight: 50, maxHeight: 120),
               child: TextFormField(
                 initialValue: ref.read(addTaskController).content,
                 validator: (v) => v!.isEmpty ? "Домашнее задание обязательно" : null,
                 onChanged: (t) => ref.read(addTaskController).content = t.trim(),
                 maxLines: null,
                 textCapitalization: TextCapitalization.sentences,
-                minLines: 4,
+                minLines: 6,
                 style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                 keyboardType: TextInputType.multiline,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  hintText: "Задание",
+                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.background,
+                  border: UnderlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
             const SaveToScheduleSwitch(),
             Center(
               child: AppElevatedButton(
-                foregroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.tertiary,
                 text: "Добавить",
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
@@ -61,7 +69,7 @@ class AddTaskForm extends ConsumerWidget {
                     Navigator.pop(context);
                   }
                 },
-                color: Theme.of(context).colorScheme.secondary,
+                color: AppColors.green,
               ),
             ),
           ],
