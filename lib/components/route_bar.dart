@@ -42,14 +42,14 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
             children: [title()],
           ));
     } else {
-      return Container(
-        color: backgroundColor ?? Theme.of(context).primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [backButton(context), title()],
+      return SafeArea(
+        child: AppBar(
+          backgroundColor: backgroundColor,
+          elevation: 0,
+          leading: backButton(context),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [title()],
           ),
         ),
       );

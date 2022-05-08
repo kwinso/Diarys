@@ -19,12 +19,12 @@ class ScreenHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 30),
+        padding: EdgeInsets.symmetric(vertical: 50),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.0, 0.5],
+            stops: [0.25, 0.6],
             colors: [Theme.of(context).primaryColor, Theme.of(context).backgroundColor],
           ),
         ),

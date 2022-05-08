@@ -52,8 +52,8 @@ class AppThemeData with ChangeNotifier {
   }
 
   static ThemeData get dark {
-    const primary = Color(0xFF3D3D3D);
-    const bg = Color(0xFF2A2A2A);
+    const primary = Color.fromARGB(255, 44, 43, 43);
+    const bg = Color.fromARGB(255, 37, 37, 37);
     const tertiary = Colors.white;
 
     return ThemeData(

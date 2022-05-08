@@ -52,10 +52,32 @@ class AllTasksScreen extends ConsumerWidget {
       controllers: [tasksController],
       build: () {
         final list = _getList(ref);
+        final appBar = RouteBar(
+          name: "Задания",
+          sliver: list.isNotEmpty,
+        );
+
+        if (list.isEmpty) {
+          return Scaffold(
+            appBar: appBar,
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: Center(
+              child: Text(
+                "Заданий еще нет",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                ),
+              ),
+            ),
+          );
+        }
         return Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
           body: SafeArea(
             child: CustomScrollView(
+              shrinkWrap: list.isEmpty,
               slivers: [
                 const RouteBar(
                   name: "Задания",
@@ -64,28 +86,17 @@ class AllTasksScreen extends ConsumerWidget {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      list.isEmpty
-                          ? Center(
-                              child: Text(
-                                "Заданий еще нет",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                                ),
-                              ),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: list
-                                  .map((e) => SizedBox(
-                                        key: e.tasks.first.id,
-                                        width: double.infinity,
-                                        child: e,
-                                      ))
-                                  .toList(),
-                            ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: list
+                            .map((e) => SizedBox(
+                                  key: e.tasks.first.id,
+                                  width: double.infinity,
+                                  child: e,
+                                ))
+                            .toList(),
+                      ),
                     ],
                   ),
                 )
