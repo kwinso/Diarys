@@ -19,18 +19,19 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    currentTheme.addListener(() {
+    appTheme.addListener(() {
       setState(() {});
-      // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      //   systemNavigationBarIconBrightness: currentTheme.overlayBrightness,
-      //   statusBarIconBrightness: currentTheme.overlayBrightness,
-      // ));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Diarys",
+      home: const MainPage(),
+      theme: AppThemeData.light,
+      darkTheme: AppThemeData.dark,
+      themeMode: appTheme.mode,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [Locale("ru")],
@@ -40,11 +41,6 @@ class _AppState extends State<App> {
           child: child!,
         );
       },
-      home: const MainPage(),
-      title: "Diarys",
-      theme: AppThemeData.light,
-      darkTheme: AppThemeData.dark,
-      themeMode: currentTheme.mode,
     );
   }
 }

@@ -24,25 +24,14 @@ class _Switch extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // GestureDetector(
-        //   onTap: () {
-        //     AppUtils.showSnackBar(
-        //       context,
-        //       text: "Добавит выбранный предмет в расписание",
-        //       action: SnackBarAction(
-        //         textColor: Theme.of(context).colorScheme.secondary,
-        //         label: "Изменить",
-        //         // TODO: Navigate to settings
-        //         onPressed: () {},
-        //       ),
-        //     );
-        //   },
-        //   child: Icon(
-        //     Icons.info_outline,
-        //     color: Theme.of(context).colorScheme.tertiaryContainer,
-        //   ),
-        // ),
-        const Flexible(child: Text("Добавить в расписание")),
+        Flexible(
+          child: Text(
+            "Добавить в расписание",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+          ),
+        ),
         Transform.scale(
           scale: 0.8,
           child: CupertinoSwitch(

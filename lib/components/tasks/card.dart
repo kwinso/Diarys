@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:diarys/components/tasks/edit/info.dart';
-import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/edit_task.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
@@ -91,58 +89,27 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _CardInfo(task: widget.task),
-              Row(children: [
-                IconButton(
-                  onPressed: () => _setDone(),
-                  icon: Icon(
-                    Icons.done_rounded,
+              Expanded(child: _CardInfo(task: widget.task)),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(children: [
+                  IconButton(
+                    onPressed: () => _setDone(),
+                    icon: Icon(
+                      Icons.done_rounded,
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      size: 30,
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right_rounded,
                     color: Theme.of(context).colorScheme.primaryContainer,
                     size: 30,
                   ),
-                ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  size: 30,
-                ),
-              ])
+                ]),
+              )
             ],
           ),
-          // child: Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Flexible(
-          //       child: Container(
-          //         padding: const EdgeInsets.only(bottom: 5),
-          //         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
-          //         child: Text(
-          //           widget.task.subject,
-          //           overflow: TextOverflow.ellipsis,
-          //           style: const TextStyle(fontSize: 20),
-          //         ),
-          //       ),
-          //     ),
-          //     GestureDetector(
-          //       // TODO: Remove task after timeout because "done"  is tapped
-          //       onTap: _setDone,
-          //       child: Container(
-          //         padding: const EdgeInsets.all(5),
-          //         decoration: BoxDecoration(
-          //             color: _animation.value,
-          //             borderRadius: BorderRadius.circular(100),
-          //             border: Border.all(
-          //                 width: 1, color: AppUtils.getDifficultyColor(widget.task.difficulty))),
-          //         alignment: Alignment.center,
-          //         child: AnimatedOpacity(
-          //           duration: const Duration(milliseconds: 200),
-          //           opacity: _done ? 1 : 0,
-          //           child: const Icon(Icons.done, size: 16, color: Colors.white),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
         ),
       ),
     );
@@ -152,6 +119,10 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 class _CardInfo extends StatelessWidget {
   final Task task;
   const _CardInfo({Key? key, required this.task}) : super(key: key);
+
+  String _withoutWhitespaces(String t) {
+    return t.replaceAll(RegExp(r'\s'), " ");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,20 +137,30 @@ class _CardInfo extends StatelessWidget {
           ),
           child: Text(AppUtils.getDifficultyEmoji(task.difficulty)),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              task.subject,
-              style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-            ),
-            Text(
-              task.content,
-              style:
-                  TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
-            ),
-          ],
-        ),
+        Expanded(
+          child: Column(
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _withoutWhitespaces(task.subject),
+                style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+                softWrap: false,
+                overflow: TextOverflow.fade,
+              ),
+              Visibility(
+                visible: task.content.isNotEmpty,
+                child: Text(
+                  _withoutWhitespaces(task.content),
+                  style: TextStyle(
+                      fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }

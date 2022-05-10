@@ -2,11 +2,12 @@ import 'package:diarys/theme/colors.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 
-AppThemeData currentTheme = AppThemeData();
+final appTheme = AppThemeData();
 
 class AppThemeData with ChangeNotifier {
-  static bool _isDark = false;
+  static bool _isDark = true;
   ThemeMode get mode => _isDark ? ThemeMode.dark : ThemeMode.light;
+  // ThemeData get data => _isDark ? dark : light;
 
   void toggle({bool? value}) {
     _isDark = value ?? !_isDark;
@@ -19,11 +20,18 @@ class AppThemeData with ChangeNotifier {
     const tertiary = Color(0xFF343434);
 
     return ThemeData(
+        brightness: Brightness.light,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         focusColor: Colors.transparent,
         backgroundColor: bg,
         primaryColor: primary,
+        appBarTheme: AppBarTheme(
+          // backgroundColor: primary,
+          systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: primary,
+          ),
+        ),
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: primary,
@@ -52,16 +60,23 @@ class AppThemeData with ChangeNotifier {
   }
 
   static ThemeData get dark {
-    const primary = Color.fromARGB(255, 44, 43, 43);
+    //  TODO: Change primary to this: 0xFF35383F
+    const primary = Color(0xFF2C2B2B);
     const bg = Color.fromARGB(255, 37, 37, 37);
     const tertiary = Colors.white;
 
     return ThemeData(
-        splashColor: Colors.transparent,
+        brightness: Brightness.dark,
+        splashColor: Color.fromARGB(0, 236, 233, 233),
         highlightColor: Colors.transparent,
         focusColor: Colors.transparent,
         backgroundColor: bg,
         primaryColor: primary,
+        appBarTheme: AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+            statusBarColor: primary,
+          ),
+        ),
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,

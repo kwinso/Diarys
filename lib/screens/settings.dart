@@ -15,30 +15,22 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return HiveControllersInit(
-      controllers: [scheduleController, tasksController],
-      build: () => ScaffoldMessenger(
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: const RouteBar(name: "Настройки"),
-          body: SettingsList(
-            darkTheme: SettingsThemeData(
-                settingsListBackground: Theme.of(context).backgroundColor),
-            lightTheme: SettingsThemeData(
-                settingsListBackground: Theme.of(context).backgroundColor),
-            // lightTheme: SettingsThemeData(
-            //   titleTextColor: Colors.red,
-            //   // settingsTileTextColor: Theme.of(context).colorScheme.tertiary,
-            //   // inactiveTitleColor: Theme.of(context).colorScheme.tertiary,
-            // ),
+    return ScaffoldMessenger(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: const RouteBar(name: "Настройки"),
+        body: HiveControllersInit(
+          controllers: [scheduleController, tasksController],
+          build: () => SettingsList(
+            darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
+            lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
             sections: [
               SettingsSection(
-                // title: const Text('Common'),
                 tiles: <SettingsTile>[
                   SettingsTile.switchTile(
-                    onToggle: (value) => currentTheme.toggle(value: value),
+                    onToggle: (value) => appTheme.toggle(value: value),
                     activeSwitchColor: Theme.of(context).colorScheme.secondary,
-                    initialValue: currentTheme.mode == ThemeMode.dark,
+                    initialValue: appTheme.mode == ThemeMode.dark,
                     leading: const Icon(Icons.dark_mode_outlined),
                     title: const Text('Темная тема'),
                   ),

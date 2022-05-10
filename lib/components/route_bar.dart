@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class RouteBar extends StatelessWidget implements PreferredSizeWidget {
   final String name;
   final bool sliver;
-  final Color? backgroundColor;
+  // final Color? backgroundColor;
   const RouteBar({
     Key? key,
     required this.name,
     this.sliver = false,
-    this.backgroundColor,
+    // this.backgroundColor,
   }) : super(key: key);
 
   IconButton backButton(BuildContext context) {
@@ -34,7 +34,7 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
     if (sliver) {
       return SliverAppBar(
           pinned: true,
-          backgroundColor: backgroundColor,
+          // backgroundColor: backgroundColor,
           shadowColor: Theme.of(context).shadowColor,
           leading: backButton(context),
           title: Row(
@@ -44,12 +44,14 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return SafeArea(
         child: AppBar(
-          backgroundColor: backgroundColor,
+          // backgroundColor: backgroundColor,
           elevation: 0,
           leading: backButton(context),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [title()],
+          title: SafeArea(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [title()],
+            ),
           ),
         ),
       );

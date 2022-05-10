@@ -96,10 +96,10 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
         isExpanded: true,
         offset: const Offset(0, -5),
         dropdownDecoration: BoxDecoration(
-            color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(12)),
+            color: Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(12)),
         items: items,
         buttonDecoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(12),
         ),
         focusColor: Theme.of(context).colorScheme.primary,

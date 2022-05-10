@@ -1,4 +1,5 @@
 import 'package:diarys/state/add_task.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +47,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
                 hintText: "Предмет",
                 hintStyle: TextStyle(color: Theme.of(context).colorScheme.primaryContainer),
                 filled: true,
-                fillColor: Theme.of(context).primaryColor,
+                fillColor: Theme.of(context).backgroundColor,
                 alignLabelWithHint: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 border: UnderlineInputBorder(
@@ -60,7 +61,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             keepSuggestionsOnSuggestionSelected: false,
             suggestionsBoxDecoration: SuggestionsBoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).backgroundColor,
             ),
             hideOnEmpty: true,
             noItemsFoundBuilder: (_) => Container(),

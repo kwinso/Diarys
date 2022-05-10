@@ -1,4 +1,3 @@
-import 'package:diarys/routing.dart';
 import 'package:diarys/screens/add_task.dart';
 import 'package:diarys/screens/all_tasks.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +22,14 @@ class _TasksControlsState extends State<TasksControls> {
             name: "Все задания",
             icon: Icons.list,
             onClick: () {
-              Routing.push(context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
             },
           ),
           _ControlButton(
             name: "Добавить",
             icon: Icons.add,
             onClick: () {
-              Routing.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
             },
           ),
         ],

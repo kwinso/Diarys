@@ -1,6 +1,5 @@
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/route_bar.dart';
-import 'package:diarys/components/sliver.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';

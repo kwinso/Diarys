@@ -15,29 +15,32 @@ class DifficultySelect extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(addTaskController.select((value) => value.difficulty));
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        for (var i = 1; i <= 3; i++)
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
-            opacity: i == selected ? 1 : 0.5,
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: AppUtils.getDifficultyColor(i)),
-              child: GestureDetector(
-                onTap: () => onSelect(i),
-                child: Center(
-                    child: Text(
-                  AppUtils.getDifficultyEmoji(i),
-                  style: TextStyle(fontSize: 25),
-                )),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (var i = 1; i <= 3; i++)
+            AnimatedOpacity(
+              duration: Duration(milliseconds: 300),
+              opacity: i == selected ? 1 : 0.5,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: AppUtils.getDifficultyColor(i)),
+                child: GestureDetector(
+                  onTap: () => onSelect(i),
+                  child: Center(
+                      child: Text(
+                    AppUtils.getDifficultyEmoji(i),
+                    style: TextStyle(fontSize: 25),
+                  )),
+                ),
               ),
-            ),
-          )
-      ],
+            )
+        ],
+      ),
     );
     // return Stack(
     //   children: [
