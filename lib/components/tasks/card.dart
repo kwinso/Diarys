@@ -17,7 +17,6 @@ class TaskCard extends ConsumerStatefulWidget {
 }
 
 class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderStateMixin {
-  late Animation<Color?> _animation;
   late AnimationController _controller;
   bool _done = false;
 
@@ -25,10 +24,6 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-    _animation = ColorTween(
-            begin: Colors.transparent, end: AppUtils.getDifficultyColor(widget.task.difficulty))
-        .animate(_controller)
-      ..addListener(() => setState(() {}));
   }
 
   @override
