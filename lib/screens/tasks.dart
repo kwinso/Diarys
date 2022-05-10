@@ -5,6 +5,7 @@ import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/screens/add_task.dart';
 import 'package:diarys/screens/all_tasks.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
+import 'package:diarys/theme/themes.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

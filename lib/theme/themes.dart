@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 final appTheme = AppThemeData();
 
 class AppThemeData with ChangeNotifier {
-  static bool _isDark = true;
+  static bool _isDark = false;
   ThemeMode get mode => _isDark ? ThemeMode.dark : ThemeMode.light;
   // ThemeData get data => _isDark ? dark : light;
 
@@ -27,9 +27,9 @@ class AppThemeData with ChangeNotifier {
         backgroundColor: bg,
         primaryColor: primary,
         appBarTheme: AppBarTheme(
-          // backgroundColor: primary,
           systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
             statusBarColor: primary,
+            systemNavigationBarColor: primary,
           ),
         ),
         colorScheme: const ColorScheme(
@@ -75,6 +75,7 @@ class AppThemeData with ChangeNotifier {
         appBarTheme: AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
             statusBarColor: primary,
+            systemNavigationBarColor: primary,
           ),
         ),
         colorScheme: const ColorScheme(

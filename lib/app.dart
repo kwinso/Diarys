@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
@@ -20,7 +21,9 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     appTheme.addListener(() {
-      setState(() {});
+      setState(() {
+        // SystemChrome.setSystemUIOverlayStyle(Theme.of(context).appBarTheme.systemOverlayStyle!);
+      });
     });
   }
 
@@ -60,6 +63,8 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(Theme.of(context).appBarTheme.systemOverlayStyle!);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: AnimatedSwitcher(

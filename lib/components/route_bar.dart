@@ -34,7 +34,6 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
     if (sliver) {
       return SliverAppBar(
           pinned: true,
-          // backgroundColor: backgroundColor,
           shadowColor: Theme.of(context).shadowColor,
           leading: backButton(context),
           title: Row(
@@ -44,7 +43,6 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return SafeArea(
         child: AppBar(
-          // backgroundColor: backgroundColor,
           elevation: 0,
           leading: backButton(context),
           title: SafeArea(

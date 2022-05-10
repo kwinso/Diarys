@@ -1,5 +1,7 @@
 import 'package:diarys/screens/settings.dart';
+import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height = 50;
@@ -13,6 +15,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       shadowColor: Theme.of(context).shadowColor,
       centerTitle: true,
+      pinned: true,
+      elevation: 1,
       title: Text(
         "Diarys",
         style: TextStyle(
@@ -33,10 +37,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
               size: 20,
             ))
       ],
-      pinned: true,
-      expandedHeight: 50,
-      toolbarHeight: 50,
-      elevation: 1,
     );
   }
 
