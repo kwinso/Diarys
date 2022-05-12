@@ -1,16 +1,25 @@
 import 'package:diarys/theme/colors.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-final appTheme = AppThemeData();
+final themeController = ChangeNotifierProvider<AppTheme>((ref) {
+  return AppTheme();
+});
 
-class AppThemeData with ChangeNotifier {
+class AppTheme with ChangeNotifier {
   static bool _isDark = false;
   ThemeMode get mode => _isDark ? ThemeMode.dark : ThemeMode.light;
-  // ThemeData get data => _isDark ? dark : light;
+  ThemeData get current => _isDark ? dark : light;
 
   void toggle({bool? value}) {
     _isDark = value ?? !_isDark;
+
+    // System navigation bar color cannot be affect with ThemeData, so change in here
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: current.primaryColor,
+    ));
+
     notifyListeners();
   }
 
@@ -20,16 +29,19 @@ class AppThemeData with ChangeNotifier {
     const tertiary = Color(0xFF343434);
 
     return ThemeData(
+        useMaterial3: true,
         brightness: Brightness.light,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         focusColor: Colors.transparent,
         backgroundColor: bg,
+        scaffoldBackgroundColor: bg,
         primaryColor: primary,
-        appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-            statusBarColor: primary,
-            systemNavigationBarColor: primary,
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemStatusBarContrastEnforced: false,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarColor: Colors.transparent,
           ),
         ),
         colorScheme: const ColorScheme(
@@ -71,11 +83,13 @@ class AppThemeData with ChangeNotifier {
         highlightColor: Colors.transparent,
         focusColor: Colors.transparent,
         backgroundColor: bg,
+        scaffoldBackgroundColor: bg,
         primaryColor: primary,
-        appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: primary,
-            systemNavigationBarColor: primary,
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            systemStatusBarContrastEnforced: false,
+            statusBarIconBrightness: Brightness.light,
+            statusBarColor: Colors.transparent,
           ),
         ),
         colorScheme: const ColorScheme(

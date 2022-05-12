@@ -1,5 +1,4 @@
 import 'package:diarys/screens/settings.dart';
-import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,7 +9,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Remove flexible space, use CenterTitle and Actions
     return SliverAppBar(
       automaticallyImplyLeading: false,
       shadowColor: Theme.of(context).shadowColor,

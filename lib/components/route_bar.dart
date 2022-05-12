@@ -1,6 +1,9 @@
+import 'package:diarys/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RouteBar extends StatelessWidget implements PreferredSizeWidget {
+class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
   final String name;
   final bool sliver;
   // final Color? backgroundColor;
@@ -30,7 +33,7 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (sliver) {
       return SliverAppBar(
           pinned: true,
@@ -41,16 +44,12 @@ class RouteBar extends StatelessWidget implements PreferredSizeWidget {
             children: [title()],
           ));
     } else {
-      return SafeArea(
-        child: AppBar(
-          elevation: 0,
-          leading: backButton(context),
-          title: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [title()],
-            ),
-          ),
+      return AppBar(
+        elevation: 0,
+        leading: backButton(context),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [title()],
         ),
       );
     }
