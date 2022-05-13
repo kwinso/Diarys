@@ -1,5 +1,4 @@
 import 'package:diarys/components/tasks/card.dart';
-import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +21,6 @@ class TasksList extends ConsumerStatefulWidget {
 
 class _TasksListState extends ConsumerState<TasksList> {
   bool _titleHidden = false;
-  final _key = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
@@ -57,7 +55,6 @@ class _TasksListState extends ConsumerState<TasksList> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(tasksController);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(

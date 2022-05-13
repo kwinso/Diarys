@@ -2,8 +2,8 @@ import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/date_select.dart';
 import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/components/route_bar.dart';
-import 'package:diarys/components/tasks/add/difficulty_select.dart';
-import 'package:diarys/components/tasks/add/label.dart';
+import 'package:diarys/components/tasks/difficulty_select.dart';
+import 'package:diarys/components/tasks/field_label.dart';
 import 'package:diarys/components/tasks/task_text_input.dart';
 import 'package:diarys/state/edit_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
@@ -13,6 +13,7 @@ import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// TODO: Warn user before leaving if edits weren't saved
 class TaskInfoPage extends ConsumerWidget {
   final Task task;
   const TaskInfoPage(this.task, {Key? key}) : super(key: key);
@@ -123,7 +124,7 @@ class _ControlButton extends ConsumerWidget {
     Color c = isEdited
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.tertiaryContainer;
-    IconData i = isEdited ? Icons.save_rounded : Icons.done_rounded;
+    IconData i = isEdited ? Icons.save_as_rounded : Icons.done_rounded;
 
     return Icon(i, color: c, size: 30);
   }
@@ -155,7 +156,7 @@ class _TaskInfoOptional extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TaskEditLabel("Задание"),
+          const TaskFieldLabel("Задание"),
           TaskTextInput(controller: taskEditController),
         ],
       ),

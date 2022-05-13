@@ -1,4 +1,4 @@
-import 'package:diarys/components/tasks/add/label.dart';
+import 'package:diarys/components/tasks/field_label.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class DifficultySelect extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TaskEditLabel("Сложность"),
+        const TaskFieldLabel("Сложность"),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(

@@ -47,63 +47,57 @@ class AllTasksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return HiveControllersInit(
-      controllers: [tasksController],
-      build: () {
-        final list = _getList(ref);
-        final appBar = RouteBar(
-          name: "Задания",
-          sliver: list.isNotEmpty,
-        );
+    final list = _getList(ref);
+    final appBar = RouteBar(
+      name: "Задания",
+      sliver: list.isNotEmpty,
+    );
 
-        if (list.isEmpty) {
-          return Scaffold(
-            appBar: appBar,
-            backgroundColor: Theme.of(context).backgroundColor,
-            body: Center(
-              child: Text(
-                "Заданий еще нет",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                ),
-              ),
-            ),
-          );
-        }
-        return Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          body: SafeArea(
-            child: CustomScrollView(
-              shrinkWrap: list.isEmpty,
-              slivers: [
-                const RouteBar(
-                  name: "Задания",
-                  sliver: true,
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: list
-                            .map((e) => SizedBox(
-                                  key: e.tasks.first.id,
-                                  width: double.infinity,
-                                  child: e,
-                                ))
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+    if (list.isEmpty) {
+      return Scaffold(
+        appBar: appBar,
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Center(
+          child: Text(
+            "Заданий еще нет",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).colorScheme.tertiaryContainer,
             ),
           ),
-        );
-      },
+        ),
+      );
+    }
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            const RouteBar(
+              name: "Задания",
+              sliver: true,
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: list
+                        .map((e) => SizedBox(
+                              key: e.tasks.first.id,
+                              width: double.infinity,
+                              child: e,
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

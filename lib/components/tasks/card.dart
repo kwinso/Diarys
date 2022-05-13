@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:diarys/components/tasks/edit/info.dart';
 import 'package:diarys/screens/task_info.dart';
-import 'package:diarys/state/edit_task.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
@@ -18,63 +16,47 @@ class TaskCard extends ConsumerStatefulWidget {
 }
 
 class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
   bool _done = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
-  void _setDone() {
-    _controller.forward();
-    _done = true;
+  void _markDone() {
+    setState(() {
+      _done = true;
+    });
     widget.onDelete();
 
-    Timer(const Duration(milliseconds: 300), () {
+    Timer(const Duration(milliseconds: 350), () {
       ref.read(tasksController).remove(widget.task.id);
-
-      AppUtils.showSnackBar(context,
-          text: "Задание выполнено.",
-          action: SnackBarAction(
-            label: "Отменить",
-            textColor: Theme.of(context).colorScheme.secondary,
-            // TODO
-            onPressed: () {},
-          ));
+      //   AppUtils.showSnackBar(context,
+      //       text: "Задание выполнено.",
+      //       action: SnackBarAction(
+      //         label: "Отменить",
+      //         textColor: Theme.of(context).colorScheme.secondary,
+      //         // TODO
+      //         onPressed: () {},
+      //       ));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       crossFadeState: _done ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       secondChild: Container(),
       firstChild: GestureDetector(
+        key: widget.key,
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (ctx) => TaskInfoPage(widget.task)));
-          // AppUtils.showBottomSheet(
-          //   key: widget.task.id,
-          //   context: context,
-          //   builder: (context) {
-          // ref.read(taskEditController).update(widget.task);
-          // return Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 5),
-          //   child: TaskInfo(
-          //     widget.task.id,
-          //     onSetDone: _setDone,
-          //   ),
-          // );
-          // },
-          // );
         },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
@@ -91,7 +73,7 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(children: [
                   IconButton(
-                    onPressed: () => _setDone(),
+                    onPressed: () => _markDone(),
                     icon: Icon(
                       Icons.done_rounded,
                       color: Theme.of(context).colorScheme.primaryContainer,
@@ -126,8 +108,8 @@ class _CardInfo extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.only(left: 10, right: 10),
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(left: 10, right: 10),
           decoration: BoxDecoration(
             color: AppUtils.getDifficultyColor(task.difficulty),
             shape: BoxShape.circle,

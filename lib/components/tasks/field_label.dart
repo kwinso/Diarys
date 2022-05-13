@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class TaskEditLabel extends StatelessWidget {
+class TaskFieldLabel extends StatelessWidget {
   final String label;
-  const TaskEditLabel(this.label, {Key? key}) : super(key: key);
+  const TaskFieldLabel(this.label, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

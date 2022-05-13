@@ -1,8 +1,8 @@
-import 'package:diarys/components/tasks/add/date_dropdown.dart';
-import 'package:diarys/components/tasks/add/difficulty_select.dart';
-import 'package:diarys/components/tasks/add/label.dart';
-import 'package:diarys/components/tasks/add/save_to_schedule.dart';
-import 'package:diarys/components/tasks/add/subject_input.dart';
+import 'package:diarys/components/tasks/date_dropdown.dart';
+import 'package:diarys/components/tasks/difficulty_select.dart';
+import 'package:diarys/components/tasks/field_label.dart';
+import 'package:diarys/components/tasks/save_to_schedule.dart';
+import 'package:diarys/components/tasks/subject_input.dart';
 import 'package:diarys/components/tasks/task_text_input.dart';
 import 'package:diarys/state/add_task.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,7 @@ class OptionalFormFields extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TaskEditLabel("Задание"),
+          const TaskFieldLabel("Задание"),
           TaskTextInput(
             controller: addTaskController,
           ),
