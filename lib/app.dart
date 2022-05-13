@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
@@ -68,7 +67,7 @@ class _MainPageState extends State<MainPage> {
               BoxShadow(
                 color: Theme.of(context).shadowColor,
                 blurRadius: 3,
-                offset: Offset(0.0, 0.1),
+                offset: const Offset(0.0, 0.1),
               )
             ],
           ),

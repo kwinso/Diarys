@@ -30,7 +30,7 @@ class AddTask extends ConsumerWidget {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     FormHeader(),
                     Padding(
                       padding: EdgeInsets.only(bottom: 10),

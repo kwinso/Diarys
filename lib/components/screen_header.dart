@@ -19,12 +19,12 @@ class ScreenHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 50),
+        padding: const EdgeInsets.symmetric(vertical: 50),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.25, 0.6],
+            stops: const [0.25, 0.6],
             colors: [Theme.of(context).primaryColor, Theme.of(context).backgroundColor],
           ),
         ),
@@ -34,7 +34,7 @@ class ScreenHeader extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 30),
               ),
             ),
             Row(
@@ -53,14 +53,14 @@ class ScreenHeader extends StatelessWidget {
                           size: 25,
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
-                        padding: EdgeInsets.all(10),
-                        shape: CircleBorder(),
+                        padding: const EdgeInsets.all(10),
+                        shape: const CircleBorder(),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
                           b.label,
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       )
                     ],

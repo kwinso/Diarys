@@ -4,7 +4,6 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';
-import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
 final addTaskController = ChangeNotifierProvider<AddTaskController>((ref) {

@@ -1,6 +1,5 @@
 import 'package:diarys/screens/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height = 50;

@@ -1,5 +1,4 @@
 import 'package:diarys/state/add_task.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +48,7 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
                 filled: true,
                 fillColor: Theme.of(context).backgroundColor,
                 alignLabelWithHint: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 border: UnderlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,

@@ -1,7 +1,5 @@
 import 'package:diarys/components/elevated_button.dart';
-import 'package:diarys/state/add_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
-import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';

@@ -1,5 +1,4 @@
 import 'package:diarys/components/main_app_bar.dart';
-import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/screen_header.dart';
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/tasks/list.dart';
@@ -17,7 +16,7 @@ class TasksScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return HiveControllersInit(
       controllers: [tasksController],
-      build: () => TasksScrollView(),
+      build: () => const TasksScrollView(),
     );
   }
 }

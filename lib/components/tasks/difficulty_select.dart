@@ -27,7 +27,7 @@ class DifficultySelect extends ConsumerWidget {
             children: [
               for (var i = 1; i <= 3; i++)
                 AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   opacity: i == selected ? 1 : 0.5,
                   child: Container(
                     height: 50,
@@ -39,7 +39,7 @@ class DifficultySelect extends ConsumerWidget {
                       child: Center(
                           child: Text(
                         AppUtils.getDifficultyEmoji(i),
-                        style: TextStyle(fontSize: 25),
+                        style: const TextStyle(fontSize: 25),
                       )),
                     ),
                   ),

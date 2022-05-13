@@ -20,7 +20,8 @@ class AppElevatedButton extends StatelessWidget {
       child: Text(text),
       style: ButtonStyle(
         elevation: MaterialStateProperty.all(0),
-        padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 10, vertical: 12)),
+        padding:
+            MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 10, vertical: 12)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),

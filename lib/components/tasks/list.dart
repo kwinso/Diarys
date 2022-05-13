@@ -61,7 +61,7 @@ class _TasksListState extends ConsumerState<TasksList> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedCrossFade(
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             crossFadeState: !_titleHidden ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             secondChild: Container(),
             firstChild: Padding(

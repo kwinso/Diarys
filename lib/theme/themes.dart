@@ -64,7 +64,7 @@ class AppTheme with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: const Color.fromRGBO(122, 122, 122, 0.25),
+        shadowColor: const Color(0x3E7A7A7A),
         textTheme: const TextTheme(
           bodyText2: TextStyle(),
           bodyText1: TextStyle(),
@@ -72,14 +72,13 @@ class AppTheme with ChangeNotifier {
   }
 
   static ThemeData get dark {
-    //  TODO: Change primary to this: 0xFF35383F
     const primary = Color(0xFF2C2B2B);
-    const bg = Color.fromARGB(255, 37, 37, 37);
+    const bg = Color(0xFF252525);
     const tertiary = Colors.white;
 
     return ThemeData(
         brightness: Brightness.dark,
-        splashColor: Color.fromARGB(0, 236, 233, 233),
+        splashColor: const Color(0x00ECE9E9),
         highlightColor: Colors.transparent,
         focusColor: Colors.transparent,
         backgroundColor: bg,
@@ -111,7 +110,7 @@ class AppTheme with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: Color.fromARGB(62, 107, 107, 107),
+        shadowColor: const Color(0x3D6B6B6B),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));
