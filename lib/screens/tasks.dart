@@ -1,11 +1,11 @@
 import 'package:diarys/components/main_app_bar.dart';
+import 'package:diarys/components/route_bar.dart';
 import 'package:diarys/components/screen_header.dart';
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/tasks/list.dart';
 import 'package:diarys/screens/add_task.dart';
 import 'package:diarys/screens/all_tasks.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
-import 'package:diarys/theme/themes.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +17,7 @@ class TasksScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return HiveControllersInit(
       controllers: [tasksController],
-      build: () => const Scaffold(
-        body: TasksScrollView(),
-      ),
+      build: () => TasksScrollView(),
     );
   }
 }

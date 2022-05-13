@@ -28,9 +28,9 @@ class SettingsScreen extends ConsumerWidget {
               SettingsSection(
                 tiles: <SettingsTile>[
                   SettingsTile.switchTile(
-                    onToggle: (value) => appTheme.toggle(value: value),
+                    onToggle: (value) => ref.read(themeController).toggle(value: value),
                     activeSwitchColor: Theme.of(context).colorScheme.secondary,
-                    initialValue: appTheme.mode == ThemeMode.dark,
+                    initialValue: ref.watch(themeController).mode == ThemeMode.dark,
                     leading: const Icon(Icons.dark_mode_outlined),
                     title: const Text('Темная тема'),
                   ),

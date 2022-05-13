@@ -10,15 +10,23 @@ final taskEditController = ChangeNotifierProvider<TaskEditController>((ref) {
 });
 
 class TaskEditController with ChangeNotifier {
-  final Ref _ref;
+  final Ref ref;
+  late UniqueKey _taskId;
 
-  TaskEditController(this._ref);
+  TaskEditController(this.ref);
+
+  void commitNotifyListeners() {
+    _edited = false;
+    super.notifyListeners();
+  }
 
   @override
   void notifyListeners() {
     _edited = true;
     super.notifyListeners();
   }
+
+  UniqueKey get taskId => _taskId;
 
   bool _edited = false;
   bool get isEdited => _edited;
@@ -56,10 +64,12 @@ class TaskEditController with ChangeNotifier {
   }
 
   bool get subjectInSchedule =>
-      _ref.read(scheduleController).dayContains(_untilDate.weekday - 1, _subject);
+      ref.read(scheduleController).dayContains(_untilDate.weekday - 1, _subject);
 
   Future<void> commit() async {
-    _ref.read(tasksController).add(
+    // Since it only edits, we should remove the previous version
+    await deleteTask();
+    ref.read(tasksController).add(
           Task(
             subject: _subject,
             difficulty: _difficulty,
@@ -67,6 +77,12 @@ class TaskEditController with ChangeNotifier {
             untilDate: _untilDate,
           ),
         );
+
+    commitNotifyListeners();
+  }
+
+  Future<void> deleteTask() async {
+    ref.read(tasksController).remove(_taskId);
   }
 
   void update(Task t) {
@@ -74,6 +90,7 @@ class TaskEditController with ChangeNotifier {
     _content = t.content;
     _difficulty = t.difficulty;
     _untilDate = t.untilDate;
+    _taskId = t.id;
     _edited = false;
   }
 }

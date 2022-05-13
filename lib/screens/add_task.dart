@@ -19,14 +19,12 @@ class AddTask extends ConsumerWidget {
     return HiveControllersInit(
       controllers: [scheduleController, tasksController],
       build: () => ScaffoldMessenger(
-        child: SafeArea(
-          child: Scaffold(
-            // resizeToAvoidBottomInset: false,
-            backgroundColor: Theme.of(context).backgroundColor,
-            appBar: const RouteBar(
-              name: "Новое задание",
-            ),
-            body: SingleChildScrollView(
+        child: Scaffold(
+          appBar: const RouteBar(
+            name: "Новое задание",
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
               child: Form(
                 key: formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -42,20 +40,20 @@ class AddTask extends ConsumerWidget {
                 ),
               ),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: Visibility(
-              visible: MediaQuery.of(context).viewInsets.bottom == 0,
-              child: AppElevatedButton(
-                foregroundColor: Theme.of(context).colorScheme.tertiary,
-                text: "Добавить",
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    await ref.read(addTaskController).commit();
-                    Navigator.pop(context);
-                  }
-                },
-                color: AppColors.green,
-              ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: Visibility(
+            visible: MediaQuery.of(context).viewInsets.bottom == 0,
+            child: AppElevatedButton(
+              foregroundColor: Theme.of(context).colorScheme.tertiary,
+              text: "Добавить",
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  await ref.read(addTaskController).commit();
+                  Navigator.pop(context);
+                }
+              },
+              color: AppColors.green,
             ),
           ),
         ),

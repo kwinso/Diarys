@@ -93,7 +93,7 @@ class AppCalendarDatePicker extends StatelessWidget {
       pageAnimationDuration: const Duration(milliseconds: 300),
       focusedDay: selected,
       enabledDayPredicate: (d) {
-        if (isSameDay(d, now)) return false;
+        if (isSameDay(d, now)) return true;
         if (isSameDay(d, selected)) return true;
         return allowedDays.isNotEmpty ? allowedDays.contains(d.weekday - 1) : true;
       },

@@ -23,18 +23,18 @@ class AllTasksScreen extends ConsumerWidget {
 
     for (var i = 0; i < tasks.length; i++) {
       final date = tasks[i].untilDate;
-      var title = AppUtils.formatDate(date);
+      var title = AppTexts.week.days[date.weekday - 1];
       // TODO: Make for exceptions for whole week and only then start counting as dates
       if (isSameDay(AppUtils.getTomorrowDate(), date)) title = "На завтра";
 
-      // final title =
       currentList.add(tasks[i]);
 
       if (i + 1 == tasks.length || !isSameDay(date, tasks[i + 1].untilDate)) {
-        if (date.isBefore(DateTime.now())) title += " (Просрочено)";
+        // TODO: Make some sign for missed day instead of this
+        if (date.isBefore(DateTime.now())) title += " (П)";
 
         tasksForDays.add(TasksList(
-          title: AppTexts.week.days[date.weekday - 1],
+          title: title,
           dateLabel: AppUtils.formatDate(date),
           tasks: List.from(currentList),
         ));

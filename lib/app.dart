@@ -52,16 +52,12 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        top: false,
-        bottom: false,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 100),
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            return FadeTransition(child: child, opacity: animation);
-          },
-          child: _screens[_activeScreen],
-        ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 100),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(child: child, opacity: animation);
+        },
+        child: _screens[_activeScreen],
       ),
       //* Maybe change to variant without animaton later
       // body: screens[_activeScreen],

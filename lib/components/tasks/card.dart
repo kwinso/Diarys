@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:diarys/components/tasks/edit/info.dart';
+import 'package:diarys/screens/task_info.dart';
 import 'package:diarys/state/edit_task.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
@@ -59,20 +60,21 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
       secondChild: Container(),
       firstChild: GestureDetector(
         onTap: () {
-          AppUtils.showBottomSheet(
-            key: widget.task.id,
-            context: context,
-            builder: (context) {
-              ref.read(taskEditController).update(widget.task);
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: TaskInfo(
-                  widget.task.id,
-                  onSetDone: _setDone,
-                ),
-              );
-            },
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (ctx) => TaskInfoPage(widget.task)));
+          // AppUtils.showBottomSheet(
+          //   key: widget.task.id,
+          //   context: context,
+          //   builder: (context) {
+          // ref.read(taskEditController).update(widget.task);
+          // return Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 5),
+          //   child: TaskInfo(
+          //     widget.task.id,
+          //     onSetDone: _setDone,
+          //   ),
+          // );
+          // },
+          // );
         },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
