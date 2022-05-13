@@ -72,6 +72,7 @@ class AllTasksScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
+        top: false,
         child: CustomScrollView(
           slivers: [
             const RouteBar(
