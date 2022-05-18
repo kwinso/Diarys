@@ -9,11 +9,11 @@ import 'package:diarys/state/edit_task.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// TODO: Warn user before leaving if edits weren't saved
 class TaskInfoPage extends ConsumerWidget {
   final Task task;
   const TaskInfoPage(this.task, {Key? key}) : super(key: key);
@@ -120,11 +120,14 @@ class _ControlButton extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  Icon getCurrentIcon(bool isEdited, BuildContext context) {
+  Icon getCurrentIcon(
+    BuildContext context,
+    bool isEdited,
+  ) {
     Color c = isEdited
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.tertiaryContainer;
-    IconData i = isEdited ? Icons.save_as_rounded : Icons.done_rounded;
+    IconData i = isEdited ? Icons.save_as_outlined : Icons.done_rounded;
 
     return Icon(i, color: c, size: 30);
   }
@@ -133,26 +136,50 @@ class _ControlButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isEdited = ref.watch(taskEditController).isEdited;
     return WillPopScope(
-      onWillPop: () {
-        print("hello");
+      onWillPop: () async {
         if (isEdited) {
-          AlertDialog();
+          var res = showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text("Изменения задания не сохранены!"),
+                  titleTextStyle:
+                      TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  actions: [
+                    AppElevatedButton(
+                      text: "Отмена",
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                    AppElevatedButton(
+                      text: "Сохранить",
+                      color: AppColors.green,
+                      foregroundColor: Colors.white,
+                      onPressed: () {
+                        ref.read(taskEditController).commit();
+                        Navigator.of(context).pop(true);
+                      },
+                    )
+                  ],
+                );
+              });
 
-          return Future.value(false);
+          return (await res) ?? false;
         }
-        return Future.value(true);
+
+        return true;
       },
       child: IconButton(
-        onPressed: () {
-          if (isEdited) {
-            ref.read(taskEditController).commit();
-          } else {
-            ref.read(taskEditController).deleteTask();
-            Navigator.pop(context);
-          }
-        },
-        icon: getCurrentIcon(isEdited, context),
-      ),
+          onPressed: () {
+            if (isEdited) {
+              ref.read(taskEditController).commit();
+            } else {
+              ref.read(taskEditController).deleteTask();
+              Navigator.pop(context);
+            }
+          },
+          icon: getCurrentIcon(context, isEdited)),
     );
   }
 }

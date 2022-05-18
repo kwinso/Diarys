@@ -1,3 +1,4 @@
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,17 +13,6 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
     // this.backgroundColor,
   }) : super(key: key);
 
-  IconButton backButton(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: Icon(
-          Icons.arrow_back,
-          color: Theme.of(context).colorScheme.secondary,
-        ));
-  }
-
   Text title() {
     return Text(
       name,
@@ -36,7 +26,7 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
       return SliverAppBar(
           pinned: true,
           shadowColor: Theme.of(context).shadowColor,
-          leading: backButton(context),
+          iconTheme: const IconThemeData(color: AppColors.secondary),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [title()],
@@ -44,7 +34,7 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
     } else {
       return AppBar(
         elevation: 0,
-        leading: backButton(context),
+        iconTheme: const IconThemeData(color: AppColors.secondary),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [title()],
