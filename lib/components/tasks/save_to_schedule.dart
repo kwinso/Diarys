@@ -8,19 +8,6 @@ class SaveToScheduleSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(addTaskController.select((v) => v.subject));
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 200),
-      child: !ref.read(addTaskController).subjectInSchedule ? const _Switch() : Container(),
-    );
-  }
-}
-
-class _Switch extends ConsumerWidget {
-  const _Switch({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

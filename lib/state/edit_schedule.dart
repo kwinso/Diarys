@@ -3,7 +3,7 @@ import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-final editModeController = ChangeNotifierProvider<EditModeController>((ref) {
+final scheduleEditController = ChangeNotifierProvider<EditModeController>((ref) {
   return EditModeController(ref);
 });
 

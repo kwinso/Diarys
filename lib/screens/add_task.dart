@@ -45,7 +45,7 @@ class AddTask extends ConsumerWidget {
           floatingActionButton: Visibility(
             visible: MediaQuery.of(context).viewInsets.bottom == 0,
             child: AppElevatedButton(
-              foregroundColor: Theme.of(context).colorScheme.tertiary,
+              foregroundColor: Colors.white,
               text: "Добавить",
               onPressed: () async {
                 if (formKey.currentState!.validate()) {

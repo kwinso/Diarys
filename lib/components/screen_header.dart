@@ -4,10 +4,14 @@ class ScreenHeaderButton {
   final String label;
   final IconData icon;
   final VoidCallback onPressed;
+  final Color? foreground;
+  final Color? background;
   const ScreenHeaderButton({
     required this.label,
     required this.icon,
     required this.onPressed,
+    this.foreground,
+    this.background,
   });
 }
 
@@ -18,8 +22,10 @@ class ScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 50),
+        // Kind of adaptive padding to not to be too big on small screen
+        padding: EdgeInsets.only(top: h * 0.06, bottom: h * 0.04),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -37,35 +43,38 @@ class ScreenHeader extends StatelessWidget {
                 style: const TextStyle(fontSize: 30),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (var b in buttons)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      RawMaterialButton(
-                        onPressed: b.onPressed,
-                        elevation: 0,
-                        fillColor: Theme.of(context).primaryColor,
-                        child: Icon(
-                          b.icon,
-                          size: 25,
-                          color: Theme.of(context).colorScheme.tertiary,
+            AnimatedSize(
+              duration: Duration(milliseconds: 200),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (var b in buttons)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        RawMaterialButton(
+                          onPressed: b.onPressed,
+                          elevation: 0,
+                          fillColor: b.background ?? Theme.of(context).primaryColor,
+                          child: Icon(
+                            b.icon,
+                            size: 25,
+                            color: b.foreground ?? Theme.of(context).colorScheme.tertiary,
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          shape: const CircleBorder(),
                         ),
-                        padding: const EdgeInsets.all(10),
-                        shape: const CircleBorder(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          b.label,
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      )
-                    ],
-                  )
-              ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                            b.label,
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        )
+                      ],
+                    )
+                ],
+              ),
             )
           ],
         ));

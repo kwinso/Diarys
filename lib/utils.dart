@@ -17,7 +17,7 @@ class AppUtils {
         .where((option) {
           final name = option.name.toLowerCase();
           // Starts with but not equal
-          return name != line && name.startsWith(line);
+          return name.startsWith(line);
         })
         .map((e) => e.name)
         .toList();
@@ -94,8 +94,12 @@ class AppUtils {
     Key? key,
   }) {
     showMaterialModalBottomSheet(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      backgroundColor: Theme.of(context).backgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12),
+        ),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
       context: context,
       builder: (ctx) => SingleChildScrollView(
         key: key,

@@ -17,14 +17,17 @@ class AddTaskController extends TaskEditController {
 
   @override
   set subject(String name) {
-    subject = name;
+    super.subject = name;
+    final exists = ref.read(subjectsController).exists(subject);
+    _saveToSchedule = !exists;
 
-    if (ref.read(subjectsController).exists(subject)) {
+    if (exists) {
       setNextLessonDate(); // Will also notify listeners
     } else {
       untilDate = AppUtils.getTomorrowDate();
-      notifyListeners();
     }
+
+    notifyListeners();
   }
 
   bool get saveToSchedule => _saveToSchedule;
@@ -75,15 +78,12 @@ class AddTaskController extends TaskEditController {
   // will be aware of change when date is changed
   void setNextLessonDate() async {
     final today = DateTime.now().weekday - 1;
-    await ref.read(scheduleController).initBox();
     var days = ref.read(scheduleController).getDaysContainingLesson(subject);
 
     days = days.map((e) {
-      if (e < today) {
-        return 7 - (today - e);
-      } else {
-        return e - today;
-      }
+      if (e < today) return 7 - (today - e);
+      if (e == today) return 7;
+      return e - today;
     }).toList();
     days.removeWhere((e) => e == 0);
     days.sort();

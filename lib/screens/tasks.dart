@@ -14,21 +14,6 @@ class TasksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return HiveControllersInit(
-      controllers: [tasksController],
-      build: () => const TasksScrollView(),
-    );
-  }
-}
-
-// TODO: Task does not delete on the first try after navigating to schedule and back
-class TasksScrollView extends ConsumerWidget {
-  const TasksScrollView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = ref.watch(tasksController).list;
-
     return CustomScrollView(
       slivers: [
         const MainAppBar(),
@@ -55,24 +40,41 @@ class TasksScrollView extends ConsumerWidget {
                   ),
                 ],
               ),
-              AnimatedCrossFade(
-                firstChild: const Center(child: NoTasksMessage()),
-                secondChild: Container(),
-                crossFadeState:
-                    tasks.all.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 200),
+              HiveControllersInit(
+                controllers: [tasksController],
+                build: () => TasksDashboard(),
               ),
-              TasksList(
-                title: "На завтра",
-                dateLabel: AppUtils.formatDate(AppUtils.getTomorrowDate()),
-                tasks: tasks.tomorrow,
-              ),
-              TasksList(
-                title: "Рекомендации",
-                tasks: tasks.recomendations,
-              )
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class TasksDashboard extends ConsumerWidget {
+  const TasksDashboard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasks = ref.watch(tasksController).list;
+
+    return Column(
+      children: [
+        AnimatedCrossFade(
+          firstChild: const Center(child: NoTasksMessage()),
+          secondChild: Container(),
+          crossFadeState: tasks.all.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: const Duration(milliseconds: 200),
+        ),
+        TasksList(
+          title: "На завтра",
+          dateLabel: AppUtils.formatDate(AppUtils.getTomorrowDate()),
+          tasks: tasks.tomorrow,
+        ),
+        TasksList(
+          title: "Рекомендации",
+          tasks: tasks.recomendations,
         ),
       ],
     );

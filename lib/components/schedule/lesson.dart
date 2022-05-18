@@ -2,6 +2,7 @@ import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/state/edit_schedule.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,15 +38,24 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
     _newName = widget.name;
   }
 
-  Color _getBGColor() {
-    return widget.inEditMode && widget.isSelected
-        ? Theme.of(context).colorScheme.primaryContainer
-        : Theme.of(context).primaryColor;
+  Widget _getIcon() {
+    if (widget.inEditMode && widget.isSelected) {
+      return Icon(Icons.clear_rounded, color: Colors.white);
+    }
+
+    return Text(
+      (widget.index + 1).toString(),
+      style: const TextStyle(fontSize: 18, color: Colors.white),
+    );
+  }
+
+  Color _getIconBGColor() {
+    return widget.inEditMode && widget.isSelected ? AppColors.red : AppColors.blue;
   }
 
   @override
   Widget build(BuildContext context) {
-    final editMode = ref.read(editModeController);
+    final editMode = ref.read(scheduleEditController);
     return GestureDetector(
       onLongPress: () {
         if (!editMode.active) {
@@ -86,43 +96,49 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
         );
       },
       child: Container(
-          height: 50,
-          margin: const EdgeInsets.all(5),
-          // padding: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: _getBGColor(),
+              color: Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.all(Radius.circular(12))),
-          // color:
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                (widget.index + 1).toString(),
-                style: const TextStyle(fontSize: 20),
+              Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(color: _getIconBGColor(), shape: BoxShape.circle),
+                child: Center(
+                  child: AnimatedCrossFade(
+                    crossFadeState: widget.inEditMode && widget.isSelected
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: Duration(
+                      milliseconds: 200,
+                    ),
+                    firstChild: Text(
+                      (widget.index + 1).toString(),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    secondChild: Icon(Icons.clear_rounded, color: Colors.white),
+                  ),
+                ),
               ),
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Center(
-                  child: Text(
-                    widget.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  widget.name,
+                  overflow: TextOverflow.fade,
+                  style: const TextStyle(fontSize: 20),
                 ),
               )),
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 150),
-                opacity: widget.inEditMode ? 1 : 0,
-                child: ReorderableDragStartListener(
-                    child: Icon(
-                      Icons.drag_handle,
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                    ),
-                    index: widget.index),
-              ),
+              ReorderableDragStartListener(
+                  child: Icon(
+                    Icons.drag_handle,
+                    color: Theme.of(context).colorScheme.tertiaryContainer,
+                  ),
+                  index: widget.index),
             ],
           )),
     );

@@ -110,7 +110,7 @@ class AppTheme with ChangeNotifier {
         ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: const Color(0x3D6B6B6B),
+        shadowColor: Color(0x2E6B6B6B),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));

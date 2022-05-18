@@ -1,3 +1,4 @@
+import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/components/schedule/mutliline_hint.dart';
 import 'package:flutter/material.dart';
@@ -40,35 +41,21 @@ class _ModalFormState extends State<ModalForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-                onPressed: widget.onCancel,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12))),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Text(
-                    "Отмена",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Theme.of(context).colorScheme.tertiary),
-                  ),
-                )),
-            TextButton(
-                onPressed: () => widget.onSubmit(),
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: AppColors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Text(
-                    widget.submitButtonText,
-                    style: const TextStyle(fontSize: 15, color: Colors.white),
-                  ),
-                ))
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: AppElevatedButton(
+                text: "Отмена",
+                color: AppColors.red,
+                foregroundColor: Colors.white,
+                onPressed: () => widget.onCancel(),
+              ),
+            ),
+            AppElevatedButton(
+              text: widget.submitButtonText,
+              color: AppColors.green,
+              foregroundColor: Colors.white,
+              onPressed: () => widget.onSubmit(),
+            ),
           ],
         )
       ],
