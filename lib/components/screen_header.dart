@@ -44,7 +44,7 @@ class ScreenHeader extends StatelessWidget {
               ),
             ),
             AnimatedSize(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

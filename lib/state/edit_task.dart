@@ -15,7 +15,7 @@ class TaskEditController with ChangeNotifier {
 
   TaskEditController(this.ref);
 
-  void commitNotifyListeners() {
+  void commitAndNotifyListeners() {
     _edited = false;
     super.notifyListeners();
   }
@@ -78,7 +78,7 @@ class TaskEditController with ChangeNotifier {
           ),
         );
 
-    commitNotifyListeners();
+    commitAndNotifyListeners();
   }
 
   Future<void> deleteTask() async {

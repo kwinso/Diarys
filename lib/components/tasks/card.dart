@@ -36,12 +36,12 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 
     Timer(const Duration(milliseconds: 350), () {
       ref.read(tasksController).remove(widget.task.id);
+      // TODO: implement when archiving is done
       //   AppUtils.showSnackBar(context,
       //       text: "Задание выполнено.",
       //       action: SnackBarAction(
       //         label: "Отменить",
       //         textColor: Theme.of(context).colorScheme.secondary,
-      //         // TODO
       //         onPressed: () {},
       //       ));
     });

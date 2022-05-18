@@ -38,17 +38,6 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
     _newName = widget.name;
   }
 
-  Widget _getIcon() {
-    if (widget.inEditMode && widget.isSelected) {
-      return Icon(Icons.clear_rounded, color: Colors.white);
-    }
-
-    return Text(
-      (widget.index + 1).toString(),
-      style: const TextStyle(fontSize: 18, color: Colors.white),
-    );
-  }
-
   Color _getIconBGColor() {
     return widget.inEditMode && widget.isSelected ? AppColors.red : AppColors.blue;
   }
@@ -113,14 +102,14 @@ class _ScheduleLessonState extends ConsumerState<ScheduleLesson> {
                     crossFadeState: widget.inEditMode && widget.isSelected
                         ? CrossFadeState.showSecond
                         : CrossFadeState.showFirst,
-                    duration: Duration(
+                    duration: const Duration(
                       milliseconds: 200,
                     ),
                     firstChild: Text(
                       (widget.index + 1).toString(),
                       style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
-                    secondChild: Icon(Icons.clear_rounded, color: Colors.white),
+                    secondChild: const Icon(Icons.clear_rounded, color: Colors.white),
                   ),
                 ),
               ),

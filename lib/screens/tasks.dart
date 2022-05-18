@@ -42,7 +42,7 @@ class TasksScreen extends ConsumerWidget {
               ),
               HiveControllersInit(
                 controllers: [tasksController],
-                build: () => TasksDashboard(),
+                build: () => const TasksDashboard(),
               ),
             ],
           ),

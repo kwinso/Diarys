@@ -132,16 +132,27 @@ class _ControlButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEdited = ref.watch(taskEditController).isEdited;
-    return IconButton(
-      onPressed: () {
+    return WillPopScope(
+      onWillPop: () {
+        print("hello");
         if (isEdited) {
-          ref.read(taskEditController).commit();
-        } else {
-          ref.read(taskEditController).deleteTask();
-          Navigator.pop(context);
+          AlertDialog();
+
+          return Future.value(false);
         }
+        return Future.value(true);
       },
-      icon: getCurrentIcon(isEdited, context),
+      child: IconButton(
+        onPressed: () {
+          if (isEdited) {
+            ref.read(taskEditController).commit();
+          } else {
+            ref.read(taskEditController).deleteTask();
+            Navigator.pop(context);
+          }
+        },
+        icon: getCurrentIcon(isEdited, context),
+      ),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/main_app_bar.dart';
-import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
 import 'package:diarys/components/schedule/swiper.dart';

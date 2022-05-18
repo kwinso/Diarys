@@ -1,5 +1,6 @@
 import 'package:diarys/components/tasks/card.dart';
 import 'package:diarys/state/hive/types/task.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,11 +9,13 @@ class TasksList extends ConsumerStatefulWidget {
   final String title;
   final List<Task> tasks;
   final String? dateLabel;
+  final bool missied;
   const TasksList({
     Key? key,
     required this.title,
     required this.tasks,
     this.dateLabel,
+    this.missied = false,
   }) : super(key: key);
 
   @override
@@ -44,7 +47,23 @@ class _TasksListState extends ConsumerState<TasksList> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        nameLabel,
+        Row(
+          children: [
+            widget.missied
+                ? const Tooltip(
+                    child: Icon(Icons.warning_amber_rounded, color: AppColors.red),
+                    triggerMode: TooltipTriggerMode.tap,
+                    message: "Пропущенный день",
+                  )
+                : Container(
+                    width: 0,
+                  ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: nameLabel,
+            ),
+          ],
+        ),
         Text(
           widget.dateLabel ?? "",
           style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primaryContainer),

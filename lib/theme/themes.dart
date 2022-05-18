@@ -26,6 +26,7 @@ class AppTheme with ChangeNotifier {
   static ThemeData get light {
     const bg = Color(0xFFEFF1F6);
     const primary = Color(0xFFFFFFFF);
+    const primaryContainer = Color.fromARGB(255, 201, 201, 201);
     const tertiary = Color(0xFF343434);
 
     return ThemeData(
@@ -47,7 +48,7 @@ class AppTheme with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: primary,
-          primaryContainer: Color(0xFFBFBFBF),
+          primaryContainer: primaryContainer,
           secondary: AppColors.secondary,
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF676E83),
@@ -62,6 +63,13 @@ class AppTheme with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
+        tooltipTheme: TooltipThemeData(
+          decoration: BoxDecoration(
+            color: primaryContainer,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          textStyle: const TextStyle(color: tertiary),
+        ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
         shadowColor: const Color(0x3E7A7A7A),
@@ -73,6 +81,7 @@ class AppTheme with ChangeNotifier {
 
   static ThemeData get dark {
     const primary = Color(0xFF2C2B2B);
+    const primaryContainer = Color(0xFF7E7E7E);
     const bg = Color(0xFF252525);
     const tertiary = Colors.white;
 
@@ -94,7 +103,7 @@ class AppTheme with ChangeNotifier {
         colorScheme: const ColorScheme(
           brightness: Brightness.dark,
           primary: primary,
-          primaryContainer: Color(0xFF7E7E7E),
+          primaryContainer: primaryContainer,
           secondary: AppColors.secondary,
           tertiary: tertiary,
           tertiaryContainer: Color(0xFF828690),
@@ -108,9 +117,16 @@ class AppTheme with ChangeNotifier {
           surface: primary,
           onSurface: tertiary,
         ),
+        tooltipTheme: TooltipThemeData(
+          decoration: BoxDecoration(
+            color: primaryContainer,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          textStyle: const TextStyle(color: tertiary),
+        ),
         textSelectionTheme: const TextSelectionThemeData(cursorColor: AppColors.secondary),
         canvasColor: Colors.transparent,
-        shadowColor: Color(0x2E6B6B6B),
+        shadowColor: const Color(0x2E6B6B6B),
         textTheme: const TextTheme(
                 bodyText2: TextStyle(color: tertiary), bodyText1: TextStyle(color: tertiary))
             .apply(bodyColor: tertiary, displayColor: tertiary));

@@ -23,7 +23,7 @@ class ModalAutoCompleteInput extends ConsumerStatefulWidget {
 class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
   String _text = "";
   List<String> _suggestions = [];
-  bool _listSuggestions = false;
+  final _listSuggestions = false;
   bool _valid = true;
   final _textEditingController = TextEditingController();
   final _hintsScrollController = ScrollController();
@@ -172,7 +172,7 @@ class _AddModalAutocompleteState extends ConsumerState<ModalAutoCompleteInput> {
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 10, bottom: 5),
+                    contentPadding: const EdgeInsets.only(top: 10, bottom: 5),
                     // TODO: Maybe later?
                     // suffixIconConstraints: BoxConstraints(maxHeight: 30),
                     // suffixIcon: IconButton(
