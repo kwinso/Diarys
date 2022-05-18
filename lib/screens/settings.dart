@@ -1,10 +1,11 @@
 import 'package:diarys/components/controllers_init.dart';
 import 'package:diarys/components/route_bar.dart';
+import 'package:diarys/components/settings/theme.dart';
 import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/theme/colors.dart';
-import 'package:diarys/theme/themes.dart';
+import 'package:diarys/theme/theme_controller.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,40 +22,48 @@ class SettingsScreen extends ConsumerWidget {
         appBar: const RouteBar(name: "Настройки"),
         body: HiveControllersInit(
           controllers: [scheduleController, tasksController],
-          build: () => SettingsList(
-            darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
-            lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
-            sections: [
-              SettingsSection(
-                tiles: <SettingsTile>[
-                  SettingsTile.switchTile(
-                    onToggle: (value) => ref.read(themeController).toggle(value: value),
-                    activeSwitchColor: Theme.of(context).colorScheme.secondary,
-                    initialValue: ref.watch(themeController).mode == ThemeMode.dark,
-                    leading: const Icon(Icons.dark_mode_outlined),
-                    title: const Text('Темная тема'),
-                  ),
-                ],
-              ),
-              SettingsSection(
-                  title: const Text(
-                    "Опасное место",
-                    style: TextStyle(color: AppColors.red),
-                  ),
-                  tiles: [
-                    SettingsTile(
-                      leading: const Icon(Icons.delete),
-                      title: const Text("Очистить хранилище"),
-                      onPressed: (ctx) {
-                        ref.read(tasksController).emptyBox();
-                        ref.read(scheduleController).emptyBox();
-                        ref.read(subjectsController).emptyBox();
-                        AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
-                      },
-                    )
-                  ])
-            ],
+          build: () => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView(
+              children: [
+                ThemeSelectSection(),
+              ],
+            ),
           ),
+          // build: () => SettingsList(
+          //   darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
+          //   lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
+          //   sections: [
+          //     SettingsSection(
+          //       tiles: <SettingsTile>[
+          //         SettingsTile.switchTile(
+          //           onToggle: (value) => ref.read(themeController).toggle(value: value),
+          //           activeSwitchColor: Theme.of(context).colorScheme.secondary,
+          //           initialValue: ref.watch(themeController).mode == ThemeMode.dark,
+          //           leading: const Icon(Icons.dark_mode_outlined),
+          //           title: const Text('Темная тема'),
+          //         ),
+          //       ],
+          //     ),
+          //     SettingsSection(
+          //         title: const Text(
+          //           "Опасное место",
+          //           style: TextStyle(color: AppColors.red),
+          //         ),
+          //         tiles: [
+          //           SettingsTile(
+          //             leading: const Icon(Icons.delete),
+          //             title: const Text("Очистить хранилище"),
+          //             onPressed: (ctx) {
+          //               ref.read(tasksController).emptyBox();
+          //               ref.read(scheduleController).emptyBox();
+          //               ref.read(subjectsController).emptyBox();
+          //               AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
+          //             },
+          //           )
+          //         ])
+          //   ],
+          // ),
         ),
       ),
     );

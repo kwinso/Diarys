@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
 import 'package:diarys/screens/schedule.dart';
 import 'package:diarys/screens/tasks.dart';
-import 'package:diarys/theme/themes.dart';
+import 'package:diarys/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -13,14 +13,12 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.watch(themeController);
+    final theme = ref.watch(themeController.select((value) => value.current));
 
     return MaterialApp(
       title: "Diarys",
       home: const MainPage(),
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: theme.mode,
+      theme: theme,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [Locale("ru")],
