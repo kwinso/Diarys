@@ -46,7 +46,7 @@ final LightTheme = AppThemeData(
       ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
-          color: _primaryContainer,
+          color: _bg,
           borderRadius: BorderRadius.circular(12),
         ),
         textStyle: const TextStyle(color: _tertiary),

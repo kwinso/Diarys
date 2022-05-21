@@ -1,6 +1,5 @@
 import 'package:diarys/theme/colors.dart';
 import 'package:diarys/theme/theme_controller.dart';
-import 'package:diarys/theme/themes/app_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,13 +11,9 @@ class ThemeSelectSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Тема",
-          style: TextStyle(fontSize: 25),
-        ),
         ShaderMask(
           shaderCallback: (Rect bounds) {
-            return LinearGradient(
+            return const LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               stops: [0, 0.025, 0.975, 1],
@@ -27,7 +22,7 @@ class ThemeSelectSection extends StatelessWidget {
           },
           blendMode: BlendMode.dstOut,
           child: Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10),
             height: 180,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -59,7 +54,7 @@ class ThemeSelectTile extends ConsumerWidget {
           children: [
             Container(
               height: 140,
-              margin: EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10),
               width: 100,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -146,8 +141,8 @@ class _AbstractTaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-          margin: EdgeInsets.symmetric(vertical: 2),
-          padding: EdgeInsets.symmetric(horizontal: 3),
+          margin: const EdgeInsets.symmetric(vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 3),
           height: parentHeight * 0.1,
           width: parentWidth * 0.9,
           decoration: BoxDecoration(
@@ -157,10 +152,10 @@ class _AbstractTaskTile extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: 3),
+                margin: const EdgeInsets.only(right: 3),
                 height: parentHeight * 0.05,
                 width: parentHeight * 0.05,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.yellow),
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.yellow),
               ),
               _AbstractLayoutLine(
                   width: parentWidth * 0.2, height: 4, color: theme.colorScheme.tertiary)

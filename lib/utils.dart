@@ -75,13 +75,14 @@ class AppUtils {
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
         dismissDirection: DismissDirection.horizontal,
-        backgroundColor: Theme.of(ctx).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(ctx).backgroundColor,
         content: Text(
           text,
           style: TextStyle(
             color: Theme.of(ctx).colorScheme.tertiary,
           ),
         ),
+        behavior: SnackBarBehavior.floating,
         action: action,
         // content: Text("Хранилище очищено"),
       ),

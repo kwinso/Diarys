@@ -23,12 +23,26 @@ class SettingsScreen extends ConsumerWidget {
         body: HiveControllersInit(
           controllers: [scheduleController, tasksController],
           build: () => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ListView(
-              children: [
-                ThemeSelectSection(),
-              ],
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Builder(builder: (context) {
+              return ListView(
+                children: [
+                  SettingsHeading("Тема"),
+                  ThemeSelectSection(),
+                  SettingsHeading("Опасное место", color: AppColors.red),
+                  ListTile(
+                    trailing: Icon(Icons.delete_rounded),
+                    title: Text("Очистить хранилище"),
+                    onTap: () {
+                      ref.read(tasksController).emptyBox();
+                      ref.read(scheduleController).emptyBox();
+                      ref.read(subjectsController).emptyBox();
+                      AppUtils.showSnackBar(context, text: "Хранилище очищено");
+                    },
+                  ),
+                ],
+              );
+            }),
           ),
           // build: () => SettingsList(
           //   darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
@@ -55,10 +69,6 @@ class SettingsScreen extends ConsumerWidget {
           //             leading: const Icon(Icons.delete),
           //             title: const Text("Очистить хранилище"),
           //             onPressed: (ctx) {
-          //               ref.read(tasksController).emptyBox();
-          //               ref.read(scheduleController).emptyBox();
-          //               ref.read(subjectsController).emptyBox();
-          //               AppUtils.showSnackBar(ctx, text: "Хранилище очищено");
           //             },
           //           )
           //         ])
@@ -69,3 +79,27 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 }
+
+class SettingsHeading extends StatelessWidget {
+  final Color? color;
+  final String text;
+  const SettingsHeading(this.text, {Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 25, color: color),
+    );
+  }
+}
+
+// class SettingsTile extends StatelessWidget {
+//   final String label
+//   const SettingsTile({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
