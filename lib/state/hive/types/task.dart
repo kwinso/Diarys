@@ -24,7 +24,8 @@ class Task {
     required this.difficulty,
     required this.content,
     required this.untilDate,
+    UniqueKey? existingId,
   }) {
-    id = UniqueKey();
+    id = existingId ?? UniqueKey();
   }
 }

@@ -13,7 +13,10 @@ class TaskTextInput<T extends TaskEditController> extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
       initialValue: ref.read(controller).content,
-      onChanged: (t) => ref.read(controller).content = t.trim(),
+      onChanged: (t) {
+        t = t.trim();
+        if (ref.read(controller).content != t) ref.read(controller).content = t;
+      },
       maxLines: null,
       textCapitalization: TextCapitalization.sentences,
       style: TextStyle(color: Theme.of(context).colorScheme.tertiary),

@@ -21,6 +21,7 @@ class TaskInfoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(taskEditController).update(task);
+    print('Initial ${task.id}');
 
     return Scaffold(
       appBar: const RouteBar(name: "Задание"),
@@ -63,7 +64,9 @@ class _TaskInfoHeader extends ConsumerWidget {
                 style: const TextStyle(fontSize: 25),
                 initialValue: ref.read(taskEditController).subject,
                 onChanged: (t) {
-                  ref.read(taskEditController).subject = t.trim();
+                  final taskEdit = ref.read(taskEditController);
+                  t = t.trim();
+                  if (t != taskEdit.subject) taskEdit.subject = t;
                 },
                 maxLines: 1,
                 decoration: const InputDecoration(

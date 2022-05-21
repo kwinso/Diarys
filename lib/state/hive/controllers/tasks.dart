@@ -43,12 +43,20 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   TasksList get list {
     final l = box.values.first;
-    return TasksList(l.all, recomendations: l.recomendations, tomorrow: l.tomorrow);
+    return TasksList(l.all);
   }
 
   void add(Task t) {
     final updated = list;
     updated.add(t);
+    updateBox(updated);
+  }
+
+  void update(UniqueKey id, Task data) {
+    final updated = list;
+    final updatedIndex = updated.all.indexWhere((e) => e.id == id);
+    updated.all[updatedIndex] = data;
+
     updateBox(updated);
   }
 

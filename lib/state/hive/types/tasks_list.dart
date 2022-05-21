@@ -16,15 +16,13 @@ class TasksList {
   @HiveField(0)
   List<Task> all;
 
-  @HiveField(1)
   List<Task> tomorrow = [];
 
-  @HiveField(2)
   List<Task> recomendations = [];
 
   void _updateLists() {
-    _udpdateTomorrow(null);
-    _updateRecomendations(null);
+    _udpdateTomorrow();
+    _updateRecomendations();
   }
 
   void add(Task task) {
@@ -37,21 +35,12 @@ class TasksList {
     _updateLists();
   }
 
-  void _udpdateTomorrow(List<Task>? l) {
-    if (l != null) {
-      tomorrow = l;
-      return;
-    }
-
+  void _udpdateTomorrow() {
     var tomorrowDate = AppUtils.getTomorrowDate();
     tomorrow = all.where((e) => isSameDay(e.untilDate, tomorrowDate)).toList();
   }
 
-  void _updateRecomendations(List<Task>? l) {
-    if (l != null) {
-      recomendations = l;
-      return;
-    }
+  void _updateRecomendations() {
     recomendations.clear();
 
     var tasks = List<Task>.from(all);
@@ -86,7 +75,7 @@ class TasksList {
   }
 
   TasksList(this.all, {List<Task>? tomorrow, List<Task>? recomendations}) {
-    _udpdateTomorrow(tomorrow);
-    _updateRecomendations(recomendations);
+    _udpdateTomorrow();
+    _updateRecomendations();
   }
 }

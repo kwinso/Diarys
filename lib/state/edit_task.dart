@@ -52,7 +52,7 @@ class TaskEditController with ChangeNotifier {
     notifyListeners();
   }
 
-  int _difficulty = 0;
+  int _difficulty = 1;
   int get difficulty => _difficulty;
   set difficulty(int dif) {
     _difficulty = dif;
@@ -67,17 +67,16 @@ class TaskEditController with ChangeNotifier {
       ref.read(scheduleController).dayContains(_untilDate.weekday - 1, _subject);
 
   Future<void> commit() async {
-    // Since it only edits, we should remove the previous version
-    await deleteTask();
-    ref.read(tasksController).add(
+    ref.read(tasksController).update(
+          _taskId,
           Task(
             subject: _subject,
             difficulty: _difficulty,
             content: _content,
             untilDate: _untilDate,
+            existingId: _taskId,
           ),
         );
-
     commitAndNotifyListeners();
   }
 
