@@ -43,7 +43,6 @@ dependencies:
     modal_bottom_sheet: ^2.0.0
     table_calendar: ^3.0.4
     dropdown_button2: ^1.2.2
-    settings_ui: ^2.0.2
 
 dev_dependencies:
     flutter_test:

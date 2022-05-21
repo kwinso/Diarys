@@ -5,11 +5,9 @@ import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/theme/colors.dart';
-import 'package:diarys/theme/theme_controller.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -27,12 +25,12 @@ class SettingsScreen extends ConsumerWidget {
             child: Builder(builder: (context) {
               return ListView(
                 children: [
-                  SettingsHeading("Тема"),
-                  ThemeSelectSection(),
-                  SettingsHeading("Опасное место", color: AppColors.red),
+                  const SettingsHeading("Тема"),
+                  const ThemeSelectSection(),
+                  const SettingsHeading("Опасное место", color: AppColors.red),
                   ListTile(
-                    trailing: Icon(Icons.delete_rounded),
-                    title: Text("Очистить хранилище"),
+                    trailing: const Icon(Icons.delete_rounded),
+                    title: const Text("Очистить хранилище"),
                     onTap: () {
                       ref.read(tasksController).emptyBox();
                       ref.read(scheduleController).emptyBox();
@@ -44,36 +42,6 @@ class SettingsScreen extends ConsumerWidget {
               );
             }),
           ),
-          // build: () => SettingsList(
-          //   darkTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
-          //   lightTheme: SettingsThemeData(settingsListBackground: Theme.of(context).primaryColor),
-          //   sections: [
-          //     SettingsSection(
-          //       tiles: <SettingsTile>[
-          //         SettingsTile.switchTile(
-          //           onToggle: (value) => ref.read(themeController).toggle(value: value),
-          //           activeSwitchColor: Theme.of(context).colorScheme.secondary,
-          //           initialValue: ref.watch(themeController).mode == ThemeMode.dark,
-          //           leading: const Icon(Icons.dark_mode_outlined),
-          //           title: const Text('Темная тема'),
-          //         ),
-          //       ],
-          //     ),
-          //     SettingsSection(
-          //         title: const Text(
-          //           "Опасное место",
-          //           style: TextStyle(color: AppColors.red),
-          //         ),
-          //         tiles: [
-          //           SettingsTile(
-          //             leading: const Icon(Icons.delete),
-          //             title: const Text("Очистить хранилище"),
-          //             onPressed: (ctx) {
-          //             },
-          //           )
-          //         ])
-          //   ],
-          // ),
         ),
       ),
     );
@@ -93,13 +61,3 @@ class SettingsHeading extends StatelessWidget {
     );
   }
 }
-
-// class SettingsTile extends StatelessWidget {
-//   final String label
-//   const SettingsTile({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
