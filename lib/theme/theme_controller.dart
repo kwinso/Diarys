@@ -13,11 +13,11 @@ final themeController = ChangeNotifierProvider<AppThemeController>((ref) {
 
 class AppThemeController with ChangeNotifier {
   static List<AppThemeData> themes = [
-    LightTheme,
     DarkTheme,
+    LightTheme,
     DraculaTheme,
   ];
-  int _currentThemeIndex = 2;
+  int _currentThemeIndex = 0; // The default theme is Dark
   ThemeData get current => themes[_currentThemeIndex].data;
   int get currentInt => _currentThemeIndex;
 
