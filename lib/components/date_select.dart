@@ -1,5 +1,4 @@
 import 'package:diarys/components/elevated_button.dart';
-import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -30,7 +29,6 @@ class _DateSelectCalendarState extends ConsumerState<DateSelectCalendar> {
       children: [
         AppCalendarDatePicker(
           selected: _date ?? DateTime.now(),
-          allowedDays: ref.read(scheduleController).getDaysContainingLesson(widget.subject),
           onSelect: (d) => setState(() => _date = d),
         ),
         Opacity(
@@ -50,12 +48,10 @@ class _DateSelectCalendarState extends ConsumerState<DateSelectCalendar> {
 }
 
 class AppCalendarDatePicker extends StatelessWidget {
-  final List<int> allowedDays;
   final DateTime selected;
   final Function(DateTime d) onSelect;
   const AppCalendarDatePicker({
     Key? key,
-    required this.allowedDays,
     required this.selected,
     required this.onSelect,
   }) : super(key: key);
@@ -92,7 +88,7 @@ class AppCalendarDatePicker extends StatelessWidget {
       enabledDayPredicate: (d) {
         if (isSameDay(d, now)) return false;
         if (isSameDay(d, selected)) return true;
-        return allowedDays.isNotEmpty ? allowedDays.contains(d.weekday - 1) : true;
+        return true;
       },
       selectedDayPredicate: (d) => isSameDay(d, selected),
       holidayPredicate: (d) => false,

@@ -23,8 +23,6 @@ class AddTaskController extends TaskEditController {
 
     if (exists) {
       setNextLessonDate(); // Will also notify listeners
-    } else {
-      untilDate = AppUtils.getTomorrowDate();
     }
 
     notifyListeners();

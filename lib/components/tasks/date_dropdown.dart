@@ -83,7 +83,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
     // If date was not select, then subject is changed => set defeault value
     // Since we need to process the subject again
     // To determine if it's in schedule or not
-    if (_value != DropdownSelection.date) _value = DropdownSelection.tomorrow;
+    // if (_value != DropdownSelection.date) _value = DropdownSelection.tomorrow;
 
     final items = _getDropDownItems();
 
