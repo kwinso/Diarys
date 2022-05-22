@@ -6,11 +6,13 @@ import 'package:diarys/state/hive/types/subject.dart';
 import 'package:diarys/state/hive/types/subjects_list.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/state/hive/types/tasks_list.dart';
+import 'package:diarys/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initHive() async {
   final appDir = await getApplicationDocumentsDirectory();
@@ -29,10 +31,11 @@ void main() async {
   final subjects = SubjectsController();
   await subjects.initBox();
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarIconBrightness: Brightness.dark,
-  ));
+  final prefs = await SharedPreferences.getInstance();
+  final theme = AppThemeController(prefs.getInt("theme"));
 
-  runApp(ProviderScope(
-      overrides: [subjectsController.overrideWithValue(subjects)], child: const App()));
+  runApp(ProviderScope(overrides: [
+    subjectsController.overrideWithValue(subjects),
+    themeController.overrideWithValue(theme)
+  ], child: const App()));
 }

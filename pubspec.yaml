@@ -33,9 +33,7 @@ dependencies:
         sdk: flutter
 
     flutter_swiper_null_safety: ^1.0.2
-    flutter_speed_dial: ^5.0.0+1
     flutter_riverpod: ^1.0.3
-    dependencies:
     hive: ^2.0.6
     hive_flutter: ^1.1.0
     flutter_typeahead: ^3.2.4
@@ -43,6 +41,7 @@ dependencies:
     modal_bottom_sheet: ^2.0.0
     table_calendar: ^3.0.4
     dropdown_button2: ^1.2.2
+    shared_preferences: ^2.0.15
 
 dev_dependencies:
     flutter_test:
