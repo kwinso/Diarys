@@ -31,7 +31,7 @@ final DarkTheme = AppThemeData(
         primaryContainer: _primaryContainer,
         secondary: AppColors.secondary,
         tertiary: _tertiary,
-        tertiaryContainer: Color(0xFF828690),
+        tertiaryContainer: Color.fromARGB(255, 155, 158, 165),
         background: _bg,
         onSecondary: _tertiary,
         onPrimaryContainer: _tertiary,

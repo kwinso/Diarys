@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:diarys/screens/task_info.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
+import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,33 +61,44 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
         },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            border: Border.all(
+                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5), width: 1),
             color: Theme.of(context).primaryColor,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(child: _CardInfo(task: widget.task)),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Row(children: [
-                  IconButton(
-                    onPressed: () => _markDone(),
-                    icon: Icon(
-                      Icons.done_rounded,
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      size: 30,
-                    ),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    size: 30,
-                  ),
-                ]),
-              )
+              // LayoutBuilder(builder: (context, constrains) {
+              //   return SizedBox(
+              //     height: constrains.maxHeight,
+              //     child: Container(
+              //       // constraints: BoxConstraints({...constrains}),
+              //       color: AppColors.red,
+              //       child: Center(child: Icon(Icons.warning_amber_rounded)),
+              //     ),
+              //   );
+              // }),
+              // Column(children: [
+              //   Container(
+              //     // constraints: BoxConstraints.expand(),
+              //     // constraints: BoxConstraints({...constrains}),
+              //     // height: double.infinity,
+              //     decoration:
+              //         BoxDecoration(color: AppColors.red, border: Border.all(color: AppColors.red)),
+              //     child: Center(child: Icon(Icons.warning_amber_rounded)),
+              //   ),
+              // ]),
+
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: _CardInfo(task: widget.task, onDone: _markDone),
+                ),
+              ),
             ],
           ),
         ),
@@ -97,7 +109,8 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 
 class _CardInfo extends StatelessWidget {
   final Task task;
-  const _CardInfo({Key? key, required this.task}) : super(key: key);
+  final VoidCallback onDone;
+  const _CardInfo({Key? key, required this.task, required this.onDone}) : super(key: key);
 
   String _withoutWhitespaces(String t) {
     return t.replaceAll(RegExp(r'\s'), " ");
@@ -105,40 +118,89 @@ class _CardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          decoration: BoxDecoration(
-            color: AppUtils.getDifficultyColor(task.difficulty),
-            shape: BoxShape.circle,
-          ),
-          child: Text(AppUtils.getDifficultyEmoji(task.difficulty)),
-        ),
-        Expanded(
-          child: Column(
-            textDirection: TextDirection.ltr,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _withoutWhitespaces(task.subject),
-                style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-                softWrap: false,
-                overflow: TextOverflow.fade,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _withoutWhitespaces(task.subject),
+              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.tertiary),
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            Container(
+              padding: const EdgeInsets.all(3),
+              margin: const EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: AppUtils.getDifficultyColor(task.difficulty)),
+                  color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2)),
+              child: Text(
+                AppUtils.getDifficultyEmoji(task.difficulty),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 9),
               ),
-              Visibility(
-                visible: task.content.isNotEmpty,
-                child: Text(
-                  _withoutWhitespaces(task.content),
-                  style: TextStyle(
-                      fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
+            ),
+          ],
+        ),
+        Visibility(
+          visible: task.content.isNotEmpty,
+          child: Padding(
+            padding: EdgeInsets.only(top: 1),
+            child: Text(
+              _withoutWhitespaces(task.content),
+              style:
+                  TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                AppUtils.formatDate(task.untilDate),
+                style: TextStyle(
+                  fontSize: 9,
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  // color: AppColors.red,
                 ),
               ),
-            ],
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(
+                  // color: AppColors.red,
+                  color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
+                ),
+              ),
+            ),
+            // GestureDetector(
+            //   onTap: onDone,
+            //   child: Container(
+            //     child: Icon(Icons.done_outlined,
+            //         color: Theme.of(context).colorScheme.tertiaryContainer),
+            //     padding: EdgeInsets.symmetric(vertical: 4),
+            //     // decoration: BoxDecoration(
+            //     // borderRadius: BorderRadius.circular(5),
+            //     // border: Border.all(color: AppColors.green),
+            //     // color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2)),
+            //     // ),
+            //     // child: Text(
+            //     //   "Завершить",
+            //     //   style: TextStyle(
+            //     //     fontSize: 9,
+            //     //     color: Theme.of(context).colorScheme.tertiaryContainer,
+            //     //   ),
+            //     // ),
+            //   ),
+            // ),
+          ],
         )
       ],
     );
