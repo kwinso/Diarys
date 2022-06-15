@@ -75,7 +75,8 @@ class AppUtils {
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
         dismissDirection: DismissDirection.horizontal,
-        backgroundColor: Theme.of(ctx).backgroundColor,
+        duration: Duration(seconds: 3),
+        backgroundColor: backgroundColor,
         content: Text(
           text,
           style: TextStyle(

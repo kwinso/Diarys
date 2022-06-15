@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:diarys/state/hive/controllers/hive_notifier.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/state/hive/types/tasks_list.dart';
@@ -14,29 +17,29 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   @override
   Future<dynamic> emptyBoxFill(Box<TasksList> box) async {
-    // final startDay = DateTime.now();
-    // final days = [
-    //   DateTime(startDay.year, startDay.month, startDay.day + 0),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 1),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 2),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 2),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 5),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 6),
-    //   DateTime(startDay.year, startDay.month, startDay.day + 3),
-    // ];
+    final startDay = DateTime.now();
+    final days = [
+      DateTime(startDay.year, startDay.month, startDay.day + 0),
+      DateTime(startDay.year, startDay.month, startDay.day + 1),
+      DateTime(startDay.year, startDay.month, startDay.day + 1),
+      DateTime(startDay.year, startDay.month, startDay.day + 1),
+      DateTime(startDay.year, startDay.month, startDay.day + 2),
+      DateTime(startDay.year, startDay.month, startDay.day + 2),
+      DateTime(startDay.year, startDay.month, startDay.day + 5),
+      DateTime(startDay.year, startDay.month, startDay.day + 6),
+      DateTime(startDay.year, startDay.month, startDay.day + 3),
+    ];
 
-    // final tasks = List.generate(days.length, (index) {
-    //   final rnd = Random().nextInt(4);
-    //   return Task(
-    //       subject: "Алгебра",
-    //       difficulty: rnd == 0 ? 1 : rnd,
-    //       content: "Какое-то дз.",
-    //       untilDate: days[index]);
-    // });
+    final tasks = List.generate(days.length, (index) {
+      final rnd = Random().nextInt(4);
+      return Task(
+          subject: "Алгебра",
+          difficulty: rnd == 0 ? 1 : rnd,
+          content: "Какое-то дз.",
+          untilDate: days[index]);
+    });
 
-    await box.add(TasksList([]));
+    await box.add(TasksList(tasks));
   }
 
   TasksList get list {
@@ -58,10 +61,47 @@ class TasksController extends HiveChangeNotifier<TasksList> {
     updateBox(updated);
   }
 
+  UniqueKey? _queuedRemoval;
+  VoidCallback? _lastCallback;
+  Timer? _queueTimer;
+
+  void undoRemoval() {
+    _queuedRemoval = null;
+    _lastCallback = null;
+    _queueTimer?.cancel();
+    _queueTimer = null;
+  }
+
+  Future<void> _clearQueue() async {
+    if (_queuedRemoval != null) {
+      await remove(_queuedRemoval);
+      _lastCallback!();
+
+      _queuedRemoval = null;
+      _lastCallback = null;
+      _queueTimer = null;
+    }
+  }
+
+  /// Returns `true` if there was an item in queue before inserting new one
+  Future<bool> queueRemoval(UniqueKey id, Duration queueDuration, VoidCallback onRemove) async {
+    var removed = _queueTimer != null;
+    _queueTimer?.cancel();
+    await _clearQueue();
+
+    _queuedRemoval = id;
+    _lastCallback = onRemove;
+    _queueTimer = Timer(queueDuration, _clearQueue);
+
+    return removed;
+  }
+
   // TODO: Archive deleted
-  void remove(UniqueKey id) {
-    final updated = list;
-    updated.remove(id);
-    updateBox(updated);
+  Future<void> remove(UniqueKey? id) async {
+    if (id != null) {
+      final updated = list;
+      updated.remove(id);
+      await updateBox(updated);
+    }
   }
 }

@@ -9,97 +9,118 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TaskCard extends ConsumerStatefulWidget {
   final Task task;
-  final VoidCallback onDelete;
-  const TaskCard(this.task, {Key? key, required this.onDelete}) : super(key: key);
+  final Function(bool) beforeDismiss;
+  final VoidCallback onUndoDismiss;
+  final Key key;
+  const TaskCard(
+    this.task, {
+    required this.key,
+    required this.beforeDismiss,
+    required this.onUndoDismiss,
+  }) : super(key: key);
 
   @override
   _TaskCardState createState() => _TaskCardState();
 }
 
 class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderStateMixin {
-  bool _done = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void _markDone() {
-    setState(() {
-      _done = true;
-    });
-    widget.onDelete();
-
-    Timer(const Duration(milliseconds: 350), () {
-      ref.read(tasksController).remove(widget.task.id);
-      // TODO: implement when archiving is done
-      //   AppUtils.showSnackBar(context,
-      //       text: "Задание выполнено.",
-      //       action: SnackBarAction(
-      //         label: "Отменить",
-      //         textColor: Theme.of(context).colorScheme.secondary,
-      //         onPressed: () {},
-      //       ));
-    });
-  }
+  bool _dismissied = false;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      duration: const Duration(milliseconds: 300),
-      crossFadeState: _done ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-      secondChild: Container(),
-      firstChild: GestureDetector(
-        key: widget.key,
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (ctx) => TaskInfoPage(widget.task)));
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            border: Border.all(
-                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5), width: 1),
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              // LayoutBuilder(builder: (context, constrains) {
-              //   return SizedBox(
-              //     height: constrains.maxHeight,
-              //     child: Container(
-              //       // constraints: BoxConstraints({...constrains}),
-              //       color: AppColors.red,
-              //       child: Center(child: Icon(Icons.warning_amber_rounded)),
-              //     ),
-              //   );
-              // }),
-              // Column(children: [
-              //   Container(
-              //     // constraints: BoxConstraints.expand(),
-              //     // constraints: BoxConstraints({...constrains}),
-              //     // height: double.infinity,
-              //     decoration:
-              //         BoxDecoration(color: AppColors.red, border: Border.all(color: AppColors.red)),
-              //     child: Center(child: Icon(Icons.warning_amber_rounded)),
-              //   ),
-              // ]),
+    return Dismissible(
+      key: widget.key,
+      confirmDismiss: (v) async {
+        final comp = Completer<bool>();
+        const delay = Duration(seconds: 3);
 
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: _CardInfo(task: widget.task, onDone: _markDone),
-                ),
+        setState(() {
+          _dismissied = true;
+        });
+
+        var prevRemoved = await ref.read(tasksController).queueRemoval(widget.task.id, delay, () {
+          if (!comp.isCompleted) {
+            comp.complete(true);
+          }
+        });
+
+        widget.beforeDismiss(prevRemoved);
+
+        AppUtils.showSnackBar(
+          context,
+          text: "Задание выполнено",
+          action: SnackBarAction(
+            label: "Отменить",
+            onPressed: () {
+              if (!comp.isCompleted) {
+                comp.complete(false);
+                setState(() => _dismissied = false);
+                ref.read(tasksController).undoRemoval();
+                widget.onUndoDismiss();
+              }
+            },
+          ),
+        );
+
+        return comp.future;
+      },
+      movementDuration: const Duration(milliseconds: 300),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: AnimatedCrossFade(
+          duration: const Duration(milliseconds: 300),
+          crossFadeState: _dismissied ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          secondChild: Container(),
+          firstChild: GestureDetector(
+            key: widget.key,
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (ctx) => TaskInfoPage(widget.task)));
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                    width: 1),
+                color: Theme.of(context).primaryColor,
               ),
-            ],
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // LayoutBuilder(builder: (context, constrains) {
+                  //   return SizedBox(
+                  //     height: constrains.maxHeight,
+                  //     child: Container(
+                  //       // constraints: BoxConstraints({...constrains}),
+                  //       color: AppColors.red,
+                  //       child: Center(child: Icon(Icons.warning_amber_rounded)),
+                  //     ),
+                  //   );
+                  // }),
+                  // Column(children: [
+                  //   Container(
+                  //     // constraints: BoxConstraints.expand(),
+                  //     // constraints: BoxConstraints({...constrains}),
+                  //     // height: double.infinity,
+                  //     decoration:
+                  //         BoxDecoration(color: AppColors.red, border: Border.all(color: AppColors.red)),
+                  //     child: Center(child: Icon(Icons.warning_amber_rounded)),
+                  //   ),
+                  // ]),
+
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: _CardInfo(task: widget.task),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -109,8 +130,7 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 
 class _CardInfo extends StatelessWidget {
   final Task task;
-  final VoidCallback onDone;
-  const _CardInfo({Key? key, required this.task, required this.onDone}) : super(key: key);
+  const _CardInfo({Key? key, required this.task}) : super(key: key);
 
   String _withoutWhitespaces(String t) {
     return t.replaceAll(RegExp(r'\s'), " ");
@@ -140,7 +160,7 @@ class _CardInfo extends StatelessWidget {
               child: Text(
                 AppUtils.getDifficultyEmoji(task.difficulty),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 9),
+                style: const TextStyle(fontSize: 9),
               ),
             ),
           ],
@@ -148,7 +168,7 @@ class _CardInfo extends StatelessWidget {
         Visibility(
           visible: task.content.isNotEmpty,
           child: Padding(
-            padding: EdgeInsets.only(top: 1),
+            padding: const EdgeInsets.only(top: 1),
             child: Text(
               _withoutWhitespaces(task.content),
               style:
@@ -162,7 +182,7 @@ class _CardInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
               child: Text(
                 AppUtils.formatDate(task.untilDate),
                 style: TextStyle(
@@ -176,8 +196,9 @@ class _CardInfo extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
                   // color: AppColors.red,
-                  color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
+                  color: Colors.transparent,
                 ),
+                color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
               ),
             ),
             // GestureDetector(
