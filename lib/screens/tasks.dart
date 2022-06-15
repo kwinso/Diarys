@@ -58,7 +58,6 @@ class TasksDashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(tasksController).list;
-    print("Screen: ${tasks.recomendations.length}");
 
     return Column(
       children: [
