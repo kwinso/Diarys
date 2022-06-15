@@ -12,11 +12,13 @@ class TaskCard extends ConsumerStatefulWidget {
   final Function(bool) beforeDismiss;
   final VoidCallback onUndoDismiss;
   final Key key;
+  final bool showDate;
   const TaskCard(
     this.task, {
     required this.key,
     required this.beforeDismiss,
     required this.onUndoDismiss,
+    this.showDate = true,
   }) : super(key: key);
 
   @override
@@ -91,31 +93,10 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  // LayoutBuilder(builder: (context, constrains) {
-                  //   return SizedBox(
-                  //     height: constrains.maxHeight,
-                  //     child: Container(
-                  //       // constraints: BoxConstraints({...constrains}),
-                  //       color: AppColors.red,
-                  //       child: Center(child: Icon(Icons.warning_amber_rounded)),
-                  //     ),
-                  //   );
-                  // }),
-                  // Column(children: [
-                  //   Container(
-                  //     // constraints: BoxConstraints.expand(),
-                  //     // constraints: BoxConstraints({...constrains}),
-                  //     // height: double.infinity,
-                  //     decoration:
-                  //         BoxDecoration(color: AppColors.red, border: Border.all(color: AppColors.red)),
-                  //     child: Center(child: Icon(Icons.warning_amber_rounded)),
-                  //   ),
-                  // ]),
-
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: _CardInfo(task: widget.task),
+                      child: _CardInfo(task: widget.task, showDate: widget.showDate),
                     ),
                   ),
                 ],
@@ -130,7 +111,8 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 
 class _CardInfo extends StatelessWidget {
   final Task task;
-  const _CardInfo({Key? key, required this.task}) : super(key: key);
+  final bool showDate;
+  const _CardInfo({Key? key, required this.task, required this.showDate}) : super(key: key);
 
   String _withoutWhitespaces(String t) {
     return t.replaceAll(RegExp(r'\s'), " ");
@@ -138,6 +120,8 @@ class _CardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final missed = task.untilDate.isBefore(AppUtils.getTomorrowDate());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,50 +162,30 @@ class _CardInfo extends StatelessWidget {
             ),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: Text(
-                AppUtils.formatDate(task.untilDate),
-                style: TextStyle(
-                  fontSize: 9,
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  // color: AppColors.red,
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  // color: AppColors.red,
-                  color: Colors.transparent,
-                ),
-                color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
+        Visibility(
+          visible: showDate,
+          child: Container(
+            margin: const EdgeInsets.only(top: 10),
+            child: Text(
+              AppUtils.formatDate(task.untilDate),
+              style: TextStyle(
+                fontSize: 9,
+                color: missed ? AppColors.red : Theme.of(context).colorScheme.tertiaryContainer,
+                // color: AppColors.red,
               ),
             ),
-            // GestureDetector(
-            //   onTap: onDone,
-            //   child: Container(
-            //     child: Icon(Icons.done_outlined,
-            //         color: Theme.of(context).colorScheme.tertiaryContainer),
-            //     padding: EdgeInsets.symmetric(vertical: 4),
-            //     // decoration: BoxDecoration(
-            //     // borderRadius: BorderRadius.circular(5),
-            //     // border: Border.all(color: AppColors.green),
-            //     // color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2)),
-            //     // ),
-            //     // child: Text(
-            //     //   "Завершить",
-            //     //   style: TextStyle(
-            //     //     fontSize: 9,
-            //     //     color: Theme.of(context).colorScheme.tertiaryContainer,
-            //     //   ),
-            //     // ),
-            //   ),
-            // ),
-          ],
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                // color: AppColors.red,
+                color: missed ? AppColors.red : Colors.transparent,
+              ),
+              color: missed
+                  ? Colors.transparent
+                  : Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
+            ),
+          ),
         )
       ],
     );

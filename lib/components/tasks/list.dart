@@ -96,6 +96,7 @@ class _TasksListState extends ConsumerState<TasksList> {
           TaskCard(
             t,
             key: t.id,
+            showDate: widget.dateLabel == null,
             beforeDismiss: (prevRemoved) => setState(() {
               // If removal queue has been with item in it before dissmissal of another item
               // We should wait for the state update in order to determine should title be hidden
