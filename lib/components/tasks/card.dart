@@ -84,12 +84,12 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                 border: Border.all(
-                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
-                    width: 1),
+                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                  width: 1,
+                ),
                 color: Theme.of(context).primaryColor,
               ),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [

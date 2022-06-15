@@ -59,7 +59,7 @@ class ThemeSelectTile extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border.all(
                   color: currentTheme.currentInt == themeIndex
-                      ? AppColors.secondary
+                      ? Theme.of(context).colorScheme.secondary
                       : Theme.of(context).colorScheme.tertiary,
                 ),
                 color: theme.data.scaffoldBackgroundColor,

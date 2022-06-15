@@ -3,13 +3,14 @@ import 'package:diarys/theme/themes/app_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-const _primary = Color.fromARGB(255, 59, 62, 82);
-const _primaryContainer = Color(0xFFBFBFBF);
-const _bg = Color(0xFF282A36);
-const _tertiary = Colors.white;
+const _primary = Color(0xFF18181a);
+const _primaryContainer = Color.fromARGB(255, 139, 139, 139);
+const _bg = Color(0xFF101011);
+const _tertiary = Color(0xFFE7E9EE);
+const _secondary = Color(0xFFEE3636);
 
-final DraculaTheme = AppThemeData(
-  "Dracula",
+final MindallTheme = AppThemeData(
+  "Миндальная",
   ThemeData(
     brightness: Brightness.dark,
     splashColor: const Color(0x00ECE9E9),
@@ -29,9 +30,9 @@ final DraculaTheme = AppThemeData(
       brightness: Brightness.dark,
       primary: _primary,
       primaryContainer: _primaryContainer,
-      secondary: AppColors.secondary,
+      secondary: _secondary,
       tertiary: _tertiary,
-      tertiaryContainer: Color(0xFF7284BB),
+      tertiaryContainer: Color.fromARGB(255, 98, 99, 102),
       background: _bg,
       onSecondary: _tertiary,
       onPrimaryContainer: _tertiary,
@@ -42,6 +43,8 @@ final DraculaTheme = AppThemeData(
       surface: _primary,
       onSurface: _tertiary,
     ),
+    snackBarTheme:
+        SnackBarThemeData(actionTextColor: _secondary, elevation: 10, backgroundColor: _primary),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: _bg,

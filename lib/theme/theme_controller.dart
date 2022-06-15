@@ -1,6 +1,6 @@
 import 'package:diarys/theme/colors.dart';
 import 'package:diarys/theme/themes/dark.dart';
-import 'package:diarys/theme/themes/dracula.dart';
+import 'package:diarys/theme/themes/mindall.dart';
 import 'package:diarys/theme/themes/light.dart';
 import 'package:diarys/theme/themes/app_theme_data.dart';
 import "package:flutter/material.dart";
@@ -16,7 +16,7 @@ class AppThemeController with ChangeNotifier {
   static List<AppThemeData> themes = [
     DarkTheme,
     LightTheme,
-    DraculaTheme,
+    MindallTheme,
   ];
   int _currentThemeIndex = 0; // The default theme is Dark
 
