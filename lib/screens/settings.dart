@@ -35,7 +35,9 @@ class SettingsScreen extends ConsumerWidget {
                       ref.read(tasksController).emptyBox();
                       ref.read(scheduleController).emptyBox();
                       ref.read(subjectsController).emptyBox();
-                      AppUtils.showSnackBar(context, text: "Хранилище очищено");
+                      AppUtils.showSnackBar(context,
+                          text: "Хранилище очищено",
+                          backgroundColor: Theme.of(context).backgroundColor);
                     },
                   ),
                 ],

@@ -42,6 +42,8 @@ final DarkTheme = AppThemeData(
         surface: _primary,
         onSurface: _tertiary,
       ),
+      snackBarTheme: SnackBarThemeData(
+          actionTextColor: AppColors.secondary, elevation: 10, backgroundColor: _primary),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
           color: _bg,
