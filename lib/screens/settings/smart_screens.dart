@@ -32,45 +32,48 @@ class _SmartsScreensSettingsState extends State<SmartsScreensSettings> {
               setState(() => _enabled = v);
             },
           ),
-          AnimatedOpacity(
-            opacity: _enabled ? 1 : 0,
-            duration: Duration(milliseconds: 150),
-            child: Column(
-              children: [
-                ScreenTimeDropdownTile("Экран в школе", value: 0, onChanged: (v) => print(v)),
-                ScreenTimeDropdownTile("Экран дома", value: 1, onChanged: (v) => print(v)),
-                SwitchTile(title: "Экран добавления в школе", value: false, onChanged: (v) {}),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SettingsHeading("Время занятий"),
-                ),
-                SettingTile(
-                  "Я в школе с",
-                  interactable: AppElevatedButton(
-                    color: Theme.of(context).backgroundColor,
-                    text: "8:00",
-                    onPressed: () {
-                      showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(hour: 8, minute: 0),
-                      );
-                    },
+          IgnorePointer(
+            ignoring: !_enabled,
+            child: AnimatedOpacity(
+              opacity: _enabled ? 1 : 0,
+              duration: Duration(milliseconds: 150),
+              child: Column(
+                children: [
+                  ScreenTimeDropdownTile("Экран в школе", value: 0, onChanged: (v) => print(v)),
+                  ScreenTimeDropdownTile("Экран дома", value: 1, onChanged: (v) => print(v)),
+                  SwitchTile(title: "Экран добавления в школе", value: false, onChanged: (v) {}),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: SettingsHeading("Время занятий"),
                   ),
-                ),
-                SettingTile(
-                  "Я дома после",
-                  interactable: AppElevatedButton(
-                    color: Theme.of(context).backgroundColor,
-                    text: "14:00",
-                    onPressed: () {
-                      showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(hour: 14, minute: 0),
-                      );
-                    },
+                  SettingTile(
+                    "Я в школе с",
+                    interactable: AppElevatedButton(
+                      color: Theme.of(context).backgroundColor,
+                      text: "8:00",
+                      onPressed: () {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 8, minute: 0),
+                        );
+                      },
+                    ),
                   ),
-                )
-              ],
+                  SettingTile(
+                    "Я дома после",
+                    interactable: AppElevatedButton(
+                      color: Theme.of(context).backgroundColor,
+                      text: "14:00",
+                      onPressed: () {
+                        showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 14, minute: 0),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
