@@ -14,6 +14,7 @@ class SmartsScreensSettings extends StatefulWidget {
 }
 
 // TODO: Create controller with all settings
+// TODO: Make own time picker (only input)
 class _SmartsScreensSettingsState extends State<SmartsScreensSettings> {
   bool _enabled = false;
 
