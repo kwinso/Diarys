@@ -42,6 +42,17 @@ final DarkTheme = AppThemeData(
         surface: _primary,
         onSurface: _tertiary,
       ),
+      timePickerTheme: TimePickerThemeData(
+        hourMinuteTextColor: _tertiary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(_tertiary),
+        ),
+      ),
       snackBarTheme: SnackBarThemeData(
           actionTextColor: AppColors.secondary, elevation: 10, backgroundColor: _primary),
       tooltipTheme: TooltipThemeData(

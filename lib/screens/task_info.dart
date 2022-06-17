@@ -21,7 +21,6 @@ class TaskInfoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(taskEditController).update(task);
-    print('Initial ${task.id}');
 
     return Scaffold(
       appBar: const RouteBar(name: "Задание"),
