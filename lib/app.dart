@@ -56,11 +56,23 @@ class _MainPageState extends ConsumerState<MainPage> {
       final schoolStart = smartScreens.schoolStart;
       final schoolEnd = smartScreens.schoolEnd;
 
-      final afterStart = now.hour >= schoolStart.hour && now.minute >= schoolStart.minute;
-      final beforeEnd = now.hour <= schoolEnd.hour && now.minute < schoolEnd.minute;
+      var afterStart = false;
+      if (now.hour > schoolStart.hour)
+        afterStart = true;
+      else if (now.hour == schoolStart.hour && now.minute >= schoolStart.minute) afterStart = true;
+
+      var beforeEnd = false;
+      if (now.hour < schoolEnd.hour)
+        beforeEnd = true;
+      else if (now.hour == schoolEnd.hour && now.minute < schoolEnd.minute) beforeEnd = true;
 
       _isInSchool = afterStart && beforeEnd;
       _activeScreen = _isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
+
+      print(_isInSchool);
+      print(_activeScreen);
+
+      if (mounted) setState(() {});
 
       final openAddScreen = smartScreens.addInSchool && _isInSchool;
 
@@ -70,8 +82,8 @@ class _MainPageState extends ConsumerState<MainPage> {
 
   @override
   void initState() {
-    _setActiveScreen();
     super.initState();
+    _setActiveScreen();
   }
 
   @override
@@ -85,7 +97,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         },
         child: _screens[_activeScreen],
       ),
-      // //* Maybe change to variant without animaton later
+      //* Maybe change to variant without animaton later
       // body: AnimatedContainer(
       //   duration: Duration(milliseconds: 1000),
       //   child: _screens[_activeScreen],

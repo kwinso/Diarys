@@ -16,7 +16,7 @@ class SmartScreensSettingsController with ChangeNotifier {
   }
 
   Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
+    _prefs ??= await SharedPreferences.getInstance();
   }
 
   bool get enabled {
