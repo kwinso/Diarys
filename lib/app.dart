@@ -69,9 +69,6 @@ class _MainPageState extends ConsumerState<MainPage> {
       _isInSchool = afterStart && beforeEnd;
       _activeScreen = _isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
 
-      print(_isInSchool);
-      print(_activeScreen);
-
       if (mounted) setState(() {});
 
       final openAddScreen = smartScreens.addInSchool && _isInSchool;
