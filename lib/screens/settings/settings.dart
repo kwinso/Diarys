@@ -33,7 +33,7 @@ class SettingsScreen extends ConsumerWidget {
                   title: const Text("Умные экраны"),
                   trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (ctx) => const SmartsScreensSettings())),
+                      context, MaterialPageRoute(builder: (ctx) => const SmartScreensSettings())),
                 ),
                 const SettingsHeading("Опасное место", color: AppColors.red),
                 ListTile(
