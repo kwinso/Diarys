@@ -12,10 +12,10 @@ class SmartScreensSettingsController with ChangeNotifier {
   SharedPreferences? _prefs;
 
   SmartScreensSettingsController() {
-    _getPrefs();
+    init();
   }
 
-  Future<void> _getPrefs() async {
+  Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
@@ -37,31 +37,20 @@ class SmartScreensSettingsController with ChangeNotifier {
     notifyListeners();
   }
 
-  int? _homeScreen;
   int get homeScreen {
-    return _prefs?.getInt("$_prefix:home_screen") ?? 0;
+    return _prefs?.getInt("$_prefix:home_screen") ?? 1;
   }
 
   set homeScreen(int v) {
-    _homeScreen = v;
     _prefs?.setInt("$_prefix:home_screen", v);
     notifyListeners();
   }
 
-  bool? _addInSchool;
   bool get addInSchool {
-    if (_addInSchool == null) {
-      final saved = _prefs?.getBool("$_prefix:add_in_school");
-      if (saved != null)
-        _addInSchool = saved;
-      else
-        addInSchool = false;
-    }
-    return _addInSchool!;
+    return _prefs?.getBool("$_prefix:add_in_school") ?? false;
   }
 
   set addInSchool(v) {
-    _addInSchool = v;
     _prefs?.setBool("$_prefix:add_in_school", v);
     notifyListeners();
   }
@@ -73,23 +62,23 @@ class SmartScreensSettingsController with ChangeNotifier {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
-  TimeOfDay get inSchoolTime {
-    final saved = _prefs?.getString("$_prefix:in_school");
-    return saved != null ? _stringToTimeOfDay(saved) : const TimeOfDay(hour: 14, minute: 0);
+  TimeOfDay get schoolStart {
+    final saved = _prefs?.getString("$_prefix:school_start");
+    return saved != null ? _stringToTimeOfDay(saved) : const TimeOfDay(hour: 8, minute: 0);
   }
 
-  set inSchoolTime(TimeOfDay v) {
-    _prefs?.setString("$_prefix:in_school", "${v.hour}:${v.minute}");
+  set schoolStart(TimeOfDay v) {
+    _prefs?.setString("$_prefix:school_start", "${v.hour}:${v.minute}");
     notifyListeners();
   }
 
-  TimeOfDay get atHomeTime {
-    final saved = _prefs?.getString("$_prefix:at_home");
+  TimeOfDay get schoolEnd {
+    final saved = _prefs?.getString("$_prefix:school_end");
     return saved != null ? _stringToTimeOfDay(saved) : const TimeOfDay(hour: 14, minute: 0);
   }
 
-  set atHomeTime(TimeOfDay v) {
-    _prefs?.setString("$_prefix:at_home", "${v.hour}:${v.minute}");
+  set schoolEnd(TimeOfDay v) {
+    _prefs?.setString("$_prefix:school_end", "${v.hour}:${v.minute}");
     notifyListeners();
   }
 }

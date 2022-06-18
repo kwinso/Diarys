@@ -1,3 +1,5 @@
+import 'package:diarys/screens/add_task.dart';
+import 'package:diarys/state/smart_screens.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
@@ -32,7 +34,7 @@ class App extends ConsumerWidget {
   }
 }
 
-class MainPage extends StatefulWidget {
+class MainPage extends ConsumerStatefulWidget {
   const MainPage({
     Key? key,
   }) : super(key: key);
@@ -41,23 +43,53 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends ConsumerState<MainPage> {
   int _activeScreen = 0;
-  final _screens = const <Widget>[TasksScreen(), ScheduleScreen()];
+  bool _isInSchool = false;
+  final _screens = const <Widget>[ScheduleScreen(), TasksScreen()];
+
+  Future<void> _setActiveScreen() async {
+    final smartScreens = ref.read(smartScreensController);
+    await smartScreens.init();
+    if (smartScreens.enabled) {
+      final now = TimeOfDay.now();
+      final schoolStart = smartScreens.schoolStart;
+      final schoolEnd = smartScreens.schoolEnd;
+
+      final afterStart = now.hour >= schoolStart.hour && now.minute >= schoolStart.minute;
+      final beforeEnd = now.hour <= schoolEnd.hour && now.minute < schoolEnd.minute;
+
+      _isInSchool = afterStart && beforeEnd;
+      _activeScreen = _isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
+
+      final openAddScreen = smartScreens.addInSchool && _isInSchool;
+
+      if (openAddScreen) Navigator.push(context, MaterialPageRoute(builder: (c) => AddTask()));
+    }
+  }
+
+  @override
+  void initState() {
+    _setActiveScreen();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // body: AnimatedSwitcher(
-      //   duration: const Duration(milliseconds: 250),
-      //   transitionBuilder: (Widget child, Animation<double> animation) {
-      //     return FadeTransition(child: child, opacity: animation);
-      //   },
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(child: child, opacity: animation);
+        },
+        child: _screens[_activeScreen],
+      ),
+      // //* Maybe change to variant without animaton later
+      // body: AnimatedContainer(
+      //   duration: Duration(milliseconds: 1000),
       //   child: _screens[_activeScreen],
       // ),
-      //* Maybe change to variant without animaton later
-      body: _screens[_activeScreen],
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -83,8 +115,8 @@ class _MainPageState extends State<MainPage> {
           selectedItemColor: Theme.of(context).colorScheme.secondary,
           unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
           items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.calendar_month_rounded), label: "Расписание"),
             BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-            BottomNavigationBarItem(icon: Icon(Icons.calendar_month_rounded), label: "Расписание")
           ],
         ),
       ),

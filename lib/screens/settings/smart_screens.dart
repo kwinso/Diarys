@@ -4,43 +4,11 @@ import 'package:diarys/components/settings/heading.dart';
 import 'package:diarys/components/settings/tiles.dart';
 import 'package:diarys/state/smart_screens.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-// class SmartsScreensSettings extends ConsumerStatefulWidget {
-
-//   @override
-//   ConsumerState<SmartsScreensSettings> createState() => _SmartsScreensSettingsState();
-// }
-
-// TODO: Create controller with all settings
-// TODO: Make own time picker (only input)
 class SmartScreensSettings extends ConsumerWidget {
   const SmartScreensSettings({Key? key}) : super(key: key);
-  // SharedPreferences? _prefs;
-  // bool _enabled = false;
-  // bool _addInSchool = false;
-  // int _schoolScreen = 0;
-  // int _homeScreen = 1;
-
-  // Future<void> _getSharedPrefs() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     _enabled = prefs.getBool("smart_screens:enabled") ?? false;
-  //     _schoolScreen = prefs.getInt("smart_screens:school_screen") ?? 0;
-  //     _homeScreen = prefs.getInt("smart_screens:home_screen") ?? 1;
-  //     _addInSchool = prefs.getBool("smart_screens:add_in") ?? 1;
-  //     _prefs = prefs;
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _getSharedPrefs();
-  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,10 +26,13 @@ class SmartScreensSettings extends ConsumerWidget {
           ),
           IgnorePointer(
             ignoring: !settings.enabled,
-            child: AnimatedOpacity(
-              opacity: settings.enabled ? 1 : 0,
-              duration: const Duration(milliseconds: 150),
-              child: Column(
+            child: AnimatedCrossFade(
+              // opacity: settings.enabled ? 1 : 0,
+              crossFadeState:
+                  settings.enabled ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 300),
+              firstChild: Container(),
+              secondChild: Column(
                 children: [
                   ScreenTimeDropdownTile(
                     "Экран в школе",
@@ -90,24 +61,51 @@ class SmartScreensSettings extends ConsumerWidget {
                   ),
                   SettingsTimePicker(
                     "Я в школе с",
-                    value: settings.inSchoolTime,
+                    value: settings.schoolStart,
                     onChanged: (v) {
-                      settings.inSchoolTime = v;
+                      settings.schoolStart = v;
                     },
                   ),
                   SettingsTimePicker(
                     "Я дома после",
-                    value: settings.atHomeTime,
+                    value: settings.schoolEnd,
                     onChanged: (v) {
-                      settings.atHomeTime = v;
+                      settings.schoolEnd = v;
                     },
-                  )
+                  ),
                 ],
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: SmartScreensDescription(),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class SmartScreensDescription extends StatelessWidget {
+  const SmartScreensDescription({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "Как это работает?\n",
+          style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiaryContainer),
+        ),
+        Text(
+          "Умные экраны позволяют выбрать, какой экран будет показан при входе в приложение, в зависимости от времени.\n\n"
+          "Если тебе хочется, чтобы в школе ты первым делом видел расписание, а дома задания, то это можно настроить здесь/\n\n"
+          "Также ты можешь упростить себе жизнь, сделав так, чтобы экран добавления сразу появлялся на экране в школе.\n"
+          "Это удобно: чтобы добавить задание после урока, тебе достаточно зайти в приложение и записать задание - никаких лишних движений.",
+          style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+        ),
+      ],
     );
   }
 }

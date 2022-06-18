@@ -54,9 +54,11 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     // Because many places can depend on one box,
     // closing box is safe only there's no subscribers
     if (_subs <= 0) {
-      _subs = 0;
-      await box.close();
-      notifyListeners();
+      try {
+        _subs = 0;
+        await box.close();
+        notifyListeners();
+      } catch (e) {}
     }
   }
 }
