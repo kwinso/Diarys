@@ -11,7 +11,13 @@ import 'package:hive/hive.dart';
 
 @immutable
 class App extends ConsumerWidget {
-  const App({Key? key}) : super(key: key);
+  final int startScreen;
+  final bool openAddScreen;
+  const App({
+    Key? key,
+    required this.startScreen,
+    required this.openAddScreen,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +25,7 @@ class App extends ConsumerWidget {
 
     return MaterialApp(
       title: "Diarys",
-      home: const MainPage(),
+      home: MainPage(startScreen: startScreen, openAddScreen: openAddScreen),
       theme: theme,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
@@ -35,8 +41,12 @@ class App extends ConsumerWidget {
 }
 
 class MainPage extends ConsumerStatefulWidget {
+  final int startScreen;
+  final bool openAddScreen;
   const MainPage({
     Key? key,
+    required this.startScreen,
+    required this.openAddScreen,
   }) : super(key: key);
 
   @override
@@ -45,42 +55,16 @@ class MainPage extends ConsumerStatefulWidget {
 
 class _MainPageState extends ConsumerState<MainPage> {
   int _activeScreen = 0;
-  bool _isInSchool = false;
   final _screens = const <Widget>[ScheduleScreen(), TasksScreen()];
-
-  Future<void> _setActiveScreen() async {
-    final smartScreens = ref.read(smartScreensController);
-    await smartScreens.init();
-    if (smartScreens.enabled) {
-      final now = TimeOfDay.now();
-      final schoolStart = smartScreens.schoolStart;
-      final schoolEnd = smartScreens.schoolEnd;
-
-      var afterStart = false;
-      if (now.hour > schoolStart.hour)
-        afterStart = true;
-      else if (now.hour == schoolStart.hour && now.minute >= schoolStart.minute) afterStart = true;
-
-      var beforeEnd = false;
-      if (now.hour < schoolEnd.hour)
-        beforeEnd = true;
-      else if (now.hour == schoolEnd.hour && now.minute < schoolEnd.minute) beforeEnd = true;
-
-      _isInSchool = afterStart && beforeEnd;
-      _activeScreen = _isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
-
-      if (mounted) setState(() {});
-
-      final openAddScreen = smartScreens.addInSchool && _isInSchool;
-
-      if (openAddScreen) Navigator.push(context, MaterialPageRoute(builder: (c) => AddTask()));
-    }
-  }
 
   @override
   void initState() {
+    _activeScreen = widget.startScreen;
     super.initState();
-    _setActiveScreen();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (widget.openAddScreen)
+        Navigator.push(context, MaterialPageRoute(builder: (c) => AddTask()));
+    });
   }
 
   @override

@@ -3,21 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final smartScreensController = ChangeNotifierProvider<SmartScreensSettingsController>((ref) {
-  return SmartScreensSettingsController();
+  return SmartScreensSettingsController(null);
 });
 
 const String _prefix = "smart_screens";
 
 class SmartScreensSettingsController with ChangeNotifier {
-  SharedPreferences? _prefs;
+  final SharedPreferences? _prefs;
 
-  SmartScreensSettingsController() {
-    init();
-  }
+  SmartScreensSettingsController(this._prefs);
 
-  Future<void> init() async {
-    _prefs ??= await SharedPreferences.getInstance();
-  }
+  // Future<void> init() async {
+  //   _prefs ??= await SharedPreferences.getInstance();
+  // }
 
   bool get enabled {
     return _prefs?.getBool("$_prefix:enabled") ?? false;
