@@ -20,7 +20,7 @@ class _ControllersInitState extends ConsumerState<HiveControllersInit> {
 
   Future<void> _init() async {
     for (var c in widget.controllers) {
-      await ref.read(c).initBox();
+      await ref.read(c).subscribe();
     }
     // Widget is ready to be used since it's subscribed to all controllers
     _subscribed = true;
@@ -47,7 +47,7 @@ class _ControllersInitState extends ConsumerState<HiveControllersInit> {
   @override
   void deactivate() {
     for (var c in widget.controllers) {
-      ref.read(c).closeBox();
+      ref.read(c).unsubscribe();
     }
     super.deactivate();
   }

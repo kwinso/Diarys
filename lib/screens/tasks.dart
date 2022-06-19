@@ -14,40 +14,44 @@ class TasksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CustomScrollView(
-      slivers: [
-        const MainAppBar(),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              ScreenHeader(
-                title: "Задания",
-                buttons: [
-                  ScreenHeaderButton(
-                    label: "Все задания",
-                    icon: Icons.subject_rounded,
-                    onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
-                    },
+    return ScaffoldMessenger(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            const MainAppBar(),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  ScreenHeader(
+                    title: "Задания",
+                    buttons: [
+                      ScreenHeaderButton(
+                        label: "Все задания",
+                        icon: Icons.subject_rounded,
+                        onPressed: () {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
+                        },
+                      ),
+                      ScreenHeaderButton(
+                        label: "Добавить",
+                        icon: Icons.add_rounded,
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
+                        },
+                      ),
+                    ],
                   ),
-                  ScreenHeaderButton(
-                    label: "Добавить",
-                    icon: Icons.add_rounded,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
-                    },
+                  HiveControllersInit(
+                    controllers: [tasksController],
+                    build: () => const TasksDashboard(),
                   ),
                 ],
               ),
-              HiveControllersInit(
-                controllers: [tasksController],
-                build: () => const TasksDashboard(),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -63,9 +63,6 @@ class TaskEditController with ChangeNotifier {
     return _content.isNotEmpty && _subject.isNotEmpty;
   }
 
-  bool get subjectInSchedule =>
-      ref.read(scheduleController).dayContains(_untilDate.weekday - 1, _subject);
-
   Future<void> commit() async {
     ref.read(tasksController).update(
           _taskId,

@@ -23,9 +23,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   Future<dynamic> emptyBoxFill(Box<T> box) async {}
 
   /// [fill] runs if opened box is empty
-  Future<void> initBox() async {
-    _subs += 1;
-
+  Future<void> _initBox() async {
     if (isReady) return;
 
     await Hive.openBox<T>(_name).then((v) => box = v);
@@ -48,8 +46,13 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     }
   }
 
+  Future<void> subscribe() async {
+    _subs += 1;
+    await _initBox();
+  }
+
   /// Removes the subscription and closes the box when no subscriptions for box is left
-  Future<void> closeBox() async {
+  void unsubscribe() async {
     _subs -= 1;
     // Because many places can depend on one box,
     // closing box is safe only there's no subscribers

@@ -19,15 +19,15 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   Future<dynamic> emptyBoxFill(Box<TasksList> box) async {
     final startDay = DateTime.now();
     final days = [
-      DateTime(startDay.year, startDay.month, startDay.day + 0),
+      // DateTime(startDay.year, startDay.month, startDay.day + 0),
       DateTime(startDay.year, startDay.month, startDay.day + 1),
       DateTime(startDay.year, startDay.month, startDay.day + 1),
-      DateTime(startDay.year, startDay.month, startDay.day + 1),
-      DateTime(startDay.year, startDay.month, startDay.day + 2),
-      DateTime(startDay.year, startDay.month, startDay.day + 2),
-      DateTime(startDay.year, startDay.month, startDay.day + 5),
-      DateTime(startDay.year, startDay.month, startDay.day + 6),
-      DateTime(startDay.year, startDay.month, startDay.day + 3),
+      // DateTime(startDay.year, startDay.month, startDay.day + 1),
+      // DateTime(startDay.year, startDay.month, startDay.day + 2),
+      // DateTime(startDay.year, startDay.month, startDay.day + 2),
+      // DateTime(startDay.year, startDay.month, startDay.day + 5),
+      // DateTime(startDay.year, startDay.month, startDay.day + 6),
+      // DateTime(startDay.year, startDay.month, startDay.day + 3),
     ];
 
     final tasks = List.generate(days.length, (index) {
@@ -75,7 +75,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   Future<void> _clearQueue() async {
     if (_queuedRemoval != null) {
       await remove(_queuedRemoval);
-      _lastCallback!();
+      _lastCallback?.call();
 
       _queuedRemoval = null;
       _lastCallback = null;
@@ -91,17 +91,24 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
     _queuedRemoval = id;
     _lastCallback = onRemove;
+
+    // Forbid to close the box before before deleting
     _queueTimer = Timer(queueDuration, _clearQueue);
 
     return removed;
   }
 
-  // TODO: Archive deleted
   Future<void> remove(UniqueKey? id) async {
     if (id != null) {
       final updated = list;
       updated.remove(id);
       await updateBox(updated);
     }
+  }
+
+  @override
+  void unsubscribe() async {
+    await _clearQueue();
+    super.unsubscribe();
   }
 }

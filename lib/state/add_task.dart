@@ -28,6 +28,9 @@ class AddTaskController extends TaskEditController {
     notifyListeners();
   }
 
+  bool get subjectInSchedule =>
+      ref.read(scheduleController).getDaysContainingLesson(subject).isNotEmpty;
+
   bool get saveToSchedule => _saveToSchedule;
 
   set saveToSchedule(v) {
