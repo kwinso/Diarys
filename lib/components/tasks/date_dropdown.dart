@@ -35,12 +35,16 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
   void _setTomorrowDate() {
     ref.read(addTaskController).untilDate = AppUtils.getTomorrowDate();
-    _value = DropdownSelection.tomorrow;
+    setState(() {
+      _value = DropdownSelection.tomorrow;
+    });
   }
 
   void _setNextLessonDate() {
     ref.read(addTaskController).setNextLessonDate();
-    _value = DropdownSelection.nextLesson;
+    setState(() {
+      _value = DropdownSelection.nextLesson;
+    });
   }
 
   List<DropdownMenuItem<DropdownSelection>> _getDropDownItems() {
@@ -49,28 +53,23 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
 
     // If date is selected by user, then show it in dropdown
     // Dates like "nextLesson" or "tomorrow" will be shown as text instead of String with date
-    if (_value == DropdownSelection.date) {
-      String d = AppUtils.formatDate(addTask.untilDate);
-      items.add(
-        DropdownMenuItem(
-          value: DropdownSelection.date,
-          child: DateDropdownItem(Icons.date_range, d),
-        ),
-      );
+    // if (_value != DropdownSelection.date) {
+    // If subject exists, we can find a next lesson date for it
+    if (ref.read(addTaskController).subjectInSchedule) {
+      if (_value == DropdownSelection.tomorrow) _value = DropdownSelection.nextLesson;
+      items.add(nextLessonItem);
     } else {
-      // If subject exists, we can find a next lesson date for it
-      if (ref.read(addTaskController).subjectInSchedule) {
-        _value = DropdownSelection.nextLesson;
-        items.add(nextLessonItem);
-      } else {
-        _value = DropdownSelection.tomorrow;
-        items.add(tomorrowItem);
-      }
+      if (_value == DropdownSelection.nextLesson) _value = DropdownSelection.tomorrow;
+      items.add(tomorrowItem);
     }
 
-    items.add(const DropdownMenuItem(
+    final calendarLabel = _value == DropdownSelection.date
+        ? AppUtils.formatDate(addTask.untilDate)
+        : "Выбрать на календаре";
+    _value = _value == DropdownSelection.date ? DropdownSelection.calendar : _value;
+    items.add(DropdownMenuItem(
       value: DropdownSelection.calendar,
-      child: DateDropdownItem(Icons.date_range, "Выбрать на календаре"),
+      child: DateDropdownItem(Icons.date_range, calendarLabel),
     ));
 
     return items;
