@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:diarys/screens/add_task.dart';
 import 'package:diarys/state/smart_screens.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,22 +12,79 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 @immutable
-class App extends ConsumerWidget {
-  final int startScreen;
-  final bool openAddScreen;
+class App extends ConsumerStatefulWidget {
   const App({
     Key? key,
-    required this.startScreen,
-    required this.openAddScreen,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> {
+  bool ready = false;
+  bool openAddScreen = false;
+  int startScreen = 0;
+
+  void getSmartScreensInfo() async {
+    final smartScreens = ref.read(smartScreensController);
+    await smartScreens.init();
+    if (smartScreens.enabled) {
+      final now = TimeOfDay.now();
+      final schoolStart = smartScreens.schoolStart;
+      final schoolEnd = smartScreens.schoolEnd;
+
+      var afterStart = false;
+      if (now.hour > schoolStart.hour)
+        afterStart = true;
+      else if (now.hour == schoolStart.hour && now.minute >= schoolStart.minute) afterStart = true;
+
+      var beforeEnd = false;
+      if (now.hour < schoolEnd.hour)
+        beforeEnd = true;
+      else if (now.hour == schoolEnd.hour && now.minute < schoolEnd.minute) beforeEnd = true;
+
+      final isInSchool = afterStart && beforeEnd;
+      startScreen = isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
+
+      openAddScreen = smartScreens.addInSchool && isInSchool;
+    }
+
+    ready = true;
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void initState() {
+    getSmartScreensInfo();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = ref.watch(themeController.select((value) => value.current));
 
     return MaterialApp(
       title: "Diarys",
-      home: MainPage(startScreen: startScreen, openAddScreen: openAddScreen),
+      home: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: AnimatedSwitcher(
+          duration: Duration(milliseconds: 500),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return FadeTransition(child: child, opacity: animation);
+          },
+          child: !ready
+              ? Center(
+                  child: FlutterLogo(
+                    size: 50,
+                  ),
+                )
+              : MainPage(
+                  startScreen: startScreen,
+                  openAddScreen: openAddScreen,
+                ),
+        ),
+      ),
       theme: theme,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
@@ -55,16 +114,18 @@ class MainPage extends ConsumerStatefulWidget {
 
 class _MainPageState extends ConsumerState<MainPage> {
   int _activeScreen = 0;
-  final _screens = const <Widget>[ScheduleScreen(), TasksScreen()];
+  final _screens = <Widget>[
+    ScheduleScreen(),
+    TasksScreen(),
+  ];
 
   @override
   void initState() {
-    _activeScreen = widget.startScreen;
+    _activeScreen = widget.openAddScreen ? 2 : widget.startScreen;
+    _screens.add(AddTask(onClose: () {
+      setState(() => _activeScreen = widget.startScreen);
+    }));
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (widget.openAddScreen)
-        Navigator.push(context, MaterialPageRoute(builder: (c) => AddTask()));
-    });
   }
 
   @override
@@ -72,7 +133,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 250),
+        duration: Duration(milliseconds: 250),
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(child: child, opacity: animation);
         },
@@ -84,35 +145,38 @@ class _MainPageState extends ConsumerState<MainPage> {
       //   child: _screens[_activeScreen],
       // ),
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 3,
-              offset: const Offset(0.0, 0.1),
-            )
-          ],
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _activeScreen,
-          elevation: 10.0,
-          onTap: (idx) {
-            if (idx != _activeScreen) {
-              setState(() {
-                _activeScreen = idx;
-              });
-            }
-          },
-          backgroundColor: Theme.of(context).primaryColor,
-          selectedItemColor: Theme.of(context).colorScheme.secondary,
-          unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.calendar_month_rounded), label: "Расписание"),
-            BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-          ],
-        ),
-      ),
+      bottomNavigationBar: _activeScreen == 2
+          ? null
+          : Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Theme.of(context).shadowColor,
+                    blurRadius: 3,
+                    offset: const Offset(0.0, 0.1),
+                  )
+                ],
+              ),
+              child: BottomNavigationBar(
+                currentIndex: _activeScreen,
+                elevation: 10.0,
+                onTap: (idx) {
+                  if (idx != _activeScreen) {
+                    setState(() {
+                      _activeScreen = idx;
+                    });
+                  }
+                },
+                backgroundColor: Theme.of(context).primaryColor,
+                selectedItemColor: Theme.of(context).colorScheme.secondary,
+                unselectedItemColor: Theme.of(context).colorScheme.tertiaryContainer,
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.calendar_month_rounded), label: "Расписание"),
+                  BottomNavigationBarItem(icon: Icon(Icons.task_alt_sharp), label: "Задания"),
+                ],
+              ),
+            ),
     );
   }
 

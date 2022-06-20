@@ -4,13 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
   final String name;
   final bool sliver;
-  // final Color? backgroundColor;
-  const RouteBar({
-    Key? key,
-    required this.name,
-    this.sliver = false,
-    // this.backgroundColor,
-  }) : super(key: key);
+  final VoidCallback? onBackButton;
+  const RouteBar({Key? key, required this.name, this.sliver = false, this.onBackButton})
+      : super(key: key);
 
   Text title() {
     return Text(
@@ -34,6 +30,15 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
       return AppBar(
         elevation: 0,
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondary),
+        leading: IconButton(
+          onPressed: () {
+            if (onBackButton != null)
+              onBackButton!();
+            else
+              Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [title()],

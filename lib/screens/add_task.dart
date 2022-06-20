@@ -10,7 +10,8 @@ import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/add_task.dart';
 
 class AddTask extends ConsumerWidget {
-  AddTask({Key? key}) : super(key: key);
+  final VoidCallback? onClose;
+  AddTask({Key? key, this.onClose}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
 
@@ -20,8 +21,9 @@ class AddTask extends ConsumerWidget {
       controllers: [scheduleController, tasksController],
       build: () => ScaffoldMessenger(
         child: Scaffold(
-          appBar: const RouteBar(
+          appBar: RouteBar(
             name: "Новое задание",
+            onBackButton: onClose,
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -50,7 +52,10 @@ class AddTask extends ConsumerWidget {
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   await ref.read(addTaskController).commit();
-                  Navigator.pop(context);
+                  if (onClose != null)
+                    onClose!();
+                  else
+                    Navigator.pop(context);
                 }
               },
               color: AppColors.green,
