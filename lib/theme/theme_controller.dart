@@ -8,7 +8,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:shared_preferences/shared_preferences.dart';
 
 final themeController = ChangeNotifierProvider<AppThemeController>((ref) {
-  return AppThemeController();
+  return AppThemeController(null);
 });
 
 class AppThemeController with ChangeNotifier {
@@ -19,13 +19,8 @@ class AppThemeController with ChangeNotifier {
   ];
   int _currentThemeIndex = 0; // The default theme is Dark
 
-  AppThemeController() {
-    _init();
-  }
-
-  void _init() async {
-    final prefs = await SharedPreferences.getInstance();
-    _currentThemeIndex = prefs.getInt("theme") ?? 0;
+  AppThemeController(int? defaultTheme) {
+    _currentThemeIndex = defaultTheme ?? 0;
   }
 
   ThemeData get current => themes[_currentThemeIndex].data;

@@ -13,8 +13,12 @@ import 'package:hive/hive.dart';
 
 @immutable
 class App extends ConsumerStatefulWidget {
+  final bool openAddScreen;
+  final int startScreen;
   const App({
     Key? key,
+    required this.openAddScreen,
+    required this.startScreen,
   }) : super(key: key);
 
   @override
@@ -22,42 +26,35 @@ class App extends ConsumerStatefulWidget {
 }
 
 class _AppState extends ConsumerState<App> {
-  bool ready = false;
-  bool openAddScreen = false;
-  int startScreen = 0;
-
-  void getSmartScreensInfo() async {
-    final smartScreens = ref.read(smartScreensController);
-    await smartScreens.init();
-    if (smartScreens.enabled) {
-      final now = TimeOfDay.now();
-      final schoolStart = smartScreens.schoolStart;
-      final schoolEnd = smartScreens.schoolEnd;
-
-      var afterStart = false;
-      if (now.hour > schoolStart.hour)
-        afterStart = true;
-      else if (now.hour == schoolStart.hour && now.minute >= schoolStart.minute) afterStart = true;
-
-      var beforeEnd = false;
-      if (now.hour < schoolEnd.hour)
-        beforeEnd = true;
-      else if (now.hour == schoolEnd.hour && now.minute < schoolEnd.minute) beforeEnd = true;
-
-      final isInSchool = afterStart && beforeEnd;
-      startScreen = isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
-
-      openAddScreen = smartScreens.addInSchool && isInSchool;
-    }
-
-    ready = true;
-    if (mounted) setState(() {});
-  }
+  bool showSplash = true;
+  Widget? mainPage = null;
 
   @override
   void initState() {
-    getSmartScreensInfo();
+    mainPage = MainPage(
+      startScreen: widget.startScreen,
+      openAddScreen: widget.openAddScreen,
+    );
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      Timer(Duration(milliseconds: 1250), () {
+        showSplash = false;
+        if (mounted) setState(() {});
+      });
+    });
+  }
+
+  Widget _getSplash(ThemeData theme) {
+    return Center(
+      child: Text(
+        "Diarys",
+        style: TextStyle(
+          fontSize: 20,
+          color: theme.colorScheme.secondary,
+          fontFamily: "RubikMonoOne",
+        ),
+      ),
+    );
   }
 
   @override
@@ -68,21 +65,14 @@ class _AppState extends ConsumerState<App> {
       title: "Diarys",
       home: Scaffold(
         resizeToAvoidBottomInset: true,
+        backgroundColor: theme.backgroundColor,
         body: AnimatedSwitcher(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
+          // switchInCurve: Curves.,
           transitionBuilder: (Widget child, Animation<double> animation) {
             return FadeTransition(child: child, opacity: animation);
           },
-          child: !ready
-              ? Center(
-                  child: FlutterLogo(
-                    size: 50,
-                  ),
-                )
-              : MainPage(
-                  startScreen: startScreen,
-                  openAddScreen: openAddScreen,
-                ),
+          child: showSplash ? _getSplash(theme) : mainPage,
         ),
       ),
       theme: theme,

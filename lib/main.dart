@@ -25,14 +25,42 @@ Future<void> initHive() async {
   Hive.registerAdapter(TasksListAdapter());
 }
 
+List getSmartScreensInfo(SmartScreensSettingsController smartScreens) {
+  if (smartScreens.enabled) {
+    final now = TimeOfDay.now();
+    final schoolStart = smartScreens.schoolStart;
+    final schoolEnd = smartScreens.schoolEnd;
+
+    var afterStart = false;
+    if (now.hour > schoolStart.hour)
+      afterStart = true;
+    else if (now.hour == schoolStart.hour && now.minute >= schoolStart.minute) afterStart = true;
+
+    var beforeEnd = false;
+    if (now.hour < schoolEnd.hour)
+      beforeEnd = true;
+    else if (now.hour == schoolEnd.hour && now.minute < schoolEnd.minute) beforeEnd = true;
+
+    final isInSchool = afterStart && beforeEnd;
+    final activeScreen = isInSchool ? smartScreens.schoolScreen : smartScreens.homeScreen;
+
+    final openAddScreen = smartScreens.addInSchool && isInSchool;
+    return [activeScreen, openAddScreen];
+  }
+
+  return [0, false];
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   final subjects = SubjectsController();
   await subjects.subscribe();
 
-  final theme = AppThemeController();
-  final smartScreens = SmartScreensSettingsController();
+  final prefs = await SharedPreferences.getInstance();
+  final theme = AppThemeController(prefs.getInt("theme"));
+  final smartScreens = SmartScreensSettingsController(prefs);
+  final smartScreenInfo = getSmartScreensInfo(smartScreens);
 
   runApp(
     ProviderScope(
@@ -42,9 +70,9 @@ void main() async {
         smartScreensController.overrideWithValue(smartScreens)
       ],
       child: App(
-          // startScreen: smartScreenInfo[0],
-          // openAddScreen: smartScreenInfo[1],
-          ),
+        startScreen: smartScreenInfo[0],
+        openAddScreen: smartScreenInfo[1],
+      ),
     ),
   );
 }
