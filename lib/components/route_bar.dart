@@ -35,7 +35,7 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
             if (onBackButton != null)
               onBackButton!();
             else
-              Navigator.pop(context);
+              Navigator.maybePop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
