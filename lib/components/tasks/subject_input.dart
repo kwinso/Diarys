@@ -38,7 +38,6 @@ class _SubjectInputState extends ConsumerState<SubjectInput> {
             textFieldConfiguration: TextFieldConfiguration(
               controller: _textController,
               onChanged: (s) => ref.read(addTaskController).subject = s.trim(),
-              autofocus: true,
               maxLines: 1,
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary, fontSize: 20),
