@@ -9,6 +9,7 @@ import 'package:diarys/state/hive/types/tasks_list.dart';
 import 'package:diarys/state/smart_screens.dart';
 import 'package:diarys/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:path_provider/path_provider.dart';
@@ -59,6 +60,10 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final theme = AppThemeController(prefs.getInt("theme"));
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   final smartScreens = SmartScreensSettingsController(prefs);
   final smartScreenInfo = getSmartScreensInfo(smartScreens);
 

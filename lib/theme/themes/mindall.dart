@@ -24,6 +24,9 @@ final MindallTheme = AppThemeData(
         systemStatusBarContrastEnforced: false,
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Colors.transparent,
+        systemNavigationBarColor: _primary,
+        systemNavigationBarContrastEnforced: false,
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
     ),
     colorScheme: const ColorScheme(

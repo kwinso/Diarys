@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:diarys/theme/themes/dark.dart';
 import 'package:diarys/theme/themes/mindall.dart';
 import 'package:diarys/theme/themes/light.dart';
@@ -20,7 +21,7 @@ class AppThemeController with ChangeNotifier {
   int _currentThemeIndex = 0; // The default theme is Dark
 
   AppThemeController(int? defaultTheme) {
-    _currentThemeIndex = defaultTheme ?? 0;
+    setTheme(defaultTheme ?? 0);
   }
 
   ThemeData get current => themes[_currentThemeIndex].data;
@@ -29,14 +30,21 @@ class AppThemeController with ChangeNotifier {
   void setTheme(int index) async {
     _currentThemeIndex = index;
 
-    // System navigation bar color cannot be affect with ThemeData, so change in here
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: current.primaryColor,
-    ));
-
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt("theme", index);
 
     notifyListeners();
+
+    Timer(Duration(milliseconds: 250), () {
+      // System navigation bar color cannot be affected with ThemeData, so change it here
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          systemNavigationBarColor: current.primaryColor,
+          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarIconBrightness:
+              current.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+        ),
+      );
+    });
   }
 }

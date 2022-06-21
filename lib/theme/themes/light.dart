@@ -24,6 +24,9 @@ final LightTheme = AppThemeData(
           systemStatusBarContrastEnforced: false,
           statusBarIconBrightness: Brightness.dark,
           statusBarColor: Colors.transparent,
+          systemNavigationBarColor: _primary,
+          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarIconBrightness: Brightness.dark,
         ),
       ),
       colorScheme: const ColorScheme(

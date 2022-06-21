@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:diarys/screens/add_task.dart';
-import 'package:diarys/state/smart_screens.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diarys/overscroll_behavior.dart';
@@ -45,13 +44,16 @@ class _AppState extends ConsumerState<App> {
   }
 
   Widget _getSplash(ThemeData theme) {
-    return Center(
-      child: Text(
-        "Diarys",
-        style: TextStyle(
-          fontSize: 40,
-          color: theme.colorScheme.tertiaryContainer,
-          fontFamily: "RubikMonoOne",
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: theme.appBarTheme.systemOverlayStyle!,
+      child: Center(
+        child: Text(
+          "Diarys",
+          style: TextStyle(
+            fontSize: 40,
+            color: theme.colorScheme.tertiaryContainer,
+            fontFamily: "RubikMonoOne",
+          ),
         ),
       ),
     );
