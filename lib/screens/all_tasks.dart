@@ -8,8 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class AllTasksScreen extends ConsumerWidget {
+class AllTasksScreen extends ConsumerStatefulWidget {
   const AllTasksScreen({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<AllTasksScreen> createState() => _AllTasksScreenState();
+}
+
+class _AllTasksScreenState extends ConsumerState<AllTasksScreen> {
+  @override
+  void deactivate() {
+    ref.read(tasksController).clearQueue();
+    super.deactivate();
+  }
 
   List<TasksList> _getList(WidgetRef ref) {
     final tasks = ref.watch(tasksController).list.all;
@@ -45,7 +56,7 @@ class AllTasksScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final list = _getList(ref);
     final appBar = RouteBar(
       name: "Задания",
