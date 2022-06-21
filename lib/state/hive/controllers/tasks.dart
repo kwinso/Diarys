@@ -72,7 +72,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
     _queueTimer = null;
   }
 
-  Future<void> _clearQueue() async {
+  Future<void> clearQueue() async {
     if (_queuedRemoval != null) {
       await remove(_queuedRemoval);
       _lastCallback?.call();
@@ -87,13 +87,13 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   Future<bool> queueRemoval(UniqueKey id, Duration queueDuration, VoidCallback onRemove) async {
     var removed = _queueTimer != null;
     _queueTimer?.cancel();
-    await _clearQueue();
+    await clearQueue();
 
     _queuedRemoval = id;
     _lastCallback = onRemove;
 
     // Forbid to close the box before before deleting
-    _queueTimer = Timer(queueDuration, _clearQueue);
+    _queueTimer = Timer(queueDuration, clearQueue);
 
     return removed;
   }
@@ -108,7 +108,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   @override
   void unsubscribe() async {
-    await _clearQueue();
+    await clearQueue();
     super.unsubscribe();
   }
 }
