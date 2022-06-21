@@ -27,7 +27,7 @@ class App extends ConsumerStatefulWidget {
 
 class _AppState extends ConsumerState<App> {
   bool showSplash = true;
-  Widget? mainPage = null;
+  Widget? mainPage;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _AppState extends ConsumerState<App> {
     );
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      Timer(Duration(milliseconds: 1250), () {
+      Timer(const Duration(milliseconds: 1250), () {
         showSplash = false;
         if (mounted) setState(() {});
       });
@@ -49,8 +49,8 @@ class _AppState extends ConsumerState<App> {
       child: Text(
         "Diarys",
         style: TextStyle(
-          fontSize: 20,
-          color: theme.colorScheme.secondary,
+          fontSize: 40,
+          color: theme.colorScheme.tertiaryContainer,
           fontFamily: "RubikMonoOne",
         ),
       ),
