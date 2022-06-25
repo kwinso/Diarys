@@ -63,10 +63,12 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
       items.add(tomorrowItem);
     }
 
-    final calendarLabel = _value == DropdownSelection.date
-        ? AppUtils.formatDate(addTask.untilDate)
-        : "Выбрать на календаре";
-    _value = _value == DropdownSelection.date ? DropdownSelection.calendar : _value;
+    final isUserControlledDate =
+        _value == DropdownSelection.date || _value == DropdownSelection.calendar;
+    final calendarLabel =
+        isUserControlledDate ? AppUtils.formatDate(addTask.untilDate) : "Выбрать на календаре";
+
+    _value = isUserControlledDate ? DropdownSelection.calendar : _value;
     items.add(DropdownMenuItem(
       value: DropdownSelection.calendar,
       child: DateDropdownItem(Icons.date_range, calendarLabel),
