@@ -40,7 +40,7 @@ class AppThemeController with ChangeNotifier {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(
           systemNavigationBarColor: current.primaryColor,
-          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarContrastEnforced: true,
           systemNavigationBarIconBrightness:
               current.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
         ),
