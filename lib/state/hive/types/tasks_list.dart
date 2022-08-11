@@ -11,6 +11,12 @@ part "tasks_list.g.dart";
 const maxDayWeight = 10;
 const maxTasksPerDay = 6;
 
+// TODO:
+// - Make up list of days
+// - Sort days by difficulty & date
+// - Pick first lessons that make up weight of 10 with tomorrow tasks
+// - Save the days list, insert new tasks into it so we can skip first step
+
 @HiveType(typeId: 5)
 class TasksList {
   @HiveField(0)
@@ -46,6 +52,11 @@ class TasksList {
     var tasks = List<Task>.from(all);
     var tomorrowDate = AppUtils.getTomorrowDate();
     tasks.removeWhere((e) => isSameDay(e.untilDate, tomorrowDate));
+    // for (var t in tasks){ }
+    // AppUtils.formatDate(d)
+
+    // tasks[0].untilDate.
+    // const days =
 
     tasks.sort((a, b) {
       var difComp = a.difficulty.compareTo(b.difficulty);
