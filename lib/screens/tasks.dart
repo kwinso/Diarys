@@ -22,26 +22,40 @@ class TasksScreen extends ConsumerWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  ScreenHeader(
-                    title: "Задания",
-                    buttons: [
-                      ScreenHeaderButton(
-                        label: "Все задания",
-                        icon: Icons.subject_rounded,
-                        onPressed: () {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (ctx) => const AllTasksScreen()));
-                        },
-                      ),
-                      ScreenHeaderButton(
-                        label: "Добавить",
-                        icon: Icons.add_rounded,
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
-                        },
-                      ),
-                    ],
-                  ),
+                  Builder(builder: (context) {
+                    return ScreenHeader(
+                      title: "Задания",
+                      buttons: [
+                        ScreenHeaderButton(
+                          label: "Все задания",
+                          icon: Icons.subject_rounded,
+                          onPressed: () async {
+                            // This will remove any pending task removal before going to all tasks screen.
+                            // Note: detatched removal state for this screen an AllTasksScreen caused bugs
+                            // with undo-snackbars
+                            await ref.read(tasksController).clearQueue();
+                            ScaffoldMessenger.of(context).clearSnackBars();
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                // Wrapping with scaffold messenger to be able to clear snackbars
+                                // in route's `deactivate` method
+                                builder: (ctx) => const ScaffoldMessenger(child: AllTasksScreen()),
+                              ),
+                            );
+                          },
+                        ),
+                        ScreenHeaderButton(
+                          label: "Добавить",
+                          icon: Icons.add_rounded,
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
+                          },
+                        ),
+                      ],
+                    );
+                  }),
                   HiveControllersInit(
                     controllers: [tasksController],
                     build: () => const TasksDashboard(),

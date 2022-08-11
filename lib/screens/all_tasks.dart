@@ -18,6 +18,7 @@ class AllTasksScreen extends ConsumerStatefulWidget {
 class _AllTasksScreenState extends ConsumerState<AllTasksScreen> {
   @override
   void deactivate() {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ref.read(tasksController).clearQueue();
     super.deactivate();
   }
