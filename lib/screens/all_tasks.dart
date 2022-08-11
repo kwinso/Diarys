@@ -98,7 +98,7 @@ class _AllTasksScreenState extends ConsumerState<AllTasksScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: list
                         .map((e) => Container(
-                              key: e.tasks.first.id,
+                              key: Key(e.dateLabel!),
                               child: e,
                             ))
                         .toList(),
