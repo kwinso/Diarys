@@ -27,12 +27,14 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   bool showSplash = true;
   Widget? mainPage;
+  bool addScreenShown = false;
 
   @override
   void initState() {
     mainPage = MainPage(
       startScreen: widget.startScreen,
       openAddScreen: widget.openAddScreen,
+      isUnderSplash: !showSplash,
     );
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -66,11 +68,9 @@ class _AppState extends ConsumerState<App> {
     return MaterialApp(
       title: "Diarys",
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
         backgroundColor: theme.backgroundColor,
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          // switchInCurve: Curves.,
           transitionBuilder: (Widget child, Animation<double> animation) {
             return FadeTransition(child: child, opacity: animation);
           },
@@ -94,10 +94,12 @@ class _AppState extends ConsumerState<App> {
 class MainPage extends ConsumerStatefulWidget {
   final int startScreen;
   final bool openAddScreen;
+  final bool isUnderSplash;
   const MainPage({
     Key? key,
     required this.startScreen,
     required this.openAddScreen,
+    required this.isUnderSplash,
   }) : super(key: key);
 
   @override
@@ -106,18 +108,22 @@ class MainPage extends ConsumerStatefulWidget {
 
 class _MainPageState extends ConsumerState<MainPage> {
   int _activeScreen = 0;
-  final _screens = <Widget>[
+  // Variable to ensure AddScreen was shown exacly 1 time
+  bool addScreenShown = false;
+  final _screens = [
     ScheduleScreen(),
     TasksScreen(),
   ];
 
   @override
-  void initState() {
-    _activeScreen = widget.openAddScreen ? 2 : widget.startScreen;
-    _screens.add(AddTask(onClose: () {
-      setState(() => _activeScreen = widget.startScreen);
-    }));
-    super.initState();
+  void didChangeDependencies() {
+    if (!addScreenShown && widget.openAddScreen && !widget.isUnderSplash) {
+      Timer(Duration.zero, () {
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddTask()));
+        addScreenShown = true;
+      });
+    }
+    super.didChangeDependencies();
   }
 
   @override
