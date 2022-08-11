@@ -35,7 +35,7 @@ class AppThemeController with ChangeNotifier {
 
     notifyListeners();
 
-    Timer(Duration(milliseconds: 250), () {
+    Timer(const Duration(milliseconds: 250), () {
       // System navigation bar color cannot be affected with ThemeData, so change it here
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(

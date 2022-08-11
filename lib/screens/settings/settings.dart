@@ -8,7 +8,6 @@ import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:diarys/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

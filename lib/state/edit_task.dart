@@ -1,4 +1,3 @@
-import 'package:diarys/state/hive/controllers/schedule.dart';
 import 'package:diarys/state/hive/controllers/tasks.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/utils.dart';

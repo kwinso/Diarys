@@ -77,9 +77,9 @@ class SmartScreensSettings extends ConsumerWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SmartScreensDescription(),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child:  SmartScreensDescription(),
           ),
         ],
       ),
@@ -196,11 +196,11 @@ class ScreenTimeDropdownTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             dropdownPadding: EdgeInsets.zero,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             dropdownWidth: 115,
-            items: [
-              DropdownMenuItem(value: 0, child: Text("Расписание")),
-              DropdownMenuItem(value: 1, child: Text("Задания"))
+            items: const [
+               DropdownMenuItem(value: 0, child: Text("Расписание")),
+               DropdownMenuItem(value: 1, child:  Text("Задания"))
             ],
             onChanged: onChanged,
           ),

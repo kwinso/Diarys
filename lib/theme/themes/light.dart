@@ -8,6 +8,7 @@ const _primary = Color(0xFFFFFFFF);
 const _primaryContainer = Color.fromARGB(255, 201, 201, 201);
 const _tertiary = Color(0xFF343434);
 
+// ignore: non_constant_identifier_names
 final LightTheme = AppThemeData(
     "Светлая",
     ThemeData(
@@ -44,7 +45,7 @@ final LightTheme = AppThemeData(
         surface: _primary,
         onSurface: _tertiary,
       ),
-      snackBarTheme: SnackBarThemeData(
+      snackBarTheme: const SnackBarThemeData(
         actionTextColor: AppColors.secondary,
         elevation: 10,
         backgroundColor: _primary,

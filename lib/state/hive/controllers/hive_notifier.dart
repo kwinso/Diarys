@@ -61,7 +61,9 @@ class HiveChangeNotifier<T> with ChangeNotifier {
         _subs = 0;
         await box.close();
         notifyListeners();
-      } catch (e) {}
+      } catch (e) {
+        // pass...
+      }
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -38,7 +37,7 @@ class RouteBar extends ConsumerWidget implements PreferredSizeWidget {
             else
               Navigator.maybePop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,

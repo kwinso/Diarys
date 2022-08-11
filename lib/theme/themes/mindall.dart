@@ -9,6 +9,7 @@ const _bg = Color(0xFF101011);
 const _tertiary = Color(0xFFE7E9EE);
 const _secondary = Color(0xFFEE3636);
 
+// ignore: non_constant_identifier_names
 final MindallTheme = AppThemeData(
   "Миндальная",
   ThemeData(
@@ -46,8 +47,8 @@ final MindallTheme = AppThemeData(
       surface: _primary,
       onSurface: _tertiary,
     ),
-    snackBarTheme:
-        SnackBarThemeData(actionTextColor: _secondary, elevation: 10, backgroundColor: _primary),
+    snackBarTheme: const SnackBarThemeData(
+        actionTextColor: _secondary, elevation: 10, backgroundColor: _primary),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: _bg,

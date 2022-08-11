@@ -8,6 +8,7 @@ const _primaryContainer = Color(0xFF7E7E7E);
 const _bg = Color(0xFF252525);
 const _tertiary = Colors.white;
 
+// ignore: non_constant_identifier_names
 final DarkTheme = AppThemeData(
     "Темная",
     ThemeData(
@@ -45,7 +46,7 @@ final DarkTheme = AppThemeData(
         surface: _primary,
         onSurface: _tertiary,
       ),
-      snackBarTheme: SnackBarThemeData(
+      snackBarTheme: const SnackBarThemeData(
           actionTextColor: AppColors.secondary, elevation: 10, backgroundColor: _primary),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(

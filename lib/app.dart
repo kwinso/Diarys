@@ -111,8 +111,8 @@ class _MainPageState extends ConsumerState<MainPage> {
   // Variable to ensure AddScreen was shown exacly 1 time
   bool addScreenShown = false;
   final _screens = [
-    ScheduleScreen(),
-    TasksScreen(),
+    const ScheduleScreen(),
+    const TasksScreen(),
   ];
 
   @override
@@ -131,7 +131,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 250),
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(child: child, opacity: animation);
         },
