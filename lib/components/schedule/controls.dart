@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 class ScheduleSwiperControls extends StatefulWidget {
   final Function? onNext;
   final Function? onPrev;
-  final int index;
+  final ValueNotifier<int> index;
 
-  const ScheduleSwiperControls({this.index = 0, this.onNext, this.onPrev, Key? key})
+  const ScheduleSwiperControls(
+      {required this.index, this.onNext, this.onPrev, Key? key})
       : super(key: key);
 
   @override
@@ -14,6 +15,24 @@ class ScheduleSwiperControls extends StatefulWidget {
 }
 
 class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
+  void onIndexUpdate() {
+    setState(() => {});
+  }
+
+  @override
+  void initState() {
+    widget.index.addListener(onIndexUpdate);
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.index.removeListener(onIndexUpdate);
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -26,8 +45,9 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
             color: Theme.of(context).colorScheme.tertiaryContainer,
           )),
       Text(
-        AppTexts.week.days[widget.index],
-        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+        AppTexts.week.days[widget.index.value],
+        style: TextStyle(
+            fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
       ),
       IconButton(
           onPressed: () => widget.onNext!(),

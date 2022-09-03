@@ -1,4 +1,5 @@
 import 'package:diarys/components/controllers_init.dart';
+import 'package:diarys/components/schedule/controls.dart';
 import 'package:diarys/components/main_app_bar.dart';
 import 'package:diarys/components/schedule/modal_form.dart';
 import 'package:diarys/components/schedule/modal_input.dart';
@@ -20,15 +21,24 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
-  final ValueNotifier<int> _currentDay = ValueNotifier(DateTime.now().weekday - 1);
+  final ValueNotifier<int> _currentDay =
+      ValueNotifier(DateTime.now().weekday - 1);
   final SwiperController _swiperController = SwiperController();
   String _newSubjectText = "";
 
+  @override
+  void initState() {
+    _swiperController.addListener(() {
+      print("Controller");
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {
-      ref
-          .read(scheduleController.notifier)
-          .addLessonsToDay(_currentDay.value, _newSubjectText.trim().split("\n"));
+      ref.read(scheduleController.notifier).addLessonsToDay(
+          _currentDay.value, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
@@ -119,27 +129,36 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      slivers: [
-        const MainAppBar(),
-        SliverToBoxAdapter(
+    return HiveControllersInit(
+      controllers: [scheduleController],
+      build: () => CustomScrollView(
+        slivers: [
+          const MainAppBar(),
+          SliverToBoxAdapter(
             child: ScreenHeader(
-          title: "Расписание",
-          buttons: _currentButtons(),
-        )),
-        SliverFillRemaining(
-          child: HiveControllersInit(
-            controllers: [scheduleController],
-            build: () => ScheduleSwiper(
+              title: "Расписание",
+              buttons: _currentButtons(),
+            ),
+          ),
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 15,
+            backgroundColor: Theme.of(context).backgroundColor,
+            toolbarHeight: 15,
+            flexibleSpace: ScheduleSwiperControls(
+              onNext: () => _swiperController.next(),
+              onPrev: () => _swiperController.previous(),
+              index: _currentDay,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ScheduleSwiper(
               controller: _swiperController,
               currentDay: _currentDay,
             ),
           ),
-        ),
-      ],
-      // child:         )
+        ],
+      ),
     );
     // return Scaffold(
     //   body: ListView(

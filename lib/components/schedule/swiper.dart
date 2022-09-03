@@ -13,15 +13,18 @@ class ScheduleSwiper extends ConsumerStatefulWidget {
   final ValueNotifier<int> currentDay;
   final SwiperController controller;
   // final Function(int) onChangeDay;
-  const ScheduleSwiper({Key? key, required this.currentDay, required this.controller})
-      : super(key: key);
+  const ScheduleSwiper({
+    Key? key,
+    required this.currentDay,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   _ScheduleSwiperState createState() => _ScheduleSwiperState();
 }
 
 class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
-  final SwiperController _swiperController = SwiperController();
+  // final SwiperController widget.controller = SwiperController();
   // Fires when user selects a lesson in edit mode
   void _onEditModeSelection(int day, int index) {
     final editMode = ref.read(scheduleEditController);
@@ -45,7 +48,9 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
           "Пусто",
           key: const Key("empty"),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.tertiaryContainer),
+          style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).colorScheme.tertiaryContainer),
         )
       ];
     }
@@ -72,8 +77,11 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
       var day = schedule.days[dayIndex];
       // if (editMode.active) {
       return ReorderableListView(
+        physics: const NeverScrollableScrollPhysics(),
         buildDefaultDragHandles: false,
+        shrinkWrap: true,
         padding: _listViewPadding,
+        children: _lessonsListToWidgets(dayIndex, day.lessons, editMode),
         proxyDecorator: (w, i, z) => Container(
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -111,39 +119,24 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
               .read(scheduleController.notifier)
               .moveLessonInDay(widget.currentDay.value, oldIdx, moveTo);
         },
-        children: _lessonsListToWidgets(dayIndex, day.lessons, editMode),
       );
-      // }
-
-      // return ListView(
-      //   shrinkWrap: true,
-      //   padding: _listViewPadding,
-      //   children: _lessonsListToWidgets(dayIndex, day.lessons, editMode),
-      // );
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ScheduleSwiperControls(
-          onNext: () => _swiperController.next(),
-          onPrev: () => _swiperController.previous(),
-          index: widget.currentDay.value,
-        ),
-        Expanded(
-          child: Swiper(
-            curve: Curves.linear,
-            controller: _swiperController,
-            index: widget.currentDay.value,
-            onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
-            itemBuilder: _getSwiperDaysBuilder(),
-            itemCount: 7,
-            loop: true,
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Swiper(
+        itemWidth: MediaQuery.of(context).size.width,
+        curve: Curves.linear,
+        controller: widget.controller,
+        index: widget.currentDay.value,
+        onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
+        itemBuilder: _getSwiperDaysBuilder(),
+        itemCount: 7,
+        loop: true,
+      ),
     );
   }
 }
