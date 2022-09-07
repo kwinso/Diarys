@@ -22,12 +22,16 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   @protected
   Future<dynamic> emptyBoxFill(Box<T> box) async {}
 
-  /// [fill] runs if opened box is empty
+  /// [emptyBoxFill] runs if opened box is empty
   Future<void> _initBox() async {
     if (isReady) return;
 
-    await Hive.openBox<T>(_name).then((v) => box = v);
-    if (box.values.isEmpty) await emptyBoxFill(box);
+    var v = await Hive.openBox<T>(_name);
+
+    if (v.values.isEmpty)
+      emptyBoxFill(box);
+    else
+      box = v;
   }
 
   /// Updates first box value to [v]
