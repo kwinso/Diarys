@@ -146,7 +146,6 @@ class _ControlButton extends ConsumerWidget {
             confirmButtonText: "Cохранить",
             onConfirm: () {
               ref.read(taskEditController).commit();
-              Navigator.of(context).pop(true);
             },
             confirmButtonColor: AppColors.green,
           );
@@ -162,9 +161,6 @@ class _ControlButton extends ConsumerWidget {
                 context,
                 title: "Подтердите удаление",
                 confirmButtonText: "Удалить",
-                onConfirm: () {
-                  Navigator.of(context).pop(true);
-                },
                 confirmButtonColor: AppColors.red,
               );
               if (confirmed) {

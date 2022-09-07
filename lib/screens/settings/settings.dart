@@ -36,15 +36,25 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 const SettingsHeading("Опасное место", color: AppColors.red),
                 ListTile(
+                  title: const Text("Удалить все данные"),
                   trailing: const Icon(Icons.delete_rounded),
-                  title: const Text("Очистить хранилище"),
-                  onTap: () {
-                    ref.read(tasksController).emptyBox();
-                    ref.read(scheduleController).emptyBox();
-                    ref.read(subjectsController).emptyBox();
-                    AppUtils.showSnackBar(context,
-                        text: "Хранилище очищено",
-                        backgroundColor: Theme.of(context).backgroundColor);
+                  onTap: () async {
+                    var confirmed = await AppUtils.showAppDialog(
+                      context,
+                      description:
+                          "Данное действие удалит все данные, включая расписание и домашние задания.",
+                      title: "Аккуратнее!",
+                      confirmButtonText: "Удалить",
+                      confirmButtonColor: AppColors.red,
+                    );
+                    if (confirmed) {
+                      ref.read(tasksController).emptyBox();
+                      ref.read(scheduleController).emptyBox();
+                      ref.read(subjectsController).emptyBox();
+                      AppUtils.showSnackBar(context,
+                          text: "Данные удалены",
+                          backgroundColor: Theme.of(context).backgroundColor);
+                    }
                   },
                 ),
               ],

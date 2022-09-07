@@ -70,15 +70,19 @@ class AppUtils {
     BuildContext context, {
     required String title,
     required String confirmButtonText,
-    required VoidCallback onConfirm,
     required Color confirmButtonColor,
+    String? description,
+    VoidCallback? onConfirm,
   }) async {
     var res = await showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text(title),
+            content: description != null ? Text(description) : null,
             titleTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+            contentTextStyle:
+                TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.tertiary),
             backgroundColor: Theme.of(context).backgroundColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             actions: [
@@ -86,7 +90,10 @@ class AppUtils {
                 text: confirmButtonText,
                 color: confirmButtonColor,
                 foregroundColor: Colors.white,
-                onPressed: onConfirm,
+                onPressed: () {
+                  onConfirm?.call();
+                  Navigator.of(context).pop(true);
+                },
               ),
               AppElevatedButton(
                 text: "Отмена",
