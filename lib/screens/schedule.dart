@@ -21,24 +21,21 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
-  final ValueNotifier<int> _currentDay =
-      ValueNotifier(DateTime.now().weekday - 1);
+  final ValueNotifier<int> _currentDay = ValueNotifier(DateTime.now().weekday - 1);
   final SwiperController _swiperController = SwiperController();
   String _newSubjectText = "";
 
   @override
-  void initState() {
-    _swiperController.addListener(() {
-      print("Controller");
-    });
-    // TODO: implement initState
-    super.initState();
+  void dispose() {
+    _swiperController.dispose();
+    super.dispose();
   }
 
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {
-      ref.read(scheduleController.notifier).addLessonsToDay(
-          _currentDay.value, _newSubjectText.trim().split("\n"));
+      ref
+          .read(scheduleController.notifier)
+          .addLessonsToDay(_currentDay.value, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
@@ -90,13 +87,6 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
     if (edit.selectedItems.isEmpty) {
       return [
-        // ScreenHeaderButton(
-        //   label: "Отмена",
-        //   foreground: Colors.white,
-        //   background: AppColors.red,
-        //   icon: Icons.clear,
-        //   onPressed: () => edit.active = false,
-        // ),
         ScreenHeaderButton(
           label: "Готово",
           foreground: Colors.white,
@@ -160,41 +150,5 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
         ],
       ),
     );
-    // return Scaffold(
-    //   body: ListView(
-    //     children: [
-    //       AnimatedContainer(
-    //         duration: Duration(milliseconds: 300),
-    //         child: ScreenHeader(
-    //           title: "Расписание",
-    //           buttons: _currentButtons(),
-    //         ),
-    //       ),
-    //       Padding(
-    //         padding: const EdgeInsets.only(bottom: 10),
-    //         child: ScheduleSwiperControls(
-    //           onNext: () => _swiperController.next(),
-    //           onPrev: () => _swiperController.previous(),
-    //           index: _currentDay.value,
-    //         ),
-    //       ),
-    //       Expanded(
-    //         child: HiveControllersInit(
-    //           controllers: [scheduleController],
-    //           build: () => ScheduleSwiper(
-    //             controller: _swiperController,
-    //             currentDay: _currentDay,
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-  }
-
-  @override
-  void dispose() {
-    _swiperController.dispose();
-    super.dispose();
   }
 }

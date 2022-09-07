@@ -22,6 +22,7 @@ class _ControllersInitState extends ConsumerState<HiveControllersInit> {
     for (var c in widget.controllers) {
       await ref.read(c).subscribe();
     }
+
     // Widget is ready to be used since it's subscribed to all controllers
     _subscribed = true;
   }

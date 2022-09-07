@@ -143,11 +143,6 @@ class _MainPageState extends ConsumerState<MainPage> {
         },
         child: _screens[_activeScreen],
       ),
-      //* Maybe change to variant without animaton later
-      // body: AnimatedContainer(
-      //   duration: Duration(milliseconds: 1000),
-      //   child: _screens[_activeScreen],
-      // ),
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: _activeScreen == 2
           ? null
