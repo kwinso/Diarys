@@ -1,3 +1,4 @@
+import 'package:diarys/components/elevated_button.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,39 @@ class AppUtils {
 
   // static addOneDayToDate(DateTime d) => d.add(const Duration(days: 1));
   static getTomorrowDate() => DateTime.now().add(const Duration(days: 1));
+
+  static Future<bool> showAppDialog(
+    BuildContext context, {
+    required String title,
+    required String confirmButtonText,
+    required VoidCallback onConfirm,
+    required Color confirmButtonColor,
+  }) async {
+    var res = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            titleTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+            backgroundColor: Theme.of(context).backgroundColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            actions: [
+              AppElevatedButton(
+                text: confirmButtonText,
+                color: confirmButtonColor,
+                foregroundColor: Colors.white,
+                onPressed: onConfirm,
+              ),
+              AppElevatedButton(
+                text: "Отмена",
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+            ],
+          );
+        });
+
+    return res ?? false;
+  }
 
   static void showSnackBar(
     BuildContext ctx, {

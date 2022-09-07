@@ -14,6 +14,7 @@ class AddTaskController extends TaskEditController {
   AddTaskController(ref) : super(ref);
 
   bool _saveToSchedule = true;
+  bool _isDateUserControlled = false;
 
   @override
   set subject(String name) {
@@ -21,8 +22,9 @@ class AddTaskController extends TaskEditController {
     final exists = ref.read(subjectsController).exists(subject);
     _saveToSchedule = !exists;
 
-    if (exists) {
-      setNextLessonDate(); // Will also notify listeners
+    // Auto-update date only when it's not user controlled
+    if (exists && !_isDateUserControlled) {
+      setNextLessonDate();
     }
 
     notifyListeners();
@@ -75,6 +77,16 @@ class AddTaskController extends TaskEditController {
     notifyListeners();
   }
 
+  void setCustomDate(DateTime d) async {
+    _isDateUserControlled = true;
+    untilDate = d;
+  }
+
+  void setTomorrowDate() {
+    _isDateUserControlled = false;
+    untilDate = AppUtils.getTomorrowDate();
+  }
+
   // Listeners for this one are not notified because the only place where untilDate is used
   // will be aware of change when date is changed
   void setNextLessonDate() async {
@@ -92,6 +104,7 @@ class AddTaskController extends TaskEditController {
     final daysUntillClosesLesson = days.first;
     final nextLesson = DateTime.now().add(Duration(days: daysUntillClosesLesson));
 
+    _isDateUserControlled = false;
     untilDate = nextLesson;
   }
 }

@@ -140,45 +140,37 @@ class _ControlButton extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () async {
         if (isEdited) {
-          var res = showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text("Изменения задания не сохранены!"),
-                  titleTextStyle:
-                      TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  actions: [
-                    AppElevatedButton(
-                      text: "Отмена",
-                      onPressed: () => Navigator.of(context).pop(false),
-                    ),
-                    AppElevatedButton(
-                      text: "Сохранить",
-                      color: AppColors.green,
-                      foregroundColor: Colors.white,
-                      onPressed: () {
-                        ref.read(taskEditController).commit();
-                        Navigator.of(context).pop(true);
-                      },
-                    )
-                  ],
-                );
-              });
-
-          return (await res) ?? false;
+          return AppUtils.showAppDialog(
+            context,
+            title: "Изменения не сохранены",
+            confirmButtonText: "Cохранить",
+            onConfirm: () {
+              ref.read(taskEditController).commit();
+              Navigator.of(context).pop(true);
+            },
+            confirmButtonColor: AppColors.green,
+          );
         }
-
         return true;
       },
       child: IconButton(
-          onPressed: () {
+          onPressed: () async {
             if (isEdited) {
               ref.read(taskEditController).commit();
             } else {
-              ref.read(taskEditController).deleteTask();
-              Navigator.pop(context);
+              var confirmed = await AppUtils.showAppDialog(
+                context,
+                title: "Подтердите удаление",
+                confirmButtonText: "Удалить",
+                onConfirm: () {
+                  Navigator.of(context).pop(true);
+                },
+                confirmButtonColor: AppColors.red,
+              );
+              if (confirmed) {
+                ref.read(taskEditController).deleteTask();
+                Navigator.pop(context);
+              }
             }
           },
           icon: getCurrentIcon(context, isEdited)),
