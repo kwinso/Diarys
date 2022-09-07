@@ -34,7 +34,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
   DropdownSelection _value = DropdownSelection.tomorrow;
 
   void _setTomorrowDate() {
-    ref.read(addTaskController).untilDate = AppUtils.getTomorrowDate();
+    ref.read(addTaskController).setTomorrowDate();
     setState(() {
       _value = DropdownSelection.tomorrow;
     });
@@ -113,7 +113,7 @@ class _DateSelectButtonState extends ConsumerState<DateSelectDropdown> {
                 builder: (c) => DateSelectCalendar(
                   subject: ref.read(addTaskController).subject,
                   onSubmit: (d) {
-                    ref.read(addTaskController).untilDate = d;
+                    ref.read(addTaskController).setCustomDate(d);
                     setState(() => _value = DropdownSelection.date);
                     Navigator.pop(c);
                   },
