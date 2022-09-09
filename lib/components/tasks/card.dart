@@ -11,6 +11,7 @@ class TaskCard extends ConsumerStatefulWidget {
   final Task task;
   final Function(bool) beforeDismiss;
   final VoidCallback onUndoDismiss;
+  // ignore: annotate_overrides, overridden_fields
   final Key key;
   final bool showDate;
   const TaskCard(
@@ -25,7 +26,8 @@ class TaskCard extends ConsumerStatefulWidget {
   _TaskCardState createState() => _TaskCardState();
 }
 
-class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderStateMixin {
+class _TaskCardState extends ConsumerState<TaskCard>
+    with SingleTickerProviderStateMixin {
   bool _dismissied = false;
 
   @override
@@ -40,7 +42,9 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
           _dismissied = true;
         });
 
-        var prevRemoved = await ref.read(tasksController).queueRemoval(widget.task.id, delay, () {
+        var prevRemoved = await ref
+            .read(tasksController)
+            .queueRemoval(widget.task.id, delay, () {
           if (!comp.isCompleted) {
             comp.complete(true);
           }
@@ -71,20 +75,27 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: AnimatedCrossFade(
           duration: const Duration(milliseconds: 300),
-          crossFadeState: _dismissied ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          crossFadeState: _dismissied
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
           secondChild: Container(),
           firstChild: GestureDetector(
             key: widget.key,
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (ctx) => TaskInfoPage(widget.task)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (ctx) => TaskInfoPage(widget.task)));
             },
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.5),
                   width: 1,
                 ),
                 color: Theme.of(context).primaryColor,
@@ -95,8 +106,10 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: _CardInfo(task: widget.task, showDate: widget.showDate),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      child: _CardInfo(
+                          task: widget.task, showDate: widget.showDate),
                     ),
                   ),
                 ],
@@ -112,7 +125,8 @@ class _TaskCardState extends ConsumerState<TaskCard> with SingleTickerProviderSt
 class _CardInfo extends StatelessWidget {
   final Task task;
   final bool showDate;
-  const _CardInfo({Key? key, required this.task, required this.showDate}) : super(key: key);
+  const _CardInfo({Key? key, required this.task, required this.showDate})
+      : super(key: key);
 
   String _withoutWhitespaces(String t) {
     return t.replaceAll(RegExp(r'\s'), " ");
@@ -130,7 +144,8 @@ class _CardInfo extends StatelessWidget {
           children: [
             Text(
               _withoutWhitespaces(task.subject),
-              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.tertiary),
+              style: TextStyle(
+                  fontSize: 18, color: Theme.of(context).colorScheme.tertiary),
               softWrap: false,
               overflow: TextOverflow.fade,
             ),
@@ -139,8 +154,12 @@ class _CardInfo extends StatelessWidget {
               margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  border: Border.all(color: AppUtils.getDifficultyColor(task.difficulty)),
-                  color: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2)),
+                  border: Border.all(
+                      color: AppUtils.getDifficultyColor(task.difficulty)),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .tertiaryContainer
+                      .withOpacity(0.2)),
               child: Text(
                 AppUtils.getDifficultyEmoji(task.difficulty),
                 textAlign: TextAlign.center,
@@ -155,8 +174,9 @@ class _CardInfo extends StatelessWidget {
             padding: const EdgeInsets.only(top: 1),
             child: Text(
               _withoutWhitespaces(task.content),
-              style:
-                  TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.tertiaryContainer),
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Theme.of(context).colorScheme.tertiaryContainer),
               softWrap: false,
               overflow: TextOverflow.fade,
             ),
@@ -170,7 +190,9 @@ class _CardInfo extends StatelessWidget {
               AppUtils.formatDate(task.untilDate),
               style: TextStyle(
                 fontSize: 9,
-                color: missed ? AppColors.red : Theme.of(context).colorScheme.tertiaryContainer,
+                color: missed
+                    ? AppColors.red
+                    : Theme.of(context).colorScheme.tertiaryContainer,
                 // color: AppColors.red,
               ),
             ),
@@ -183,7 +205,10 @@ class _CardInfo extends StatelessWidget {
               ),
               color: missed
                   ? Colors.transparent
-                  : Theme.of(context).colorScheme.tertiaryContainer.withOpacity(0.2),
+                  : Theme.of(context)
+                      .colorScheme
+                      .tertiaryContainer
+                      .withOpacity(0.2),
             ),
           ),
         )
