@@ -43,7 +43,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   }
 
   TasksList get list {
-    final l = box.values.first;
+    final l = box!.values.first;
     return TasksList(l.all);
   }
 
@@ -84,7 +84,8 @@ class TasksController extends HiveChangeNotifier<TasksList> {
   }
 
   /// Returns `true` if there was an item in queue before inserting new one
-  Future<bool> queueRemoval(UniqueKey id, Duration queueDuration, VoidCallback onRemove) async {
+  Future<bool> queueRemoval(
+      UniqueKey id, Duration queueDuration, VoidCallback onRemove) async {
     var removed = _queueTimer != null;
     _queueTimer?.cancel();
     await clearQueue();

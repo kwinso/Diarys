@@ -11,7 +11,7 @@ final subjectsController = ChangeNotifierProvider<SubjectsController>((ref) {
 class SubjectsController extends HiveChangeNotifier<SubjectsList> {
   SubjectsController() : super("subjects");
 
-  SubjectsList get state => SubjectsList(box.values.first.list);
+  SubjectsList get state => SubjectsList(box!.values.first.list);
 
   @override
   Future<dynamic> emptyBoxFill(Box<SubjectsList> box) async {

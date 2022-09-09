@@ -4,18 +4,14 @@ import 'package:hive/hive.dart';
 class HiveChangeNotifier<T> with ChangeNotifier {
   final String _name;
   @protected
-  late Box<T> box;
+  Box<T>? box;
   // Amount of times box was requested to init (describes how many listeners depend on this box)
   int _subs = 0;
 
   HiveChangeNotifier(this._name);
 
   bool get isReady {
-    try {
-      return box.isOpen;
-    } catch (e) {
-      return false;
-    }
+    return box != null && box!.isOpen;
   }
 
   // A placeholder for writing a value to opened box if it's empty
@@ -29,7 +25,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     var v = await Hive.openBox<T>(_name);
 
     if (v.values.isEmpty)
-      emptyBoxFill(box);
+      emptyBoxFill(v);
     else
       box = v;
   }
@@ -37,15 +33,17 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   /// Updates first box value to [v]
   @protected
   Future<void> updateBox(T v) async {
-    await box.put(0, v);
+    if (!isReady) return;
+
+    await box!.put(0, v);
     notifyListeners();
   }
 
   // Clears values in box and fills it with default values
   Future<void> emptyBox() async {
     if (isReady) {
-      await box.clear();
-      await emptyBoxFill(box);
+      await box!.clear();
+      await emptyBoxFill(box!);
       notifyListeners();
     }
   }
@@ -63,7 +61,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
     if (_subs <= 0) {
       try {
         _subs = 0;
-        await box.close();
+        await box?.close();
         notifyListeners();
       } catch (e) {
         // pass...

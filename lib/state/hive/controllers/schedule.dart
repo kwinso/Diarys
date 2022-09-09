@@ -17,7 +17,7 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
 
   ScheduleController(this._ref) : super('schedule');
 
-  Schedule get state => Schedule(box.values.first.days);
+  Schedule get state => Schedule(box!.values.first.days);
 
   @override
   Future<dynamic> emptyBoxFill(Box<Schedule> box) async {
