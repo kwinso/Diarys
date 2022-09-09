@@ -24,10 +24,9 @@ class HiveChangeNotifier<T> with ChangeNotifier {
 
     var v = await Hive.openBox<T>(_name);
 
-    if (v.values.isEmpty)
-      emptyBoxFill(v);
-    else
-      box = v;
+    if (v.values.isEmpty) await emptyBoxFill(v);
+
+    box = v;
   }
 
   /// Updates first box value to [v]

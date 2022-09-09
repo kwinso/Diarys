@@ -21,7 +21,8 @@ class ScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
-  final ValueNotifier<int> _currentDay = ValueNotifier(DateTime.now().weekday - 1);
+  final ValueNotifier<int> _currentDay =
+      ValueNotifier(DateTime.now().weekday - 1);
   final SwiperController _swiperController = SwiperController();
   String _newSubjectText = "";
 
@@ -33,9 +34,8 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
 
   void _onFormSubmit(BuildContext context) {
     if (_newSubjectText.isNotEmpty) {
-      ref
-          .read(scheduleController.notifier)
-          .addLessonsToDay(_currentDay.value, _newSubjectText.trim().split("\n"));
+      ref.read(scheduleController.notifier).addLessonsToDay(
+          _currentDay.value, _newSubjectText.trim().split("\n"));
     }
     Navigator.pop(context);
   }
@@ -122,6 +122,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     return HiveControllersInit(
       controllers: [scheduleController],
       build: () => CustomScrollView(
+        shrinkWrap: true,
         slivers: [
           const MainAppBar(),
           SliverToBoxAdapter(
@@ -133,12 +134,16 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
           SliverAppBar(
             pinned: true,
             expandedHeight: 15,
-            backgroundColor: Theme.of(context).backgroundColor,
             toolbarHeight: 15,
-            flexibleSpace: ScheduleSwiperControls(
-              onNext: () => _swiperController.next(),
-              onPrev: () => _swiperController.previous(),
-              index: _currentDay,
+            flexibleSpace: Container(
+              color: Theme.of(context).backgroundColor,
+              child: Center(
+                child: ScheduleSwiperControls(
+                  onNext: () => _swiperController.next(),
+                  onPrev: () => _swiperController.previous(),
+                  index: _currentDay,
+                ),
+              ),
             ),
           ),
           SliverToBoxAdapter(
