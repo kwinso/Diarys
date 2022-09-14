@@ -4,9 +4,10 @@ import 'package:diarys/state/types/delete_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import '../../state/hive/controllers/schedule.dart';
+import 'package:diarys/state/hive/controllers/schedule.dart';
 
-const _listViewPadding = EdgeInsets.symmetric(horizontal: 15, vertical: 10);
+const _listViewPadding =
+    EdgeInsets.only(right: 15, left: 15, bottom: 10, top: 10);
 
 class ScheduleSwiper extends ConsumerStatefulWidget {
   final ValueNotifier<int> currentDay;
@@ -75,7 +76,7 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
       var day = schedule.days[dayIndex];
       // if (editMode.active) {
       return ReorderableListView(
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         buildDefaultDragHandles: false,
         shrinkWrap: true,
         padding: _listViewPadding,
@@ -123,18 +124,15 @@ class _ScheduleSwiperState extends ConsumerState<ScheduleSwiper> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Swiper(
-        itemWidth: MediaQuery.of(context).size.width,
-        curve: Curves.linear,
-        controller: widget.controller,
-        index: widget.currentDay.value,
-        onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
-        itemBuilder: _getSwiperDaysBuilder(),
-        itemCount: 7,
-        loop: true,
-      ),
+    return Swiper(
+      itemWidth: MediaQuery.of(context).size.width,
+      curve: Curves.linear,
+      controller: widget.controller,
+      index: widget.currentDay.value,
+      onIndexChanged: (idx) => setState(() => widget.currentDay.value = idx),
+      itemBuilder: _getSwiperDaysBuilder(),
+      itemCount: 7,
+      loop: true,
     );
   }
 }

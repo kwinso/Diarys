@@ -22,14 +22,12 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
   @override
   void initState() {
     widget.index.addListener(onIndexUpdate);
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
     widget.index.removeListener(onIndexUpdate);
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -47,7 +45,10 @@ class _ScheduleSwiperControlsState extends State<ScheduleSwiperControls> {
       Text(
         AppTexts.week.days[widget.index.value],
         style: TextStyle(
-            fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+            fontSize: 25,
+            color: DateTime.now().weekday - 1 == widget.index.value
+                ? Theme.of(context).colorScheme.tertiary
+                : Theme.of(context).colorScheme.tertiaryContainer),
       ),
       IconButton(
           onPressed: () => widget.onNext!(),

@@ -122,6 +122,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
     return HiveControllersInit(
       controllers: [scheduleController],
       build: () => CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         slivers: [
           const MainAppBar(),
@@ -146,7 +147,7 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
+          SliverFillRemaining(
             child: ScheduleSwiper(
               controller: _swiperController,
               currentDay: _currentDay,
