@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:diarys/state/hive/controllers/hive_notifier.dart';
 import 'package:diarys/state/hive/types/task.dart';
 import 'package:diarys/state/hive/types/tasks_list.dart';
@@ -17,29 +15,7 @@ class TasksController extends HiveChangeNotifier<TasksList> {
 
   @override
   Future<dynamic> emptyBoxFill(Box<TasksList> box) async {
-    final startDay = DateTime.now();
-    final days = [
-      // DateTime(startDay.year, startDay.month, startDay.day + 0),
-      DateTime(startDay.year, startDay.month, startDay.day + 1),
-      DateTime(startDay.year, startDay.month, startDay.day + 1),
-      // DateTime(startDay.year, startDay.month, startDay.day + 1),
-      // DateTime(startDay.year, startDay.month, startDay.day + 2),
-      // DateTime(startDay.year, startDay.month, startDay.day + 2),
-      // DateTime(startDay.year, startDay.month, startDay.day + 5),
-      // DateTime(startDay.year, startDay.month, startDay.day + 6),
-      // DateTime(startDay.year, startDay.month, startDay.day + 3),
-    ];
-
-    final tasks = List.generate(days.length, (index) {
-      final rnd = Random().nextInt(4);
-      return Task(
-          subject: "Алгебра",
-          difficulty: rnd == 0 ? 1 : rnd,
-          content: "Какое-то дз.",
-          untilDate: days[index]);
-    });
-
-    await box.add(TasksList(tasks));
+    await box.add(TasksList([]));
   }
 
   TasksList get list {

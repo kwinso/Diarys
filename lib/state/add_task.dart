@@ -31,7 +31,7 @@ class AddTaskController extends TaskEditController {
   }
 
   bool get subjectInSchedule =>
-      ref.read(scheduleController).getDaysContainingLesson(subject).isNotEmpty;
+      ref.read(scheduleController).dayContains(untilDate.weekday - 1, subject);
 
   bool get saveToSchedule => _saveToSchedule;
 
@@ -48,7 +48,8 @@ class AddTaskController extends TaskEditController {
       // If user wants to add to some day, it probably means there's a lesson for a gived subject
       // On that day
       final until = untilDate;
-      await schedule.addLessonsToDay(until.weekday - 1, [subject], allowDuplicate: false);
+      await schedule.addLessonsToDay(until.weekday - 1, [subject],
+          allowDuplicate: false);
       // TODO: Run if setting to "add to current day too" is enabled
       // final today = DateTime.now();
       // if (!isSameDay(today, until)) {
@@ -102,7 +103,8 @@ class AddTaskController extends TaskEditController {
     days.sort();
 
     final daysUntillClosesLesson = days.first;
-    final nextLesson = DateTime.now().add(Duration(days: daysUntillClosesLesson));
+    final nextLesson =
+        DateTime.now().add(Duration(days: daysUntillClosesLesson));
 
     _isDateUserControlled = false;
     untilDate = nextLesson;

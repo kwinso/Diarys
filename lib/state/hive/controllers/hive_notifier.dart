@@ -18,7 +18,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   @protected
   Future<dynamic> emptyBoxFill(Box<T> box) async {}
 
-  /// [emptyBoxFill] runs if opened box is empty
+  /// Checks if box is open and if it's open & empty, fills it with [emptyBoxFill]
   Future<void> _initBox() async {
     if (isReady) return;
 

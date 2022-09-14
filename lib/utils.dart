@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AppUtils {
-  static List<String> getSubjectSuggestions(WidgetRef ref, String t, bool emptyIfNoText) {
+  static List<String> getSubjectSuggestions(
+      WidgetRef ref, String t, bool emptyIfNoText) {
     final line = t.split("\n").last.trim().toLowerCase();
     if (line.isEmpty && emptyIfNoText) return [];
 
@@ -80,11 +81,13 @@ class AppUtils {
           return AlertDialog(
             title: Text(title),
             content: description != null ? Text(description) : null,
-            titleTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
-            contentTextStyle:
-                TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.tertiary),
+            titleTextStyle: TextStyle(
+                fontSize: 20, color: Theme.of(context).colorScheme.tertiary),
+            contentTextStyle: TextStyle(
+                fontSize: 14, color: Theme.of(context).colorScheme.tertiary),
             backgroundColor: Theme.of(context).backgroundColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             actions: [
               AppElevatedButton(
                 text: confirmButtonText,
