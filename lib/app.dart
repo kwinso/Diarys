@@ -146,38 +146,26 @@ class _MainPageState extends ConsumerState<MainPage> {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: _activeScreen == 2
           ? null
-          : Container(
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Theme.of(context).shadowColor,
-                    blurRadius: 3,
-                    offset: const Offset(0.0, 0.1),
-                  )
-                ],
-              ),
-              child: BottomNavigationBar(
-                currentIndex: _activeScreen,
-                elevation: 10.0,
-                onTap: (idx) {
-                  if (idx != _activeScreen) {
-                    setState(() {
-                      _activeScreen = idx;
-                    });
-                  }
-                },
-                backgroundColor: Theme.of(context).primaryColor,
-                selectedItemColor: Theme.of(context).colorScheme.secondary,
-                unselectedItemColor:
-                    Theme.of(context).colorScheme.tertiaryContainer,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.calendar_month_rounded),
-                      label: "Расписание"),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.task_alt_sharp), label: "Задания"),
-                ],
-              ),
+          : BottomNavigationBar(
+              currentIndex: _activeScreen,
+              onTap: (idx) {
+                if (idx != _activeScreen) {
+                  setState(() {
+                    _activeScreen = idx;
+                  });
+                }
+              },
+              backgroundColor: Theme.of(context).primaryColor,
+              selectedItemColor: Theme.of(context).colorScheme.secondary,
+              unselectedItemColor:
+                  Theme.of(context).colorScheme.tertiaryContainer,
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month_rounded),
+                    label: "Расписание"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.task_alt_sharp), label: "Задания"),
+              ],
             ),
     );
   }
