@@ -11,7 +11,7 @@ class HiveChangeNotifier<T> with ChangeNotifier {
   HiveChangeNotifier(this._name);
 
   bool get isReady {
-    return box != null && box!.isOpen;
+    return box != null && box!.isOpen && _subs > 0;
   }
 
   // A placeholder for writing a value to opened box if it's empty

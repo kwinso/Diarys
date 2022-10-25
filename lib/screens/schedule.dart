@@ -12,6 +12,7 @@ import 'package:diarys/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ScheduleScreen extends ConsumerStatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -49,7 +50,8 @@ class _ScheduleScreenState extends ConsumerState<ScheduleScreen> {
           label: "Поделиться",
           icon: Icons.share_rounded,
           onPressed: () {
-            // TODO:
+            final schedule = ref.read(scheduleController).generateShareString();
+            Share.share(schedule);
           },
         ),
         ScreenHeaderButton(

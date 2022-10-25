@@ -145,3 +145,4 @@ skia-caches
 #
 **/*.apk
 *.g.dart
+windows/

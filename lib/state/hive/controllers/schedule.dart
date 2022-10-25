@@ -3,12 +3,11 @@ import 'package:diarys/state/hive/types/day_schedule.dart';
 import 'package:diarys/state/hive/types/schedule.dart';
 import 'package:diarys/state/hive/controllers/subjects.dart';
 import 'package:diarys/state/types/delete_entry.dart';
+import 'package:diarys/texts.dart';
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import 'package:hive/hive.dart';
 
 final scheduleController = ChangeNotifierProvider<ScheduleController>((ref) {
-  // final _db = ref.watch(databaseService);
-
   return ScheduleController(ref);
 });
 
@@ -23,6 +22,19 @@ class ScheduleController extends HiveChangeNotifier<Schedule> {
   Future<dynamic> emptyBoxFill(Box<Schedule> box) async {
     final days = List<DaySchedule>.generate(7, (int idx) => DaySchedule([]));
     await box.add(Schedule(days));
+  }
+
+  String generateShareString() {
+    String out = "";
+    for (var i = 0; i < state.days.length; i++) {
+      var day = state.days[i];
+      // Prefix new day with a new line
+      out += AppTexts.week.days[i] + ":\n\n";
+      if (day.lessons.isEmpty) out += "Уроков нет.\n\n";
+      else out += day.lessons.join("\n") + "\n\n";
+    }
+
+    return out.trim();
   }
 
   Future<void> updateLessosNameInDay(int day, int index, String newName) async {
