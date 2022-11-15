@@ -11,4 +11,4 @@ Also, you can turn on special feature that automatically shows screen for adding
 
 
 ## Downloading
-You can download latest and previous versions of app here: https://diarys_app.t.me
+You can download latest and previous versions of app here: https://diarysapp.t.me
