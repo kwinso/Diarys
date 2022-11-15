@@ -9,7 +9,7 @@ class SettingsHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontSize: 20, color: color),
+      style: TextStyle(fontSize: 20, color: color,),
     );
   }
 }
